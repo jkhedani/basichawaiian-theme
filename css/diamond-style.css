@@ -1,0 +1,133 @@
+/*
+Diamond Specific Styles
+*/
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+.hide-text {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#main {
+  min-height: 800px;
+}
+.module {
+  color: #FFF;
+  background-color: #999999;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.module:nth-child(3n + 1) {
+  margin-left: 0;
+}
+.gameProgress {
+  height: 40px;
+  width: 100%;
+  margin: -124px 0 120px 0;
+}
+.gameProgress .gameProgressPoint {
+  height: 40px;
+  width: 40px;
+  background-color: #999999;
+  margin-right: 10px;
+  float: left;
+}
+.gameProgress .gameProgressPoint.current {
+  background-color: #333333;
+}
+.gameProgress .miniGame {
+  background: url('../images/game-icons.png') 0 -40px no-repeat #999999;
+}
+.gameProgress .finish {
+  background: url('../images/game-icons.png') 0 -80px no-repeat #999999;
+}
+.gameBoard .btn {
+  margin-top: 10px;
+}
+.gameBoard .gameCard {
+  display: none;
+}
+.gameBoard .gameCard.current {
+  display: block;
+  cursor: pointer;
+}
+.gameBoard .gameCard .gameCardControls {
+  *zoom: 1;
+  margin: 0 0 10px 0;
+}
+.gameBoard .gameCard .gameCardControls:before,
+.gameBoard .gameCard .gameCardControls:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.gameBoard .gameCard .gameCardControls:after {
+  clear: both;
+}
+.gameBoard .gameCard .gameCardControls a.pronunciationPlay {
+  width: 40px;
+  height: 40px;
+  background: url('../images/game-icons.png') 0 0 no-repeat #999999;
+  display: block;
+  cursor: pointer;
+  float: left;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+.gameBoard .gameCard .gameCardControls .translationWrapper {
+  float: left;
+  margin: 0 0 0 15px;
+}
+.gameBoard .gameCard .gameCardControls .translationWrapper a.toggleHwnTranslation,
+.gameBoard .gameCard .gameCardControls .translationWrapper a.toggleEngTranslation {
+  display: block;
+  cursor: pointer;
+  float: left;
+  clear: left;
+}
+.gameBoard .gameCard.miniGame .gameChoices {
+  position: relative;
+  *zoom: 1;
+  padding-top: 60px;
+}
+.gameBoard .gameCard.miniGame .gameChoices:before,
+.gameBoard .gameCard.miniGame .gameChoices:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.gameBoard .gameCard.miniGame .gameChoices:after {
+  clear: both;
+}
+.gameBoard .gameCard.miniGame .gameChoices .gameChoice {
+  float: left;
+}
+.gameBoard .gameCard.miniGame .gameChoices .gameChoice .gameCardControls {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.gameBoard .gameCard.miniGame .gameChoices .gameChoice a.choiceSelect.selected img {
+  border: 5px solid green;
+}

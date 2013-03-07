@@ -1,0 +1,73 @@
+/*
+Diamond Specific Styles
+*/
+
+@import "../../bedrock/inc/less/bedrock-variables.less"; // Replace this line with your new variables, if you like.
+@import "../../bedrock/inc/bootstrap/less/mixins.less"; // Replace this line with your new variables, if you like.
+
+#main { min-height: 800px; }
+
+.module {
+	color: #FFF;
+	background-color: @grayLight;
+	padding: 20px;
+	margin-bottom: 20px;
+	&:nth-child(3n + 1) { margin-left: 0; }
+}
+
+// Logged In: Vocabulary Game
+.gameProgress {
+	height: 40px;
+	width: 100%;
+	margin: -124px 0 120px 0;
+	.gameProgressPoint {
+		height: 40px;
+		width: 40px;
+		background-color: @grayLight;
+		margin-right: 10px;
+		float: left;
+		&.current { background-color: @grayDark; }
+	}
+	.miniGame { background: url('../images/game-icons.png') 0 -40px no-repeat @grayLight; }
+	.finish { background: url('../images/game-icons.png') 0 -80px no-repeat @grayLight; }
+}
+
+.gameBoard {
+	.btn { margin-top: 10px; }
+	.gameCard {
+		display: none;
+		&.current { display: block; cursor: pointer; }
+		.gameCardControls {
+			.clearfix();
+			margin: 0 0 10px 0;
+			a.pronunciationPlay {
+				width: 40px;
+				height: 40px;
+				background: url('../images/game-icons.png') 0 0 no-repeat @grayLight;
+				display: block;
+				cursor: pointer;
+				float: left;
+				.border-radius (20px);
+			}
+			.translationWrapper {
+				float: left;
+				margin: 0 0 0 15px;
+				a.toggleHwnTranslation, a.toggleEngTranslation { display: block; cursor: pointer; float: left; clear: left;}
+			}
+		}
+		&.miniGame {
+			.gameChoices{
+				position: relative;
+				.clearfix();
+				padding-top: 60px; 
+				.gameChoice {
+					float: left;
+					.gameCardControls { position: absolute; top: 0; left: 0;}
+					a.choiceSelect {
+						&.selected img { border: 5px solid green; }
+					}
+				} // gameChoice
+			} // gameChoices
+		} // miniGame 
+	} // gameCard
+}
