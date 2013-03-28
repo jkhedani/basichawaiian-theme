@@ -5,14 +5,38 @@ Diamond Specific Styles
 @import "../../bedrock/inc/less/bedrock-variables.less"; // Replace this line with your new variables, if you like.
 @import "../../bedrock/inc/bootstrap/less/mixins.less"; // Replace this line with your new variables, if you like.
 
-#main { min-height: 800px; }
+/*
+ * Public Home
+ *
+ */
+
+body.not-logged-in {
+	.container-narrow { max-width: 700px; margin: 0 auto; }
+	#page {
+		max-width: 700px;
+		#navbar-basic { .clearfix(); }
+		#main {
+			padding: 40px 0;
+			border-top: 1px solid #CBCBCB;
+			width: 100%;
+			#content {
+				text-align: center;
+				h1 { font-size: 72px; line-height: 1.0; }
+				hr { margin: 35px 0 20px 0; }
+			}
+		}
+	}
+	footer#colophon {
+		background: none;
+		.container-narrow { padding-top: 20px; border-top: 1px solid #CBCBCB; }
+	}
+}
 
 .module {
 	color: #FFF;
 	background-color: @grayLight;
 	padding: 20px;
 	margin-bottom: 20px;
-	&:nth-child(3n + 1) { margin-left: 0; }
 }
 
 // Logged In: Vocabulary Game

@@ -6,6 +6,18 @@
  */
 
 /**
+ * Custom Body Classes
+ */
+function custom_body_classes( $classes ) {
+  // Adds a class of group-blog to blogs with more than 1 published author
+  if ( ! is_user_logged_in() ) {
+    $classes[] = 'not-logged-in';
+  }
+  return $classes;
+}
+add_filter( 'body_class', 'custom_body_classes' );
+
+/**
  * Properly add new script files using this function.
  * http://codex.wordpress.org/Plugin_API/Action_Reference/wp_enqueue_scripts
  */
@@ -14,9 +26,10 @@ function diamond_scripts() {
 	$protocol='http:'; // discover the correct protocol to use
  	if(!empty($_SERVER['HTTPS'])) $protocol='https:';
 
-	wp_enqueue_style( 'diamond-style', get_stylesheet_directory_uri().'/css/diamond-style.css' );
+  wp_enqueue_style( 'diamond-style', get_stylesheet_directory_uri().'/css/diamond-style.css' );
+  wp_enqueue_style( 'diamond-style-responsive', get_stylesheet_directory_uri().'/css/diamond-style-responsive.css', array('diamond-style','resets','bootstrap-base-styles','bootstrap-parent-style'));
 	wp_enqueue_script('diamond-custom-script', get_stylesheet_directory_uri().'/js/scripts.js', array(), false, true);
-		wp_enqueue_script('bootstrap-modal', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-modal.js', array(), false, true);
+	wp_enqueue_script('bootstrap-modal', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-modal.js', array(), false, true);
 
 	// AJAX Calls  
 	wp_enqueue_script('json2');
@@ -27,6 +40,23 @@ function diamond_scripts() {
 	));
 }
 add_action( 'wp_enqueue_scripts', 'diamond_scripts' );
+
+// Basic Hawaiian Localization
+function BASICHWN_l10n(){
+    load_child_theme_textdomain( 'hwn', get_stylesheet_directory() . '/languages' );
+}
+add_action('after_setup_theme', 'BASICHWN_l10n');
+
+// Allow URL to change localization
+// Example: basichawaiian.org/?l=basichawaiian
+// http://codex.wordpress.org/Function_Reference/load_theme_textdomain
+function my_theme_localized($locale) {
+  if (isset($_GET['l'])) {
+    return $_GET['l'];
+  }
+  return $locale;
+}
+add_filter( 'locale', 'my_theme_localized' );
 
 // Basic Hawaiian Custom Post Types
 function BASICHWN_post_types() {
@@ -103,7 +133,6 @@ function BASICHWN_taxonomies() {
     'query_var' => true,
     //'rewrite' => array( 'slug' => 'genre' ),
   ));
-  error_log('register_taxonomy');
 }
 add_action( 'init', 'BASICHWN_taxonomies');
 

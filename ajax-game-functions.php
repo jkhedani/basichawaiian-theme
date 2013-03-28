@@ -77,7 +77,6 @@ function get_game_difficulty() {
 		'posts_per_page' => '15',
 		'post_type' => 'vocabulary_terms',
 	);
-	error_log('game_query');
 	$gameObjects = new WP_Query( $args );
 	$totalGameObjects = $gameObjects->post_count;										// Count the total amount of posts in this set
 	$progressCounter = 1;

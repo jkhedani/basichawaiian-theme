@@ -13,28 +13,27 @@
 
 get_header(); ?>
 	
-	<div class="row-fluid"><!-- Bootstrap: REQUIRED! -->
-		<div id="primary" class="content-area span15">
-			<div id="content" class="site-content" role="main">
+	<div class="row"><!-- Bootstrap: REQUIRED! -->
 
-				<?php
-					// Public Home
-					if ( ! is_user_logged_in() ) {
-				?>
-
-				<?php while ( have_posts() ) : the_post(); ?>
-
-					<?php get_template_part( 'content', 'page' ); ?>
-
-					<?php comments_template( '', true ); ?>
-
-				<?php endwhile; // end of the loop. ?>
-
-				<?php } else { // end Public Home ?>
-
+				<?php if ( ! is_user_logged_in() ) { // Public Home
+				echo '<div id="primary" class="content-area">';
+				echo '<div id="content" class="site-content" role="main">';
+					while ( have_posts() ) : the_post();
+					echo get_the_content();
+					endwhile; // end of the loop.
+					echo '<a class="btn btn-large btn-success href="#">Sign up today</a>';
+					echo '<hr />';
+					echo '<div class="row marketing">';
+					echo 	'<div class="span4"><h4>Subheading</h4><p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p></div>';
+					echo 	'<div class="span4"><h4>Subheading</h4><p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p></div>';
+					echo 	'<div class="span4"><h4>Subheading</h4><p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p></div>';
+					echo '</div>';
+				} else { // end Public Home ?>
+				<div id="primary" class="content-area span15">
+				<div id="content" class="site-content" role="main">
 				<div class="row">
 					<header class="span9">
-						<h1>Welcome!</h1>
+						<h1><?php _e('Welcome','hwn'); ?></h1>
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed leo massa. Etiam lorem eros, ullamcorper a rutrum non.</p>
 					</header>
 					<div class="span6">

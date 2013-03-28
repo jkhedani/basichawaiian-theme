@@ -28,17 +28,56 @@ Diamond Specific Styles
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-#main {
-  min-height: 800px;
+/*
+ * Public Home
+ *
+ */
+body.not-logged-in .container-narrow {
+  max-width: 700px;
+  margin: 0 auto;
+}
+body.not-logged-in #page {
+  max-width: 700px;
+}
+body.not-logged-in #page #navbar-basic {
+  *zoom: 1;
+}
+body.not-logged-in #page #navbar-basic:before,
+body.not-logged-in #page #navbar-basic:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+body.not-logged-in #page #navbar-basic:after {
+  clear: both;
+}
+body.not-logged-in #page #main {
+  padding: 40px 0;
+  border-top: 1px solid #CBCBCB;
+  width: 100%;
+}
+body.not-logged-in #page #main #content {
+  text-align: center;
+}
+body.not-logged-in #page #main #content h1 {
+  font-size: 72px;
+  line-height: 1.0;
+}
+body.not-logged-in #page #main #content hr {
+  margin: 35px 0 20px 0;
+}
+body.not-logged-in footer#colophon {
+  background: none;
+}
+body.not-logged-in footer#colophon .container-narrow {
+  padding-top: 20px;
+  border-top: 1px solid #CBCBCB;
 }
 .module {
   color: #FFF;
   background-color: #999999;
   padding: 20px;
   margin-bottom: 20px;
-}
-.module:nth-child(3n + 1) {
-  margin-left: 0;
 }
 .gameProgress {
   height: 40px;
