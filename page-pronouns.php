@@ -1,6 +1,7 @@
 <?php
 /**
- * The template for displaying all pages.
+ * Template Name: Pronouns
+ * "Displays list of associated vocabulary categories."
  *
  * This is the template that displays all pages by default.
  * Please note that this is the WordPress construct of pages
@@ -10,22 +11,6 @@
  * @package _s
  * @since _s 1.0
  */
-
-
-
-
-
-
-
-// ARE YOU SURE YOU SHOULD BE HERE?!
-
-
-
-
-
-
-
-
 
 get_header(); ?>
 
@@ -46,6 +31,30 @@ get_header(); ?>
 				<?php comments_template( '', true ); ?>
 
 			<?php endwhile; // end of the loop. ?>
+
+			<?php
+
+				// Vocabulary Game Display
+				while ( have_posts() ) : the_post();
+					echo '<div class="row" id="vocabulary-games">';
+					$vocabularyCategories = get_terms('vocabulary_categories', array(
+						'order' => 'DESC',
+						'hide_empty' => 0, // TURN OFF AFTER DEVELOPMENT
+					));
+					echo '<ul>';
+					foreach ($vocabularyCategories as $vocabularyCategory) {
+					echo '<li>';
+					echo 	'<a class="module vocabulary-category" href="javascript:void(0);" title="View '.$vocabularyCategory->slug.' words" data-category="'.$vocabularyCategory->name.'">';
+					echo 	'<h1>'.$vocabularyCategory->name.'</h1>';
+					echo 	'<h2>'.$vocabularyCategory->description.'</h2>';
+					echo 	'</a>';
+					echo '</li>';
+					}
+					echo '</ul>';
+					echo '</div>'; // #vocabulary-categories
+				endwhile;
+
+			?>
 
 			<?php bedrock_belowpostcontent(); ?>
 

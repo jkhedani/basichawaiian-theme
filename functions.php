@@ -60,29 +60,91 @@ add_filter( 'locale', 'my_theme_localized' );
 
 // Basic Hawaiian Custom Post Types
 function BASICHWN_post_types() {
-	$supportedMetaboxes = array('title', 'editor', 'thumbnail');
-	
-	// Vocabulary
-	$labels = array(
-		'name' => __( 'Vocabulary Terms' ),
-		'singular_name' => __( 'Vocabulary Term' ),
-		'add_new' => __( 'Add New Vocabulary Term' ),
-		'add_new_item' => __( 'Add New Vocabulary Term' ),
-		'edit_name' => __( 'Edit This Vocabulary Term' ),
-		'view_item' => __( 'View This Vocabulary Term' ),
-		'search_items' => __('Search Vocabulary Terms'),
-		'not_found' => __('No Vocabulary Terms found.'),
-	);
-	register_post_type( 'vocabulary_terms',
-		array(
-		'menu_position' => 5,
-		'public' => true,
-		'supports' => $supportedMetaboxes,
-		'labels' => $labels,
-		'rewrite' => array('slug' => 'vocabulary'),
-		'taxonomies' =>	array('vocabulary_categories'),
-		)
-	);
+
+  // Modules
+  $labels = array(
+    'name' => __( 'Modules' ),
+    'singular_name' => __( 'Module' ),
+    'add_new' => __( 'Add New Module' ),
+    'add_new_item' => __( 'Add New Module' ),
+    'edit_name' => __( 'Edit This Module' ),
+    'view_item' => __( 'View This Module' ),
+    'search_items' => __('Search Modules'),
+    'not_found' => __('No Modules found.'),
+  );
+  register_post_type( 'modules',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail','page-attributes'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'module'),
+    )
+  );
+
+  // Vocabulary Games
+  $labels = array(
+    'name' => __( 'Vocabulary Games' ),
+    'singular_name' => __( 'Vocabulary Game' ),
+    'add_new' => __( 'Add New Vocabulary Game' ),
+    'add_new_item' => __( 'Add New Vocabulary Game' ),
+    'edit_name' => __( 'Edit This Vocabulary Game' ),
+    'view_item' => __( 'View This Vocabulary Games' ),
+    'search_items' => __('Search Vocabulary Games'),
+    'not_found' => __('No Vocabulary Games found.'),
+  );
+  register_post_type( 'vocabulary_games',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'vocabulary-games'),
+    )
+  );
+
+  // Pronoun Practice
+  $labels = array(
+    'name' => __( 'Pronoun Practices' ),
+    'singular_name' => __( 'Pronoun Practice' ),
+    'add_new' => __( 'Add New Pronoun Practice' ),
+    'add_new_item' => __( 'Add New Pronoun Practice' ),
+    'edit_name' => __( 'Edit This Pronoun Practice' ),
+    'view_item' => __( 'View This Pronoun Practice' ),
+    'search_items' => __('Search Pronoun Practices'),
+    'not_found' => __('No Pronoun Practices found.'),
+  );
+  register_post_type( 'pronoun_practices',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'pronoun-practices'),
+    )
+  );
+
+  // Vocabulary Terms
+  $labels = array(
+    'name' => __( 'Vocabulary Terms' ),
+    'singular_name' => __( 'Vocabulary Term' ),
+    'add_new' => __( 'Add New Vocabulary Term' ),
+    'add_new_item' => __( 'Add New Vocabulary Term' ),
+    'edit_name' => __( 'Edit This Vocabulary Term' ),
+    'view_item' => __( 'View This Vocabulary Term' ),
+    'search_items' => __('Search Vocabulary Terms'),
+    'not_found' => __('No Vocabulary Terms found.'),
+  );
+  register_post_type( 'vocabulary_terms',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'vocabulary'),
+    'taxonomies' => array('vocabulary_categories'),
+    )
+  );
 }
 add_action( 'init', 'BASICHWN_post_types' );
 
@@ -135,6 +197,35 @@ function BASICHWN_taxonomies() {
   ));
 }
 add_action( 'init', 'BASICHWN_taxonomies');
+
+// Posts 2 Posts Connections
+function BASICHWN_connections() {
+  // Connect Vocabulary Games to Modules
+  p2p_register_connection_type(array(
+    'name' => 'vocabulary_games_to_modules',
+    'from' => 'vocabulary_games',
+    'to' => 'modules',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Vocab Games to One Module
+  ));
+  // Connect Pronoun Practice to Modules
+  p2p_register_connection_type(array(
+    'name' => 'pronoun_practices_to_modules',
+    'from' => 'pronoun_practices',
+    'to' => 'modules',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Pron Practice to One Module
+  ));
+  // Connect Vocabulary Terms to Vocabulary Games
+  p2p_register_connection_type(array(
+    'name' => 'vocabulary_terms_to_vocabuarly_games',
+    'from' => 'vocabulary_terms',
+    'to' => 'vocabulary_games',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Vocab Terms to One Module
+  ));
+}
+add_action( 'p2p_init', 'BASICHWN_connections' );
 
 // Load Ajax Game Functions
 require( 'ajax-game-functions.php' );

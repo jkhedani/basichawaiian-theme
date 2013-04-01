@@ -73,11 +73,11 @@ body.not-logged-in footer#colophon .container-narrow {
   padding-top: 20px;
   border-top: 1px solid #CBCBCB;
 }
-.module {
-  color: #FFF;
-  background-color: #999999;
-  padding: 20px;
-  margin-bottom: 20px;
+/*
+ * General Styles
+ */
+ul.breadcrumb {
+  background: #eeeeee;
 }
 .gameProgress {
   height: 40px;

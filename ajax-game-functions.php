@@ -74,7 +74,7 @@ function get_game_difficulty() {
 				'terms' => $gameDifficulty,
 			)
 		),
-		'posts_per_page' => '15',
+		'posts_per_page' => '10',
 		'post_type' => 'vocabulary_terms',
 	);
 	$gameObjects = new WP_Query( $args );
@@ -104,7 +104,7 @@ function get_game_difficulty() {
 	while ($gameObjects->have_posts()) : $gameObjects->the_post();	// Create the game board...
 		$title = get_the_title();
 		$postID = $post->ID;
-		if ($progressCounter % 4 == 0) { 															// If the progress counter is perfectly divisible by 4...
+		if ($progressCounter % 4 == 0) { 															// If the progress counter is perfectly divisible by 4 (i.e. Every fourth position, load a test)...
 			
 			$html .= '<div class="gameCard">';													// Load the next standard gameObject (needs to be first in this loop)...
 			$html .= '<div class="gameCardControls">';
