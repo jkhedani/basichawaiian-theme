@@ -6,6 +6,57 @@
  */
 
 /**
+ * External Functions
+ */
+
+// Install/Update "User Interactions"
+function install_interactions_database() {
+  global $wpdb;
+  global $user_interactions_db_version;
+  $user_interactions_db_version = "0.72";
+  $installed_ver = get_option('user_interactions_db_version');
+  
+  if($installed_ver != $user_interactions_db_version) {
+    $user_interactions_db_version = "0.72";
+    $table_name = $wpdb->prefix . "user_interactions";
+    $sql = $wpdb->prepare("CREATE TABLE $table_name (
+      interaction_id bigint(20) unsigned NOT NULL auto_increment,
+      user_id bigint(20) unsigned NOT NULL,
+      post_id bigint(20) unsigned NOT NULL,
+      times_correct bigint(20) NOT NULL,
+      times_wrong bigint(20) NOT NULL,
+      times_viewed bigint(20) NOT NULL,
+      times_completed bigint(20) NOT NULL,
+      PRIMARY KEY  (interaction_id),
+      KEY user_id (user_id),
+      UNIQUE KEY post_id (post_id),
+      KEY times_correct (times_correct),
+      KEY times_wrong (times_wrong),
+      KEY times_viewed (times_viewed),
+      KEY times_completed (times_completed))
+      DEFAULT CHARACTER SET = utf8
+      COLLATE = utf8_general_ci
+    ");
+
+    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+    dbDelta( $sql );
+    
+    if(!get_option('user_interactions_db_version')) {
+      // Create the option
+      error_log(print_r('new',true));
+      add_option( "user_interactions_db_version", $user_interactions_db_version );
+    } else {
+      error_log(print_r('version updated',true));
+      update_option('user_interactions_db_version', $user_interactions_db_version);  
+    }
+    
+  }
+  error_log(print_r('version same',true));
+}
+add_action('after_switch_theme','install_interactions_database', 10, 2); // on activate theme
+//add_action('switch_theme','basic_database_destroy', 10, 2); // on deactivate theme
+
+/**
  * Custom Body Classes
  */
 function custom_body_classes( $classes ) {
@@ -228,81 +279,11 @@ function BASICHWN_connections() {
 add_action( 'p2p_init', 'BASICHWN_connections' );
 
 // Load Ajax Game Functions
-require( 'ajax-game-functions.php' );
+// IMPORTANT: needs to be loaded after taxonomies if using taxonomies
+require( 'lib/ajax-game-functions.php' );
 
-// User Avatar Profile Field
-// http://wordpress.stackexchange.com/questions/54044/wordpress-user-profile-upload-if-page-is-saved-file-reset
-function extra_user_profile_fields( $user ) { 
-$r = get_user_meta( $user->ID, 'picture', true );
-?>
-
-<!-- Artist Photo Gallery -->
-<h3><?php _e("Public Profile - Gallery", "BASICHWN"); ?></h3>
-
-<table class="form-table">
-	<tr>
-  	<th scope="row">Picture</th>
-    <td>
-    	<input type="file" name="picture" value="" />
-	    <?php //print_r($r); 
-	        if (!isset($r['error'])) {
-	            $r = $r['url'];
-	            echo "<img src='$r' />";
-	        } else {
-	            $r = $r['error'];
-	            echo $r . 'tsk';
-	        }
-	    ?>
-    </td>
-  </tr>
-  <tr>
-  	<th scope="row">Remove User Image</th>
-  	<td>
-  		<input type="submit" name="remove_user_picture" value="Remove your image" />
-	  	<?php
-	  	if ( function_exists('wp_nonce_field') ) 
-				wp_nonce_field('remove_user_picture','user-profile-remove_user_picture');
-			?>
-  	</td>
-  </tr>
-</table> 
-
-<?php
-}
-add_action( 'show_user_profile', 'extra_user_profile_fields' );
-add_action( 'edit_user_profile', 'extra_user_profile_fields' );
-
-function save_extra_user_profile_fields( $user_id ) {
-	if ( !current_user_can( 'edit_user', $user_id ) ) { return false; }
-	
-	if( $_FILES['picture']['error'] === UPLOAD_ERR_OK ) { //http://www.php.net/manual/en/features.file-upload.errors.php
-    $r = wp_handle_upload( $_FILES['picture'], array('test_form' => FALSE) ); //http://codex.wordpress.org/Function_Reference/wp_handle_upload#Parameters
-    update_user_meta( $user_id, 'picture', $r );
-	}
-  
-  // Remove user image
-  if ( empty($_POST) || !wp_verify_nonce($_POST['user-profile-remove_user_picture'],'remove_user_picture') ) {
-  	print 'sorry';// Maybe
-  	exit;
-  } else {
-	  if(isset($_POST['remove_user_picture'])) {
-	  	if ( ! delete_user_meta($user_id, 'picture') ) {
-	  		echo "Ooops! Error while deleting this information!";
-			} else {
-				delete_user_meta($user_id, 'picture');
-			}
-	  }
-  }
-
-}
-add_action( 'personal_options_update', 'save_extra_user_profile_fields' );
-add_action( 'edit_user_profile_update', 'save_extra_user_profile_fields' );
-
-
-function make_form_accept_uploads() {
-    echo ' enctype="multipart/form-data"';
-}
-add_action('user_edit_form_tag', 'make_form_accept_uploads');
+// Load User Creation/Edit Functions
+require( 'lib/user-functions.php' );
 
 /**
  * Custom Hook Functions
@@ -341,6 +322,87 @@ add_action('user_edit_form_tag', 'make_form_accept_uploads');
  *		add_action('theNameOfTheHookTheContentAboveWillGetLoaded','nameOfMyNewFunction');
  *
  */
+
+/*
+BELOW IS NOT NEEDED AND/OR MAYBE NEEDED IN THE FUTURE
+
+
+// User Avatar Profile Field
+// http://wordpress.stackexchange.com/questions/54044/wordpress-user-profile-upload-if-page-is-saved-file-reset
+function extra_user_profile_fields( $user ) { 
+$r = get_user_meta( $user->ID, 'picture', true );
+?>
+
+<!-- Artist Photo Gallery -->
+<h3><?php _e("Public Profile - Gallery", "BASICHWN"); ?></h3>
+
+<table class="form-table">
+  <tr>
+    <th scope="row">Picture</th>
+    <td>
+      <input type="file" name="picture" value="" />
+      <?php //print_r($r); 
+          if (!isset($r['error'])) {
+              $r = $r['url'];
+              echo "<img src='$r' />";
+          } else {
+              $r = $r['error'];
+              echo $r . 'tsk';
+          }
+      ?>
+    </td>
+  </tr>
+  <tr>
+    <th scope="row">Remove User Image</th>
+    <td>
+      <input type="submit" name="remove_user_picture" value="Remove your image" />
+      <?php
+      if ( function_exists('wp_nonce_field') ) 
+        wp_nonce_field('remove_user_picture','user-profile-remove_user_picture');
+      ?>
+    </td>
+  </tr>
+</table> 
+
+<?php
+}
+add_action( 'show_user_profile', 'extra_user_profile_fields' );
+add_action( 'edit_user_profile', 'extra_user_profile_fields' );
+
+function save_extra_user_profile_fields( $user_id ) {
+  if ( !current_user_can( 'edit_user', $user_id ) ) { return false; }
+  
+  if( $_FILES['picture']['error'] === UPLOAD_ERR_OK ) { //http://www.php.net/manual/en/features.file-upload.errors.php
+    $r = wp_handle_upload( $_FILES['picture'], array('test_form' => FALSE) ); //http://codex.wordpress.org/Function_Reference/wp_handle_upload#Parameters
+    update_user_meta( $user_id, 'picture', $r );
+  }
+  
+  // Remove user image
+  if ( empty($_POST) || !wp_verify_nonce($_POST['user-profile-remove_user_picture'],'remove_user_picture') ) {
+    print 'sorry';// Maybe
+    exit;
+  } else {
+    if(isset($_POST['remove_user_picture'])) {
+      if ( ! delete_user_meta($user_id, 'picture') ) {
+        echo "Ooops! Error while deleting this information!";
+      } else {
+        delete_user_meta($user_id, 'picture');
+      }
+    }
+  }
+
+}
+add_action( 'personal_options_update', 'save_extra_user_profile_fields' );
+add_action( 'edit_user_profile_update', 'save_extra_user_profile_fields' );
+
+
+function make_form_accept_uploads() {
+    echo ' enctype="multipart/form-data"';
+}
+add_action('user_edit_form_tag', 'make_form_accept_uploads');
+
+
+*/ 
 
 
 

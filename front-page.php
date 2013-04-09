@@ -57,19 +57,91 @@ get_header(); ?>
 			<div class="row">
 			<?php
 
-				// Display all Modules
+				// PROBLEMS:
+				// If areModulesCompleted has one good value, record interactions passes
+				// Rows now error out if they are duplicates. Might need to create ON DUPLICATE KEY UPDATE clause.
+				// EXCELLENT! http://stackoverflow.com/questions/779986/insert-multiple-rows-via-a-php-array-into-mysql
+
+				// Retrieve all modules...
 				$modules = new WP_Query(array(
 					'post_type' => 'modules',
 					'orderby' => 'menu_order',
 					'order' => 'ASC',
 				));
+
+				// Grab all post IDs from modules...
+				$moduleIDs = array();
+				while ($modules->have_posts()) : $modules->the_post();
+					$moduleIDs[] = $post->ID;
+				endwhile;
+				rewind_posts();
+
+				// Check if user has interacted with any of the ids above...
+				if(is_user_logged_in()) {
+					$current_user = wp_get_current_user();
+					$user_ID = $current_user->ID;
+					$post_ids = implode(',',$moduleIDs); // Prepare IDs to get passed to the query
+
+					// Check if modules have been completed (using the data later that's why)
+					$areModulesCompleted = $wpdb->get_results($wpdb->prepare(
+						"
+						SELECT times_completed
+						FROM wp_user_interactions
+						WHERE user_id = %d
+							AND post_id IN (%s)
+						LIMIT 0, 10
+						"
+						, $user_ID, $post_ids
+					));
+
+					// If no record of interactions with modules exist in the database...
+					// Error check: This database will only be updated if the amount
+					// of IDs that exist are different from the IDs the user has interacted with.
+					if(count($moduleIDs) != count($areModulesCompleted)) {
+						// construct the loop for publishing
+						$values = array();
+						$placeHolders = array();
+
+						// Prepare individual values separately to get passed to the query
+						while ($modules->have_posts()) : $modules->the_post();
+							$values[] = $user_ID.',';
+							$values[] = $post->ID.',';
+							$values[] = '0';
+							$placeHolders[] = '(%d, %d, %d)';
+						endwhile;
+						rewind_posts();
+
+						// Prepare placeholders for the query
+						$placeHolderCreate = implode(', ', $placeHolders);
+
+						// Insert records for the user
+						$wpdb->query( $wpdb->prepare("
+							INSERT INTO wp_user_interactions
+							( user_id, post_id, times_completed )
+							VALUES ".$placeHolderCreate."
+						", $values ));
+					}
+				} // is_user_logged_in
+
+				rewind_posts();
+
 				echo '<ul>';
+				// Display all modules
+				$moduleCount = 0;
 				while ($modules->have_posts()) : $modules->the_post();
 					echo '<li>';
-					echo 	'<a class="module" href="'.get_permalink().'" title="Go to the'.get_the_title().' activity">';
+					echo 	'<a class="module" href="'.get_permalink().'" title="Go to the'.get_the_title().' activity"';
+					// THIS IS NOW WRONG AS IT ONLY GRABS THE FIRST RECORD OF $areModulesCOmpleted
+					if ($areModulesCompleted[$moduleCount]->times_completed == 0) {
+						echo 'data-complete="0"';
+					} else {
+						echo 'data-complete="1"';
+					}
+					echo 	'>';
 					echo 		'<h2>'.get_the_title().'</h2>';
 					echo 	'</a>';
 					echo '</li>';
+					$moduleCount++;
 				endwhile;
 				echo '</ul>';
 				wp_reset_postdata();

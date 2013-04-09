@@ -47,16 +47,17 @@ $postTypeObject = get_post_type_object($postType);
 		</div><!-- .entry-meta -->
 	</header><!-- .entry-header -->
 
-	<div class="entry-content row">
-		
-		<?php
-			the_content();
-			echo '<div class="span12" id="vocabulary-games">';
-			echo '<a class="btn btn-primary vocabulary-category" href="javascript:void(0);" data-category="Hua">Start</a>';
-			echo '</div>'
-		?>
+	<div class="entry-content row"><?php
+	
+		the_content();
 
-		<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', '_s' ), 'after' => '</div>' ) ); ?>
+		echo '<div class="span12" id="vocabulary-games">';
+		echo '<a class="btn btn-primary vocabulary-category" href="javascript:void(0);" data-category="Hua">Start</a>';
+		echo '</div>';
+	
+	?>
+
+	<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', '_s' ), 'after' => '</div>' ) ); ?>
 	</div><!-- .entry-content -->
 
 	<?php bedrock_postcontentend(); ?>
