@@ -13,11 +13,13 @@
 function install_interactions_database() {
   global $wpdb;
   global $user_interactions_db_version;
-  $user_interactions_db_version = "0.72";
+  $user_interactions_db_version = "0.1";
   $installed_ver = get_option('user_interactions_db_version');
   
+  // WHY MY PRIMARY KEYS ARE SET THE WAY THEY IS
+  //http://stackoverflow.com/questions/5835978/how-to-properly-create-composite-primary-keys-mysql
   if($installed_ver != $user_interactions_db_version) {
-    $user_interactions_db_version = "0.72";
+    $user_interactions_db_version = "0.1";
     $table_name = $wpdb->prefix . "user_interactions";
     $sql = $wpdb->prepare("CREATE TABLE $table_name (
       interaction_id bigint(20) unsigned NOT NULL auto_increment,
@@ -27,9 +29,8 @@ function install_interactions_database() {
       times_wrong bigint(20) NOT NULL,
       times_viewed bigint(20) NOT NULL,
       times_completed bigint(20) NOT NULL,
-      PRIMARY KEY  (interaction_id),
-      KEY user_id (user_id),
-      UNIQUE KEY post_id (post_id),
+      UNIQUE KEY  (interaction_id),
+      PRIMARY KEY (user_id, post_id),
       KEY times_correct (times_correct),
       KEY times_wrong (times_wrong),
       KEY times_viewed (times_viewed),

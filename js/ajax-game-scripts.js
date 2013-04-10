@@ -2,46 +2,48 @@ jQuery(document).ready(function($) {
 
   // VOCABULARY GAME: Step One: Get The Category, Display The Difficulty
   // When user clicks game category button
-  $('#vocabulary-games a.vocabulary-category').click(function(){
-    // Store category slug in variable
-    var vocab_cat = $(this).attr('data-category');
+  // $('#vocabulary-games a.vocabulary-category').click(function(){
+  //   // Store category slug in variable
+  //   var vocab_cat = $(this).attr('data-category');
 
-    // post data to function
-    $.post(ajax_scripts.ajaxurl, {
-        dataType: "jsonp",
-        action: 'get_game_category',
-        nonce: ajax_scripts.nonce,
-        gameCategory: vocab_cat
-      }, function(response) {
-        if (response.success===true) {
-          $('#vocabulary-games').children().fadeOut('slow',function(){
-            //$('#vocabulary-categories').children().hide(1,function(){
-              $('h1.entry-title').css('display','none');
-              $('#vocabulary-games').append().html(response.html);
-            //});
-          });
-        } else {
-          // Bad Response message
-        }
-    });
-  }); // end click
+  //   // post data to function
+  //   $.post(ajax_scripts.ajaxurl, {
+  //       dataType: "jsonp",
+  //       action: 'get_game_category',
+  //       nonce: ajax_scripts.nonce,
+  //       gameCategory: vocab_cat
+  //     }, function(response) {
+  //       if (response.success===true) {
+  //         $('#vocabulary-games').children().fadeOut('slow',function(){
+  //           //$('#vocabulary-categories').children().hide(1,function(){
+  //             $('h1.entry-title').css('display','none');
+  //             $('#vocabulary-games').append().html(response.html);
+  //           //});
+  //         });
+  //       } else {
+  //         // Bad Response message
+  //       }
+  //   });
+  // }); // end click
 
   // VOCABULARY GAME: Step Two: Get The Difficulty, Display The Game
   // When user clicks game category button
   // NOTE: .on() is used to fire after ajax returns (similar function to .live())
-  $(document).on('click', '#vocabulary-games a.difficulty-level', function() {
+  $(document).on('click', '#vocabulary-games a.vocabulary-category', function() {
   //$('#vocabulary-games a.difficulty-level').click(function(){
     // Store category slug in variable
 
-    var vocab_difficulty = $(this).attr('data-difficulty');
+    //var vocab_difficulty = $(this).attr('data-difficulty');
     var vocab_cat = $(this).attr('data-category');
+    var connected_to_id = $(this).attr('data-connected-to-id');
 
     // post data to function
     $.post(ajax_scripts.ajaxurl, {
         dataType: "jsonp",
         action: 'get_game_difficulty',
         nonce: ajax_scripts.nonce,
-        gameDifficulty: vocab_difficulty,
+        //gameDifficulty: vocab_difficulty,
+        connectedTo: connected_to_id,
         gameCategory: vocab_cat
       }, function(response) {
         if (response.success===true) {

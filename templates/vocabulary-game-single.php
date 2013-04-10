@@ -52,7 +52,7 @@ $postTypeObject = get_post_type_object($postType);
 		the_content();
 
 		echo '<div class="span12" id="vocabulary-games">';
-		echo '<a class="btn btn-primary vocabulary-category" href="javascript:void(0);" data-category="Hua">Start</a>';
+		echo '<a class="btn btn-primary vocabulary-category" href="javascript:void(0);" data-category="Hua" data-connected-to-id="'.$post->ID.'">Start</a>';
 		echo '</div>';
 	
 	?>

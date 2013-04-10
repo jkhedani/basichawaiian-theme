@@ -80,7 +80,8 @@ get_header(); ?>
 				if(is_user_logged_in()) {
 					$current_user = wp_get_current_user();
 					$user_ID = $current_user->ID;
-					$post_ids = implode(',',$moduleIDs); // Prepare IDs to get passed to the query
+					$post_ids = implode(', ',$moduleIDs); // Prepare IDs to get passed to the query
+					$post_ids_safe = mysql_real_escape_string($post_ids); // Just because I like being
 
 					// Check if modules have been completed (using the data later that's why)
 					$areModulesCompleted = $wpdb->get_results($wpdb->prepare(
@@ -88,10 +89,10 @@ get_header(); ?>
 						SELECT times_completed
 						FROM wp_user_interactions
 						WHERE user_id = %d
-							AND post_id IN (%s)
+							AND post_id IN (".$post_ids_safe.")
 						LIMIT 0, 10
 						"
-						, $user_ID, $post_ids
+						, $user_ID
 					));
 
 					// If no record of interactions with modules exist in the database...
