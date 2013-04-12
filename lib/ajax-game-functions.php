@@ -88,6 +88,8 @@ function get_game_difficulty() {
 	);
 	$gameObjects = new WP_Query($gameObjectsArgs);
 
+	//error_log(print_r($gameObjects, true));
+
 	// All IDs associated with this game	
 	$gameObjectIDs = array();
 	while ($gameObjects->have_posts()) : $gameObjects->the_post();
@@ -123,6 +125,8 @@ function get_game_difficulty() {
 			, $user_ID
 		));
 
+	 	//error_log(print_r($gameObjectsViewed,true));
+
 	 	// Error check: This database will only be updated if the amount
 		// of IDs that exist are different from the IDs the user has interacted with.
 		if(count($gameObjectIDs) != count($gameObjectsViewed)) {
@@ -145,6 +149,20 @@ function get_game_difficulty() {
 	 			( user_id, post_id, times_completed )
 	 			VALUES ".$placeHolderCreate."
 	 		", $values ));
+
+	 		// Since user is new, we need to overwrite $gameObjectsViewed
+	 		// with a new query to populate some data to pass to the TLA.
+	 		// Essentially, we are telling the TLA that everything is new. :)
+		 	$gameObjectsViewed = $wpdb->get_results($wpdb->prepare(
+		 		"
+		 		SELECT *
+		 		FROM wp_user_interactions
+				WHERE user_id = %d
+					AND post_id IN (".$post_ids_safe.")
+				LIMIT 0, 30
+				"
+				, $user_ID
+			));
 	 	}
 	} // is_user_logged_in
 
@@ -174,10 +192,12 @@ function get_game_difficulty() {
 		$times_viewed = $gameObject->times_viewed;
 
 		// RUN PRESTIGE MACHINE AND SORT INTO PROPER COMFORTABILITY ZONES
-		if ($times_viewed == 0) {
+		//if ($times_viewed == 0) {
 			$new[] = $object_id;
-		}
+		//}
 	}
+
+	error_log(print_r($new, true));
 
 	// Sort levels of comfortability by priorities
 	$cardSort = array();		
@@ -315,6 +335,10 @@ function get_game_difficulty() {
 
 	// Generate the game based on the feedback from the learning algorithm
 	$gameObjectsArgs = array(
+		'connected_type' => 'vocabulary_terms_to_vocabuarly_games',
+	  'connected_items' => $connectedTo,
+	  'connected_direction' => 'to',
+	  'nopaging' => true,
 		'orderby' => 'post__in',
 		'post_type' => 'vocabulary_terms',
 		'post__in' => $cardSort,
@@ -327,7 +351,6 @@ function get_game_difficulty() {
 	$testCardAmount = $cardStackAmount / $test_frequency;
 
 	$totalGameObjects = $gameObjects->post_count;
-	error_log(print_r($totalGameObjects,true));
 	
 	$cardIndex = 1;
 	$html .= '<div class="gameProgress">';
@@ -415,7 +438,7 @@ function get_game_difficulty() {
 
 			// Only generate an audio file for the correct number
 			if ($randomCorrectNumber == $choiceNumber) {
-				$html .= '<div class="gameCardControls">';
+				$html .= '<div class="gameCardControls" data-card-id="'.$post->ID.'">';
 				// Hawaiian Pronunciation
 				$html .= 	'<a class="pronunciationPlay" title="Play the pronunciation."></a>';
 				$html .= 	'<audio class="pronunciation" src="'.get_field('audio_track').'"></audio>';
@@ -457,30 +480,22 @@ function get_game_difficulty() {
 		$cardIndex++;
 	endwhile;
 	wp_reset_postdata();
+	$html .= '</div>'; // gameBoard
 
-/**
-	*
-	*
-	*
-	*  	 POST GAME 
-	*
-	*
-	*
-	*/
-
-	// Create the Finish Page
-	$html .= '<div class="gameCard gameFinish">';
-	$html .= '<h2>You&#39;ve completed the Hua activity!</h2>';
-	$html .= '<div class="gameResults"></div>';
-	$html .= '</div>';
-
-	// Create Next/Check Button
-	$html .= '<a class="gameSubmit btn visible" href="javascript:void(0);">Next</a>';
+	// User Game Controls
+	$html .= '<div class="gameUserControls">';
+	$html .= '<a class="gameNext btn visible" href="javascript:void(0);">Next</a>';
 	$html .= '<a class="gameCheck btn hidden" href="javascript:void(0);">Check</a>';
 	$html .= '<a class="gameFinish btn hidden" href="javascript:void(0);">Finish</a>';
 	$html .= '<a class="gameContinue btn hidden" href="javascript:void(0);">Continue</a>';
 	$html .= '<a class="gameRestart btn hidden" href="javascript:void(0);">Restart</a>';
-	$html .= '</div>'; // gameBoard
+	$html .= '</div>'; // gameUserControls
+
+	// Results Bin
+	$html .= '<div class="gameResults" data-total-tested="0" data-total-correct="0">';
+	$html .= '<div class="cardsViewed" data-viewed="'.implode(', ',array_filter($cardSort)).'"></div>';
+	$html .= '<div class="cardsTested"></div>';
+	$html .= '</div>';
 
 	// Build the response...
 	$success = true;
@@ -497,8 +512,114 @@ function get_game_difficulty() {
 add_action('wp_ajax_nopriv_get_game_difficulty', 'get_game_difficulty' );
 add_action('wp_ajax_get_game_difficulty', 'get_game_difficulty' );
 
+// VOCABULARY GAME: Step Two: Finish Game and Publish Results
+function publish_results() {
+	global $wpdb;
+
+	// Nonce check
+	$nonce = $_REQUEST['nonce'];
+	if (!wp_verify_nonce($nonce, 'ajax_scripts_nonce')) die(__('Busted.'));
+	
+	$html = "";
+	$success = false;
+
+	$totalTested = $_REQUEST['totalTested'];
+	$totalCorrect = $_REQUEST['totalCorrect'];
+	$objectsViewed = $_REQUEST['objectsViewed'];
+	$objectsTested = $_REQUEST['objectsTested'];
+
+	//error_log(print_r($objectsTested,true));
+
+	$html .= '<h3>You&#39;ve completed the Hua activity!</h3>';
+	$html .= '<hr />';
+	$html .= 'You scored ';
+	$html .= $totalCorrect;
+	$html .= ' out of ';
+	$html .= $totalTested;
+	$html .= '!';
+	$html .= '<a class="gameFinish btn" href="javascript:void(0);">Finish</a>';
+	$html .= '<a class="gameRestart btn" href="javascript:void(0);">Restart</a>';
+	$html .= '<br />';
+	
+/**
+	*
+	*
+	* Update Userdata
+	*
+	*
+	*
+	*/
+	if(is_user_logged_in()) {
+	 	$current_user = wp_get_current_user();
+	 	$user_ID = $current_user->ID;
+
+	 	//$post_ids = explode(',',$objectsTested);
+	 	//$post_ids_safe = mysql_real_escape_string($post_ids); // Just because I like being
+
+	 	// Update score for tested objects
+	 	// Possibly: http://stackoverflow.com/questions/3432/multiple-updates-in-mysql
+	 	
+	 	//$values = array();
+		$placeHolders = array();
+	
+		// Create Viewed only arrays
+		$objectsViewedArray = explode(',', $objectsViewed);
+		$objectsViewedOnly = array();
+		foreach ($objectsViewedArray as $objectViewedArray) {
+			$tmpString = '('.$user_ID.','.$objectViewedArray.',0,0,1)';
+			$objectsViewedOnly[] = $tmpString;
+			$placeHolders[] = '(%d, %d, %d, %d)';
+		}
+		//error_log(print_r($objectsViewedOnly, true));
+
+		// Jumping through jQuery object
+		$objectsTestedOnly = array();
+		foreach ($objectsTested as $objectTested) {
+				$objectToString = '('.$user_ID.','.implode(',',$objectTested).')';
+				$objectsTestedOnly[] = $objectToString;
+				$placeHolders[] = '(%d, %d, %d, %d)';
+		}
+		//error_log(print_r($objectsTestedOnly, true));
+
+		//while ($vocabularyGames->have_posts()) : $vocabularyGames->the_post();
+		//$values[] = $post_id.',';
+		//$values[] = $times_correct.',';
+		//$values[] = $times_wrong.',';
+		//$values[] = $times_viewed;
+		//$placeHolders[] = '(%d, %d, %d, %d)';
+		//endwhile;
+		//rewind_posts();
+
+		$values = array_merge($objectsViewedOnly, $objectsTestedOnly);
+		$placeHolderCreate = implode(', ', $placeHolders);
+	 	
+	 	$wpdb->query(
+		"
+		INSERT INTO wp_user_interactions
+		(user_id, post_id, times_correct, times_wrong, times_viewed)
+		VALUES ".implode(',',$values)."
+		ON DUPLICATE KEY UPDATE times_correct=times_correct+VALUES(times_correct), times_wrong=times_wrong+VALUES(times_wrong), times_viewed=times_viewed+VALUES(times_viewed)
+		");
+	} // is_user_logged_in
+
+
+	// Build the response...
+	$success = true;
+	$response = json_encode(array(
+		'success' => $success,
+		'html' => $html
+	));
+	
+	// Construct and send the response
+	header("content-type: application/json");
+	echo $response;
+	exit;
+}
+add_action('wp_ajax_nopriv_publish_results', 'publish_results');
+add_action('wp_ajax_publish_results', 'publish_results');
+
 //Run Ajax calls even if user is logged in
-if(isset($_REQUEST['action']) && ($_REQUEST['action']=='get_game_category' || $_REQUEST['action']=='get_game_difficulty')):
+if(isset($_REQUEST['action']) && ($_REQUEST['action']=='get_game_category' || $_REQUEST['action']=='get_game_difficulty' || $_REQUEST['action']=='publish_results')):
 	do_action( 'wp_ajax_' . $_REQUEST['action'] );
   do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] );
 endif;
