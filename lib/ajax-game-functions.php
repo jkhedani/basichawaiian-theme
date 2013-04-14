@@ -150,6 +150,7 @@ function get_game_difficulty() {
 		
 		// "NEUTRAL"
 		elseif (($times_correct == $times_wrong) && ($times_viewed > 0)):
+			$neutral[] = $object_id;
 
 		// "PRACTICED"
 		elseif ($times_correct >= ($times_wrong + 1)):
@@ -157,22 +158,34 @@ function get_game_difficulty() {
 
 		// "LEARNED"
 		elseif ($times_correct >= ($times_wrong + 3)):
-			$practiced[] = $object_id;
+			$learned[] = $object_id;
 
 		// "MASTERED"
 		elseif ($times_correct >= ($times_wrong + 6)):
-			$practiced[] = $object_id;
+			$mastered[] = $object_id;
 		
 		// "UNFAMILIAR"
 		elseif ($times_wrong >= ($times_correct + 1)):
-			$practiced[] = $object_id;
+			$unfamiliar[] = $object_id;
 
 		// "FAILED"
 		elseif ($times_wrong >= ($times_correct + 3)):
-			$practiced[] = $object_id;
+			$failed[] = $object_id;
 
 		endif;
 
+		// NOW CONSTRUCT A TEACHING ARRAY
+		$objectsToTeach = array();
+		if failed exists
+			array_merge($objectsToTeach, $failed)
+
+		if new exists
+			array_merge($objectsToTeach, $new)
+
+		// CONSTRUCT A TESTING ARRAY
+		if failed exists
+			array_merge($objectsToTeach, $failed)
+					
 		*/
 	}
 
