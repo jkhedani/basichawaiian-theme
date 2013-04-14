@@ -4,10 +4,6 @@ jQuery(document).ready(function($) {
   // When user clicks game category button
   // NOTE: .on() is used to fire after ajax returns (similar function to .live())
   $(document).on('click', '#vocabulary-games a.vocabulary-category', function() {
-  //$('#vocabulary-games a.difficulty-level').click(function(){
-    // Store category slug in variable
-
-    //var vocab_difficulty = $(this).attr('data-difficulty');
     var vocab_cat = $(this).attr('data-category');
     var connected_to_id = $(this).attr('data-connected-to-id');
 
@@ -16,9 +12,7 @@ jQuery(document).ready(function($) {
         dataType: "jsonp",
         action: 'get_game_difficulty',
         nonce: ajax_scripts.nonce,
-        //gameDifficulty: vocab_difficulty,
         connectedTo: connected_to_id,
-        gameCategory: vocab_cat
       }, function(response) {
         if (response.success===true) {
           $('#vocabulary-games').children().fadeOut('slow',function(){
@@ -28,6 +22,12 @@ jQuery(document).ready(function($) {
             var totalAmountGames = $('.gameProgress .miniGame').length;
             $('.gameResults').attr('data-total-tested',totalAmountGames);
             
+            // Set first and last card for progress bar and game cards
+            $('.gameProgressPoint:first-child').addClass('current');
+            $('.gameCard:first-child').addClass('current');
+            $('.gameProgressPoint:last-child').addClass('last');
+            $('.gameCard:last-child').addClass('last');
+
             // Play the first game card after one second...
             //setTimeout(function() {
               $('#vocabulary-games .gameCard.current').find('audio.pronunciation').get(0).play();
@@ -58,30 +58,8 @@ jQuery(document).ready(function($) {
       objects_tested.push(object);
     });   
 
-    // var len = $('.gameChoices .gameChoice .gameCardControls').length;
-    // $('.gameChoices .gameChoice .gameCardControls').each(function(index, element) {
-      
-    //   var data_id = $(this).attr('data-card-id');
-    //   var data_correct = $(this).attr('data-correct');
-      
-    //   if (index == len - 1) {
-    //     objects_tested += data_id + ',' + data_correct;
-    //   } else {
-    //     objects_tested += data_id + ',' + data_correct + ',';
-    //   }
-    // });
-
-    //alert(game_length);
-    //alert(objects_correct);
     alert(objects_viewed);
     alert(objects_tested);
-      
-
-    //   var vocab_cat = $(this).attr('data-category');
-    //   var connected_to_id = $(this).attr('data-connected-to-id');
-
-    //   var numberOfMiniGames = $('.gameProgress .miniGame').length;
-    // var numberCorrect = $('body').data('gameScore');
 
     // post data to function
     $.post(ajax_scripts.ajaxurl, {

@@ -19,7 +19,6 @@ function get_game_difficulty() {
 
 	$html = "";
 	$success = false;
-	$gameCategory = $_REQUEST['gameCategory'];
 	$connectedTo = $_REQUEST['connectedTo'];
 	//$gameDifficulty = $_REQUEST['gameDifficulty'];
 
@@ -119,15 +118,9 @@ function get_game_difficulty() {
 	 	}
 	} // is_user_logged_in
 
-/**
-	*
-	*
-	*
-	*  	 THE LEARNING ALGORITHM 
-	*
-	*
-	*
-	*/
+/*
+ * THE LEARNING ALGORITHM 
+ */
 
 	// Assign each ID to a prestige level
 	$new = array();
@@ -216,10 +209,11 @@ function get_game_difficulty() {
 		OBJECT 12	TEST
 		OBJECT 13	TEST
 		OBJECT 14	TEST
+
 	*/
 
 	// Identify posts to be displayed in the game based on comfortability zones
-	$totalGameObjects = $wpdb->num_rows; // based on $gameObjectsViewed
+	$maxGameObjects = 12; // Max number of objects a game can have
 	$cardSort = array();
 	$testFrequency = 3; // Number MUST be perfectly divisible (modulus==0)
 	$maxTeach = 8; // Maximum number of times a learning card can be considered
@@ -374,12 +368,13 @@ function get_game_difficulty() {
 	$sortedGameObjectsArgs = array(
 		'orderby' => 'post__in',
 		'post__in' => $cardSort,
+		'posts_per_page' => $maxGameObjects,
 	);
 	$finalGameObjectsArgs = array_merge($sortedGameObjectsArgs, $gameObjectsArgs);
 
 	$gameObjects = new WP_Query($finalGameObjectsArgs);
 	$test_frequency = 4; // Every two cards, test
-	$totalGameObjects = $gameObjects->post_count;
+	$totalGameObjects = $gameObjects->post_count; // Number of actual objects in a game
 	
 
 	/*
@@ -388,13 +383,8 @@ function get_game_difficulty() {
 	$cardIndex = 1;
 	$html .= '<div class="gameProgress">';
 	while ($gameObjects->have_posts()) : $gameObjects->the_post();	// Create the game progress bar...
-		if ($cardIndex == 1): 																				// When the progress counter is at its first object...
-		$html .= '<div class="gameProgressPoint current"></div>';	
-		elseif ($cardIndex % $test_frequency == 0):		 								// When the progress counter is perfectly divisible by 4...
-		$html .= '<div class="gameProgressPoint"></div>';							// Add the next gameObject...
+		if ($cardIndex % $test_frequency == 0):		 								// When the progress counter is perfectly divisible by 4...
 		$html .= '<div class="gameProgressPoint miniGame"></div>'; 		// Then add the miniGameObject.
-		elseif ($cardIndex == $totalGameObjects):											// When the progress counter is on its last object...
-		$html .= '<div class="gameProgressPoint last"></div>';
 		else:
 		$html .= '<div class="gameProgressPoint"></div>';							// Otherwise add a normal gameObject
 		endif;
@@ -414,13 +404,7 @@ function get_game_difficulty() {
 	while ($gameObjects->have_posts()) : $gameObjects->the_post();	// Create the game board...
 
 		// THE "LEARN" CARD: Vocabulary
-		if ($cardIndex == 1):
-			$vocabCardOpen = '<div class="gameCard current">';
-		elseif ($totalGameObjects == $cardIndex):
-			$vocabCardOpen = '<div class="gameCard last">';
-		else:
-			$vocabCardOpen = '<div class="gameCard">';
-		endif;
+		$vocabCardOpen = '<div class="gameCard">';
 		$vocabCardContent = '
 			<div class="gameCardControls">
 				<!-- Hawaiian Pronunciation -->
@@ -448,9 +432,6 @@ function get_game_difficulty() {
 		if ($cardIndex % $test_frequency == 0) { 															// If the progress counter is perfectly divisible by 4 (i.e. Every fourth position, load a test)...
 			// Store ID of gameObjects loaded
 			$viewedGameObjects[] = $post->ID;
-			
-			// Learn Card
-			$html .= $vocabularyCard;
 
 			// Then get three random posts of objects that have been seen...
 			$miniGameQuery = new WP_Query( array(

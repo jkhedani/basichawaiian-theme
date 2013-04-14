@@ -25,7 +25,7 @@ jQuery(document).ready(function($){
 			$('h3.gameInstructions').html('Listen and repeat each word you hear until you feel comfortable pronouncing each word.');
 
 			//If we are on a mini game...
-			if($('.gameProgress').find('.current').next().hasClass('miniGame')) {
+			if($('.gameBoard').find('.current').next().hasClass('miniGame')) {
 				// Change the instruction text...
 				$('h3.gameInstructions').html('Select the image that correlates with the word below.');
 				// Show the "Check" button...
@@ -66,13 +66,13 @@ jQuery(document).ready(function($){
 			}
 
 			// If we are not on the last game object...
-			if(!($('.gameProgress').find('.current').hasClass('last'))) {
+			if(!($('.gameBoard').find('.current').hasClass('last'))) {
 				$('.gameProgress').find('.current').removeClass('current').next().addClass('current');
 				$('.gameBoard').find('.current').removeClass('current').next().addClass('current');
 			}
 
 			// If we are on last game object...
-			if($('.gameProgress').find('.current').hasClass('last')) {
+			if($('.gameBoard').find('.current').hasClass('last')) {
 				//var numberOfMiniGames = $('.gameProgress .miniGame').length;
 				//var numberCorrect = $('body').data('gameScore');
 				// .each(function(){
