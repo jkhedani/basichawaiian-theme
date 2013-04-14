@@ -1,48 +1,6 @@
 <?php
 
-// VOCABULARY GAME: Step One: Get The Category, Display The Difficulty
-// function get_game_category() {
-// 	global $wpdb;
-
-// 	// Nonce check
-// 	$nonce = $_REQUEST['nonce'];
-// 	if (!wp_verify_nonce($nonce, 'ajax_scripts_nonce')) die(__('Busted.'));
-	
-// 	$html = "";
-// 	$success = false;
-// 	$gameCategory = $_REQUEST['gameCategory'];
-
-// 	// Maybe? https://gist.github.com/2351382
-// 	// Seems like get_terms isn't ready/available when this function is called.
-
-// 	$html .= '<h1>' . $gameCategory . '</h1>';
-// 	$html .= '<hr />';
-// 	$html .= '<h2>Choose a difficulty level:</h2>';
-
-// 	$difficultyLevels = array('easy', 'medium', 'hard', 'expert');
-// 	foreach ($difficultyLevels as $difficultyLevel) {
-// 		$html .= '<div class="span3">';
-// 		$html .= '<h3><a class="btn difficulty-level" href="javascript:void(0);" data-category="'.$gameCategory.'" data-difficulty="'.$difficultyLevel.'">'.$difficultyLevel.'</a></h3>';
-// 		$html .='</div>';
-// 	}
-
-// 	// Build the response...
-// 	$success = true;
-// 	$response = json_encode(array(
-// 		'success' => $success,
-// 		'html' => $html
-// 	));
-	
-// 	// Construct and send the response
-// 	header("content-type: application/json");
-// 	echo $response;
-// 	exit;
-// }
-// add_action('wp_ajax_nopriv_get_game_category', 'get_game_category');
-// add_action('wp_ajax_get_game_category', 'get_game_category');
-
-
-// VOCABULARY GAME: Step Two: Get The Difficulty, Display The Game
+// VOCABULARY GAME: Step One: Run user choice through TLA & display the game
 function get_game_difficulty() {
 
 	// Get everything from init to load taxonomies.
@@ -83,14 +41,11 @@ function get_game_difficulty() {
 	  'connected_items' => $connectedTo,
 	  'connected_direction' => 'to',
 	  'nopaging' => true,
-	  'posts_per_page' => '10',
 		'post_type' => 'vocabulary_terms',
 	);
 	$gameObjects = new WP_Query($gameObjectsArgs);
 
-	//error_log(print_r($gameObjects, true));
-
-	// All IDs associated with this game	
+	// Grab all IDs associated with this game	
 	$gameObjectIDs = array();
 	while ($gameObjects->have_posts()) : $gameObjects->the_post();
 		$gameObjectIDs[] = $post->ID;
@@ -124,8 +79,6 @@ function get_game_difficulty() {
 			"
 			, $user_ID
 		));
-
-	 	//error_log(print_r($gameObjectsViewed,true));
 
 	 	// Error check: This database will only be updated if the amount
 		// of IDs that exist are different from the IDs the user has interacted with.
@@ -191,25 +144,97 @@ function get_game_difficulty() {
 		$times_wrong = $gameObject->times_wrong;
 		$times_viewed = $gameObject->times_viewed;
 
+		$new[] = $object_id;
 		// RUN PRESTIGE MACHINE AND SORT INTO PROPER COMFORTABILITY ZONES
-		//if ($times_viewed == 0) {
+		/*
+		// "NEW"
+		if ($times_viewed == 0):
 			$new[] = $object_id;
-		//}
+		
+		// "UNTESTED"
+		elseif (($times_correct == 0) && ($times_wrong == 0) && ($times_viewed > 0)):
+			$untested[] = $object_id;
+		
+		// "NEUTRAL"
+		elseif (($times_correct == $times_wrong) && ($times_viewed > 0)):
+
+		// "PRACTICED"
+		elseif ($times_correct >= ($times_wrong + 1)):
+			$practiced[] = $object_id;
+
+		// "LEARNED"
+		elseif ($times_correct >= ($times_wrong + 3)):
+			$practiced[] = $object_id;
+
+		// "MASTERED"
+		elseif ($times_correct >= ($times_wrong + 6)):
+			$practiced[] = $object_id;
+		
+		// "UNFAMILIAR"
+		elseif ($times_wrong >= ($times_correct + 1)):
+			$practiced[] = $object_id;
+
+		// "FAILED"
+		elseif ($times_wrong >= ($times_correct + 3)):
+			$practiced[] = $object_id;
+
+		endif;
+
+		*/
 	}
 
-	error_log(print_r($new, true));
+	/*
+		TEACHING OBJECT:
+			if (failed)
+			elseif (unfamiliar)
+			elseif (new)
+		
+		TESTING OBJECT:
+			if (failed)
+			elseif (untested)
+			elseif (new)
+			=================
+			elseif (unfamiliar)
+			elseif (neutral)
+      =================
+			elseif (practiced/learned/mastered)
 
-	// Sort levels of comfortability by priorities
-	$cardSort = array();		
-	// CARD ONE
+		OBJECT 1	TEACH
+		OBJECT 2	TEACH
+		
+		OBJECT 4	TEST
+		
+		OBJECT 5	TEACH 
+		OBJECT 6	TEACH 
+		
+		OBJECT 8	TEST
+		
+		OBJECT 9	TEACH 
+		OBJECT 10	TEACH 
+		
+		OBJECT 11	TEST
+		OBJECT 12	TEST
+		OBJECT 13	TEST
+		OBJECT 14	TEST
+	*/
+
+	// Identify posts to be displayed in the game based on comfortability zones
+	$totalGameObjects = $wpdb->num_rows; // based on $gameObjectsViewed
+	$cardSort = array();
+	$testFrequency = 3; // Number MUST be perfectly divisible (modulus==0)
+	$maxTeach = 8; // Maximum number of times a learning card can be considered
+
+	// CARD ONE TEACH
 	if(!empty($failed)) {
 		$cardSort[] = current($failed);
 	} elseif (!empty($unfamiliar)) {
 		$cardSort[] = current($unfamiliar);
 	} elseif (!empty($new)) {
 		$cardSort[] = current($new);
+		//$cardSortTeach[] = current($new);
 	}
-	// CARD TWO
+
+	// CARD TWO TEACH
 	if(!empty($failed)) {
 		$cardSort[] = next($failed);
 	} elseif (!empty($unfamiliar)) {
@@ -217,7 +242,8 @@ function get_game_difficulty() {
 	} elseif (!empty($new)) {
 		$cardSort[] = next($new);
 	}
-	// CARD THREE
+
+	// CARD THREE TEST
 	if(!empty($failed)) {
 		$cardSort[] = next($failed);
 	} elseif (!empty($unfamiliar)) {
@@ -225,7 +251,8 @@ function get_game_difficulty() {
 	} elseif (!empty($new)) {
 		$cardSort[] = next($new);
 	}
-	// CARD FOUR
+
+	// CARD FOUR TEACH
 	if(!empty($failed)) {
 		$cardSort[] = next($failed);
 	} elseif (!empty($unfamiliar)) {
@@ -233,7 +260,8 @@ function get_game_difficulty() {
 	} elseif (!empty($new)) {
 		$cardSort[] = next($new);
 	}
-	// CARD FIVE
+
+	// CARD FIVE TEACH
 	if(!empty($failed)) {
 		$cardSort[] = next($failed);
 	} elseif (!empty($unfamiliar)) {
@@ -241,7 +269,8 @@ function get_game_difficulty() {
 	} elseif (!empty($new)) {
 		$cardSort[] = next($new);
 	}
-	// CARD SIX
+
+	// CARD SIX TEST
 	if(!empty($failed)) {
 		$cardSort[] = next($failed);
 	} elseif (!empty($unfamiliar)) {
@@ -249,7 +278,8 @@ function get_game_difficulty() {
 	} elseif (!empty($new)) {
 		$cardSort[] = next($new);
 	}
-	// CARD SEVEN
+
+	// CARD SEVEN TEACH
 	if(!empty($failed)) {
 		$cardSort[] = next($failed);
 	} elseif (!empty($unfamiliar)) {
@@ -257,7 +287,8 @@ function get_game_difficulty() {
 	} elseif (!empty($new)) {
 		$cardSort[] = next($new);
 	}
-	// CARD EIGHT
+
+	// CARD EIGHT TEACH
 	if(!empty($failed)) {
 		$cardSort[] = next($failed);
 	} elseif (!empty($unfamiliar)) {
@@ -333,34 +364,36 @@ function get_game_difficulty() {
 	*
 	*/
 
-	// Generate the game based on the feedback from the learning algorithm
-	$gameObjectsArgs = array(
-		'connected_type' => 'vocabulary_terms_to_vocabuarly_games',
-	  'connected_items' => $connectedTo,
-	  'connected_direction' => 'to',
-	  'nopaging' => true,
+	// CARD SORT: All cards in the loop
+	// CARD SORT TEACH: All cards deemed necessary to teach
+	// CARD SORT TEST: All cards deemed necessary to test
+
+	/*
+	 * Generate the game based on the feedback from the learning algorithm
+	 */
+	$sortedGameObjectsArgs = array(
 		'orderby' => 'post__in',
-		'post_type' => 'vocabulary_terms',
 		'post__in' => $cardSort,
 	);
-	$gameObjects = new WP_Query($gameObjectsArgs);
+	$finalGameObjectsArgs = array_merge($sortedGameObjectsArgs, $gameObjectsArgs);
 
-	// GENERATE THE GAME NAVIGATION
-	$cardStackAmount = $gameObjects->post_count;										// Count the total amount of posts in this set
+	$gameObjects = new WP_Query($finalGameObjectsArgs);
 	$test_frequency = 4; // Every two cards, test
-	$testCardAmount = $cardStackAmount / $test_frequency;
-
 	$totalGameObjects = $gameObjects->post_count;
 	
+
+	/*
+	 * GENERATE THE GAME NAVIGATION
+	 */
 	$cardIndex = 1;
 	$html .= '<div class="gameProgress">';
 	while ($gameObjects->have_posts()) : $gameObjects->the_post();	// Create the game progress bar...
-		if ($cardIndex == 1): 																	// When the progress counter is at its first object...
+		if ($cardIndex == 1): 																				// When the progress counter is at its first object...
 		$html .= '<div class="gameProgressPoint current"></div>';	
-		elseif ($cardIndex % $test_frequency == 0):		 												// When the progress counter is perfectly divisible by 4...
+		elseif ($cardIndex % $test_frequency == 0):		 								// When the progress counter is perfectly divisible by 4...
 		$html .= '<div class="gameProgressPoint"></div>';							// Add the next gameObject...
 		$html .= '<div class="gameProgressPoint miniGame"></div>'; 		// Then add the miniGameObject.
-		elseif ($cardIndex == $totalGameObjects):								// When the progress counter is on its last object...
+		elseif ($cardIndex == $totalGameObjects):											// When the progress counter is on its last object...
 		$html .= '<div class="gameProgressPoint last"></div>';
 		else:
 		$html .= '<div class="gameProgressPoint"></div>';							// Otherwise add a normal gameObject
@@ -371,16 +404,16 @@ function get_game_difficulty() {
 	$html .= '<div class="gameProgressPoint finish"></div>';
 	$html .= '</div>'; 																							// Finish game progress bar.
 
-	// GENERATE THE GAME BASED ON QUERY
-	$cardIndex = 1;																						// Reset progress counter.
+
+	/*
+	 * GENERATE THE GAME BASED ON QUERY
+	 */
+	$cardIndex = 1;																									// Reset progress counter.
 	$viewedGameObjects = array();																		// Start storing post ID's for viewed gameObjects
 	$html .= '<div class="gameBoard">';															
 	while ($gameObjects->have_posts()) : $gameObjects->the_post();	// Create the game board...
-		// $title = get_the_title();
-		// $postID = $post->ID;
 
 		// THE "LEARN" CARD: Vocabulary
-		// Card: Open
 		if ($cardIndex == 1):
 			$vocabCardOpen = '<div class="gameCard current">';
 		elseif ($totalGameObjects == $cardIndex):
@@ -410,6 +443,8 @@ function get_game_difficulty() {
 		$vocabularyCard = $vocabCardOpen . $vocabCardContent . $vocabCardClose; 
 
 
+
+		// GAME BOARD CONSTRUCTION
 		if ($cardIndex % $test_frequency == 0) { 															// If the progress counter is perfectly divisible by 4 (i.e. Every fourth position, load a test)...
 			// Store ID of gameObjects loaded
 			$viewedGameObjects[] = $post->ID;
@@ -482,6 +517,8 @@ function get_game_difficulty() {
 	wp_reset_postdata();
 	$html .= '</div>'; // gameBoard
 
+
+
 	// User Game Controls
 	$html .= '<div class="gameUserControls">';
 	$html .= '<a class="gameNext btn visible" href="javascript:void(0);">Next</a>';
@@ -511,6 +548,34 @@ function get_game_difficulty() {
 }
 add_action('wp_ajax_nopriv_get_game_difficulty', 'get_game_difficulty' );
 add_action('wp_ajax_get_game_difficulty', 'get_game_difficulty' );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // VOCABULARY GAME: Step Two: Finish Game and Publish Results
 function publish_results() {
