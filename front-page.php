@@ -22,13 +22,7 @@ get_header(); ?>
 			while ( have_posts() ) : the_post();
 			echo get_the_content();
 			endwhile; // end of the loop.
-			echo '<a class="btn btn-large btn-success href="#">Sign up today</a>';
-			echo '<hr />';
-			echo '<div class="row marketing">';
-			echo 	'<div class="span4"><h4>Subheading</h4><p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p></div>';
-			echo 	'<div class="span4"><h4>Subheading</h4><p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p></div>';
-			echo 	'<div class="span4"><h4>Subheading</h4><p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p></div>';
-			echo '</div>';
+			echo '<a class="btn btn-large btn-success" href="'.site_url().'/registration">Sign up today</a>';
 		} else {
 	?>
 
@@ -42,7 +36,6 @@ get_header(); ?>
 			<div class="row">
 				<header class="span12">
 					<h1><?php _e('Welcome','hwn'); ?></h1>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed leo massa. Etiam lorem eros, ullamcorper a rutrum non.</p>
 				</header>
 				<div class="span6">
 					<?php // Get User Profile
@@ -66,7 +59,7 @@ get_header(); ?>
 				$modules = new WP_Query(array(
 					'post_type' => 'modules',
 					'orderby' => 'menu_order',
-					'order' => 'ASC',
+					'order' => 'DESC',
 				));
 
 				// Grab all post IDs from modules...
@@ -126,21 +119,22 @@ get_header(); ?>
 
 				rewind_posts();
 
-				echo '<ul>';
+				echo '<ul class="modules dashboard-selections">';
 				// Display all modules
 				$moduleCount = 0;
 				while ($modules->have_posts()) : $modules->the_post();
 					echo '<li>';
-					echo 	'<a class="module" href="'.get_permalink().'" title="Go to the'.get_the_title().' activity"';
-					// THIS IS NOW WRONG AS IT ONLY GRABS THE FIRST RECORD OF $areModulesCOmpleted
-					if ($areModulesCompleted[$moduleCount]->times_completed == 0) {
-						echo 'data-complete="0"';
-					} else {
-						echo 'data-complete="1"';
-					}
-					echo 	'>';
-					echo 		'<h2>'.get_the_title().'</h2>';
-					echo 	'</a>';
+						echo 	'<a class="module dashboard-selection" href="'.get_permalink().'" title="Go to the'.get_the_title().' activity"';
+						// THIS IS NOW WRONG AS IT ONLY GRABS THE FIRST RECORD OF $areModulesCOmpleted
+						if ($areModulesCompleted[$moduleCount]->times_completed == 0) {
+							echo 'data-complete="0"';
+						} else {
+							echo 'data-complete="1"';
+						}
+						echo 	'>';
+						//echo 		'<h2>'..'</h2>';
+						echo 		'<div class="dashboard-selection-info"><h3>'.get_the_title().'</h3><p>What may be in this module</p></div>';
+						echo 	'</a>';
 					echo '</li>';
 					$moduleCount++;
 				endwhile;

@@ -60,6 +60,12 @@
 ?></head>
 
 <body <?php body_class(); ?>>
+  <?php
+    if ( is_user_logged_in() ) {
+      echo '<div class="cover"></div>';
+      //echo '<img class="full-background-image" src="'.get_stylesheet_directory_uri().'/images/sample-bg.jpg" />';
+    }
+  ?>
 
   <?php bedrock_before(); ?>
   
@@ -77,7 +83,6 @@
             <span class="icon-bar"></span>
           </a>
           <a class="brand site-title" href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
-          <span class="site-description"><?php bloginfo( 'description' ); ?></span>
           <nav class="nav-collapse collapse">
           	<h1 class="assistive-text"><?php _e( 'Menu', '_s' ); ?></h1>
   					<div class="assistive-text skip-link"><a href="#content" title="<?php esc_attr_e( 'Skip to content', '_s' ); ?>"><?php _e( 'Skip to content', '_s' ); ?></a></div>
@@ -89,9 +94,7 @@
       <header id="navbar-basic">
         <h2 class="pull-left"><?php bloginfo('name'); ?></h2>
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
+          <li class="active"><a href="#">Sign-In</a></li>
         </ul>
       </header>
     <?php } // user not logged in ?>

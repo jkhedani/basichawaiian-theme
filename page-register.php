@@ -61,7 +61,6 @@ get_header(); ?>
 					?>
 
 					<h1><?php the_title(); ?></h1>
-					<div id="result" class="alert"></div> <!-- To hold validation results -->
 						<form action="" method="post">
 							<label>Username</label>
 							<input type="text" name="username" class="text" value="" /><br />

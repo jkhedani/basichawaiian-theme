@@ -36,11 +36,11 @@ $postTypeObject = get_post_type_object($postType);
 
 		<?php bedrock_abovetitle(); ?>
 		
-		<h1 class="entry-title"><?php the_title(); ?></h1>
+		<!-- <h1 class="entry-title"> -->
+			<?php //the_title(); ?>
+		<!-- </h1> -->
 		
 		<?php bedrock_belowtitle(); ?>
-		
-		<hr />
 
 		<div class="entry-meta">
 			<?php //_s_posted_on(); ?>
@@ -51,7 +51,9 @@ $postTypeObject = get_post_type_object($postType);
 	
 		the_content();
 		echo '<div class="span12 gameBox" id="vocabulary-games">';
-		echo '<a class="btn btn-primary vocabulary-category" href="javascript:void(0);" data-category="Hua" data-connected-to-id="'.$post->ID.'">Start</a>';
+		echo '<h1 class="entry-title">'.get_the_title().'</h1>';
+		echo '<div class="card-stack-logo"></div>';
+		echo '<a class="btn btn-primary vocabulary-category span3" href="javascript:void(0);" data-category="Hua" data-connected-to-id="'.$post->ID.'">Start</a>';
 		echo '</div>';
 	
 	?>

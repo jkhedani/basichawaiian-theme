@@ -19,7 +19,9 @@
 	<footer id="colophon" class="site-footer" role="contentinfo">
 		<div class="container">
 			<div class="site-info">
-				<?php bedrock_footer_credits(); ?>
+				<div class="container-narrow">
+					<p>&copy; Basic Hawaiian <?php echo get_the_date('Y'); ?></p>
+				</div>	
 			</div><!-- .site-info -->
 		</div><!-- .container -->
 	</footer><!-- #colophon .site-footer -->

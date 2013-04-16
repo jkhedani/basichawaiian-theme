@@ -100,12 +100,12 @@
 
 			rewind_posts();
 
-			echo '<ul>';
+			echo '<ul class="dashboard-selections">';
 			// Display all vocab games associated with this module
 			$indexCount = 0;
 			while ($vocabularyGames->have_posts()) : $vocabularyGames->the_post();
 				echo '<li>';
-				echo 	'<a class="vocabulary-game" href="'.get_permalink().'" title="Go to the'.get_the_title().' activity"';
+				echo 	'<a class="vocabulary-game dashboard-selection" href="'.get_permalink().'" title="Go to the'.get_the_title().' activity"';
 				
 				if ($vocabGamesCompleted[$indexCount]->times_completed == 0) {
 					echo 'data-complete="0"';
@@ -113,7 +113,8 @@
 					echo 'data-complete="1"';
 				}
 				echo 	'>';
-				echo 		'<h2>'.get_the_title().'</h2>';
+				//echo 		'<h2>'.get_the_title().'</h2>';
+				echo 		'<div class="dashboard-selection-info"><h3>'.get_the_title().'</h3><p>What may be in this module</p></div>';
 				echo 	'</a>';
 				echo '</li>';
 				$indexCount++;

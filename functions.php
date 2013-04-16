@@ -270,7 +270,7 @@ function BASICHWN_connections() {
   ));
   // Connect Vocabulary Terms to Vocabulary Games
   p2p_register_connection_type(array(
-    'name' => 'vocabulary_terms_to_vocabuarly_games',
+    'name' => 'vocabulary_terms_to_vocabulary_games',
     'from' => 'vocabulary_terms',
     'to' => 'vocabulary_games',
     'sortable' => 'any',

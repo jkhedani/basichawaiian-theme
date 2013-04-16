@@ -1,5 +1,23 @@
 jQuery(document).ready(function($) {
 
+  // REMOVE AFTER TESTING IS COMPLETE !!!!!!
+  // VOCABULARY GAME: Resets user records for vocabulary game.
+  // NOTE: .on() is used to fire after ajax returns (similar function to .live())
+  $(document).on('click', '.reset-scores', function() {
+    // post data to function
+    $.post(ajax_scripts.ajaxurl, {
+        dataType: "jsonp",
+        action: 'reset_scores',
+        nonce: ajax_scripts.nonce,
+      }, function(response) {
+        if (response.success===true) {
+          alert('Your database record has been reset!');
+        } else {
+          // Bad Response message
+        }
+    });
+  }); // end click
+
   // VOCABULARY GAME: Step One: Get The Difficulty, Display The Game
   // When user clicks game category button
   // NOTE: .on() is used to fire after ajax returns (similar function to .live())
@@ -18,19 +36,29 @@ jQuery(document).ready(function($) {
           $('#vocabulary-games').children().fadeOut('slow',function(){
             $('#vocabulary-games').append().html(response.html);
             
-            // Query the amount of games a user will play
-            var totalAmountGames = $('.gameProgress .miniGame').length;
-            $('.gameResults').attr('data-total-tested',totalAmountGames);
+            // (0) Query the amount of games a user will play
+            //var totalAmountGames = $('.gameProgress .miniGame').length;
+            //$('.gameResults').attr('data-total-tested',totalAmountGames);
             
-            // Set first and last card for progress bar and game cards
+            // (1) Set first and last card for progress bar and game cards
             $('.gameProgressPoint:first-child').addClass('current');
             $('.gameCard:first-child').addClass('current');
             $('.gameProgressPoint:last-child').addClass('last');
             $('.gameCard:last-child').addClass('last');
 
+            // (2) Display the correct controls depending on card game/type
+            if($('.gameBoard').find('.current').hasClass('miniGame')) {
+              // If is a minigame card...
+              $('.gameUserControls a.gameCheck').toggleClass('hidden', 'visible');  
+            } else {
+              // If is a learn card...
+              $('.gameUserControls a.gameNext').toggleClass('hidden', 'visible');
+            }
+
             // Play the first game card after one second...
             //setTimeout(function() {
               $('#vocabulary-games .gameCard.current').find('audio.pronunciation').get(0).play();
+
             //}, 1000);
           });
         } else {
@@ -58,9 +86,6 @@ jQuery(document).ready(function($) {
       objects_tested.push(object);
     });   
 
-    alert(objects_viewed);
-    alert(objects_tested);
-
     // post data to function
     $.post(ajax_scripts.ajaxurl, {
         dataType: "jsonp",
@@ -72,7 +97,6 @@ jQuery(document).ready(function($) {
         objectsTested: objects_tested
       }, function(response) {
         if (response.success===true) {
-          alert('good!');
           $('#vocabulary-games').children().fadeOut('slow',function(){
             $('#vocabulary-games').append().html(response.html);
           });
