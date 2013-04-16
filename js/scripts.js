@@ -14,9 +14,9 @@ jQuery(document).ready(function($){
 
 	// Vocabulary Game Controllers
 	if($('#vocabulary-games').length > 0) {
-				
+		
 		// http://stackoverflow.com/questions/2223305/how-can-i-make-a-function-defined-in-jquery-ready-available-globally
-		window.miniGame = function() {
+		//window.miniGame = function() {
 			// Change the instruction text...
 			$('h3.gameInstructions').html('Select the image that correlates with the word below.');
 			// Allow user to make a selection
@@ -28,7 +28,7 @@ jQuery(document).ready(function($){
 			
 			// When the user makes a selection...
 			// NOTE: Event needs to be one(); to prevent multiple firings...
-			$(document).one('click','#vocabulary-games a.gameCheck',function() {
+			$(document).on('click','#vocabulary-games a.gameCheck',function() {
 				var correctAnswer = $('.gameCard.current .correctAnswer').attr('data-card-id'); // Get current mini game answer...
 				var selectedAnswer = $('.gameCard.current a.selected').attr('id'); // Get selected mini game choice...
 				var selectedAnswerID = $('.gameCard.current .gameChoices .gameChoice .gameCardControls').attr('data-card-id');
@@ -58,9 +58,7 @@ jQuery(document).ready(function($){
 					$('.gameUserControls a.gameNext').toggleClass('hidden', 'visible');	
 				}
 			});
-		}
-		miniGame();
-		
+
 		// When Next is clicked...
 		// NOTE: .on() is used to fire after ajax returns (similar function to .live())
 		$(document).on('click', '#vocabulary-games a.gameNext', function() {
@@ -76,8 +74,6 @@ jQuery(document).ready(function($){
 				$('.gameUserControls a.gameCheck').toggleClass('hidden', 'visible').css('opacity','0.5').css('cursor','default');
 				// Hide the "Next" button...
 				$('.gameUserControls a.gameNext').toggleClass('hidden', 'visible');
-
-				miniGame();
 			}
 
 			// Advance the cards...
@@ -118,3 +114,4 @@ jQuery(document).ready(function($){
 	} // vocabularyGames
 
 });
+
