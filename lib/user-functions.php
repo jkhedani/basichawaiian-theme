@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * General User-Made Functions
+ */
+
 // Adding Custom Fields to User Registration
 // http://justintadlock.com/archives/2009/09/10/adding-and-using-custom-user-profile-fields
 

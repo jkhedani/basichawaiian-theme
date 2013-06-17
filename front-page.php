@@ -49,55 +49,67 @@ get_header(); ?>
 
 			<div class="row">
 			<?php
-
+				
 				// PROBLEMS:
 				// If areModulesCompleted has one good value, record interactions passes
 				// Rows now error out if they are duplicates. Might need to create ON DUPLICATE KEY UPDATE clause.
 				// EXCELLENT! http://stackoverflow.com/questions/779986/insert-multiple-rows-via-a-php-array-into-mysql
+				// Object completion check doesn't associate completion with an ID but with a particular order instead.
 
-				// Retrieve all modules...
-				$modules = new WP_Query(array(
-					'post_type' => 'modules',
-					'orderby' => 'menu_order',
+				// Possibly create graceful degredation if there are no Kukui's (more useful error)
+
+				// Retrieve all units...
+				$units = new WP_Query(array(
+					'post_type' => 'units',
+					'orderby' => 'ID',
 					'order' => 'DESC',
+					'posts_per_page' => 10,
 				));
 
-				// Grab all post IDs from modules...
-				$moduleIDs = array();
-				while ($modules->have_posts()) : $modules->the_post();
-					$moduleIDs[] = $post->ID;
+				// Grab all post IDs from units...
+				$unitIDs = array();
+				while ( $units->have_posts() ) : $units->the_post();
+					$unitIDs[] = $post->ID;
 				endwhile;
 				rewind_posts();
 
 				// Check if user has interacted with any of the ids above...
-				if(is_user_logged_in()) {
+				if ( is_user_logged_in() &&  $units->have_posts() ) {
+
 					$current_user = wp_get_current_user();
 					$user_ID = $current_user->ID;
-					$post_ids = implode(', ',$moduleIDs); // Prepare IDs to get passed to the query
-					$post_ids_safe = mysql_real_escape_string($post_ids); // Just because I like being
+					$post_ids = implode(', ',$unitIDs); // Prepare IDs to get passed to the query
+					$post_ids_safe = mysql_real_escape_string($post_ids); // Just because I like being safe.
 
-					// Check if modules have been completed (using the data later that's why)
-					$areModulesCompleted = $wpdb->get_results($wpdb->prepare(
+					/*
+					 * Check if user has interacted with object before (using the data later that's why)
+					 * Tells us if they have a record or not.
+					 */
+					$areUnitsCompleted = $wpdb->get_results( $wpdb->prepare(
 						"
 						SELECT times_completed
 						FROM wp_user_interactions
 						WHERE user_id = %d
 							AND post_id IN (".$post_ids_safe.")
+						ORDER BY post_id DESC
 						LIMIT 0, 10
 						"
 						, $user_ID
 					));
 
+					/*
+					 * Create initial records for users who haven't seen this queried object.
+					 */
 					// If no record of interactions with modules exist in the database...
 					// Error check: This database will only be updated if the amount
 					// of IDs that exist are different from the IDs the user has interacted with.
-					if(count($moduleIDs) != count($areModulesCompleted)) {
+					if ( count( $unitIDs ) != count( $areUnitsCompleted ) ) {
 						// construct the loop for publishing
 						$values = array();
 						$placeHolders = array();
 
 						// Prepare individual values separately to get passed to the query
-						while ($modules->have_posts()) : $modules->the_post();
+						while ($units->have_posts()) : $units->the_post();
 							$values[] = $user_ID.',';
 							$values[] = $post->ID.',';
 							$values[] = '0';
@@ -106,7 +118,7 @@ get_header(); ?>
 						rewind_posts();
 
 						// Prepare placeholders for the query
-						$placeHolderCreate = implode(', ', $placeHolders);
+						$placeHolderCreate = implode( ', ', $placeHolders );
 
 						// Insert records for the user
 						$wpdb->query( $wpdb->prepare("
@@ -115,28 +127,35 @@ get_header(); ?>
 							VALUES ".$placeHolderCreate."
 						", $values ));
 					}
-				} // is_user_logged_in
 
-				rewind_posts();
+					// Rewind query for use in final call
+					wp_reset_postdata();
 
-				echo '<ul class="modules dashboard-selections">';
-				// Display all modules
-				$moduleCount = 0;
-				while ($modules->have_posts()) : $modules->the_post();
+				} else { ?>
+					<p>Currently, there are no published units available.</p>
+				<?php } // is_user_logged_in
+
+				/*
+				 * Let's display all our Units now...
+				 */
+				echo '<ul class="units dashboard-selections">';
+				$unitCount = 0;
+				while ( $units->have_posts() ) : $units->the_post();
 					echo '<li>';
-						echo 	'<a class="module dashboard-selection" href="'.get_permalink().'" title="Go to the'.get_the_title().' activity"';
-						// THIS IS NOW WRONG AS IT ONLY GRABS THE FIRST RECORD OF $areModulesCOmpleted
-						if ($areModulesCompleted[$moduleCount]->times_completed == 0) {
-							echo 'data-complete="0"';
-						} else {
-							echo 'data-complete="1"';
+						echo 	'<a class="units dashboard-selection" href="'.get_permalink().'" title="Go to the'.get_the_title().' activity"';
+						// Check to see if we user has completed any modules
+						if ( $areUnitsCompleted ) {
+							if ( $areUnitsCompleted[$unitCount]->times_completed == 0 ) {
+								echo 'data-complete="0"';
+							} else {
+								echo 'data-complete="1"';
+							}
 						}
 						echo 	'>';
-						//echo 		'<h2>'..'</h2>';
-						echo 		'<div class="dashboard-selection-info"><h3>'.get_the_title().'</h3><p>What may be in this module</p></div>';
+						echo 		'<div class="dashboard-selection-info"><h3>'.get_the_title().'</h3></div>';
 						echo 	'</a>';
 					echo '</li>';
-					$moduleCount++;
+					$unitCount++;
 				endwhile;
 				echo '</ul>';
 				wp_reset_postdata();

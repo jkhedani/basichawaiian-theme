@@ -113,6 +113,27 @@ add_filter( 'locale', 'my_theme_localized' );
 // Basic Hawaiian Custom Post Types
 function BASICHWN_post_types() {
 
+  // Units
+  $labels = array(
+    'name' => __( 'Units' ),
+    'singular_name' => __( 'Unit' ),
+    'add_new' => __( 'Add New Unit' ),
+    'add_new_item' => __( 'Add New Unit' ),
+    'edit_name' => __( 'Edit This Unit' ),
+    'view_item' => __( 'View This Unit' ),
+    'search_items' => __('Search Units'),
+    'not_found' => __('No Units found.'),
+  );
+  register_post_type( 'units',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail','page-attributes'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'unit'),
+    )
+  );
+
   // Modules
   $labels = array(
     'name' => __( 'Modules' ),
@@ -134,47 +155,70 @@ function BASICHWN_post_types() {
     )
   );
 
-  // Vocabulary Games
+  // Vocabulary Lessons
   $labels = array(
-    'name' => __( 'Vocabulary Games' ),
-    'singular_name' => __( 'Vocabulary Game' ),
-    'add_new' => __( 'Add New Vocabulary Game' ),
-    'add_new_item' => __( 'Add New Vocabulary Game' ),
-    'edit_name' => __( 'Edit This Vocabulary Game' ),
-    'view_item' => __( 'View This Vocabulary Games' ),
-    'search_items' => __('Search Vocabulary Games'),
-    'not_found' => __('No Vocabulary Games found.'),
+    'name' => __( 'Vocabulary Lessons' ),
+    'singular_name' => __( 'Vocabulary Lesson' ),
+    'add_new' => __( 'Add New Vocabulary Lesson' ),
+    'add_new_item' => __( 'Add New Vocabulary Lesson' ),
+    'edit_name' => __( 'Edit This Vocabulary Lesson' ),
+    'view_item' => __( 'View This Vocabulary Lesson' ),
+    'search_items' => __('Search Vocabulary Lessons'),
+    'not_found' => __('No Vocabulary Lessons found.'),
   );
-  register_post_type( 'vocabulary_games',
+  register_post_type( 'vocabulary_lessons',
     array(
     'menu_position' => 5,
     'public' => true,
     'supports' => array('title', 'editor', 'thumbnail'),
     'labels' => $labels,
-    'rewrite' => array('slug' => 'vocabulary-games'),
+    'rewrite' => array('slug' => 'vocabulary-lesson'),
     )
   );
 
-  // Pronoun Practice
+  // Phrases Lessons
   $labels = array(
-    'name' => __( 'Pronoun Practices' ),
-    'singular_name' => __( 'Pronoun Practice' ),
-    'add_new' => __( 'Add New Pronoun Practice' ),
-    'add_new_item' => __( 'Add New Pronoun Practice' ),
-    'edit_name' => __( 'Edit This Pronoun Practice' ),
-    'view_item' => __( 'View This Pronoun Practice' ),
-    'search_items' => __('Search Pronoun Practices'),
-    'not_found' => __('No Pronoun Practices found.'),
+    'name' => __( 'Phrases Lessons' ),
+    'singular_name' => __( 'Phrases Lesson' ),
+    'add_new' => __( 'Add New Phrases Lesson' ),
+    'add_new_item' => __( 'Add New Phrases Lesson' ),
+    'edit_name' => __( 'Edit This Phrases Lesson' ),
+    'view_item' => __( 'View This Phrases Lesson' ),
+    'search_items' => __('Search Phrases Lessons'),
+    'not_found' => __('No Phrases Lessons found.'),
   );
-  register_post_type( 'pronoun_practices',
+  register_post_type( 'phrases_lessons',
     array(
     'menu_position' => 5,
     'public' => true,
     'supports' => array('title', 'editor', 'thumbnail'),
     'labels' => $labels,
-    'rewrite' => array('slug' => 'pronoun-practices'),
+    'rewrite' => array('slug' => 'phrases-lesson'),
     )
   );
+
+  // Chants Lessons
+  $labels = array(
+    'name' => __( 'Chants Lessons' ),
+    'singular_name' => __( 'Chants Lesson' ),
+    'add_new' => __( 'Add New Chants Lesson' ),
+    'add_new_item' => __( 'Add New Chants Lesson' ),
+    'edit_name' => __( 'Edit This Chants Lesson' ),
+    'view_item' => __( 'View This Chants Lesson' ),
+    'search_items' => __('Search Chants Lessons'),
+    'not_found' => __('No Chants Lessons found.'),
+  );
+  register_post_type( 'chants_lessons',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'chants-lesson'),
+    )
+  );
+
+
 
   // Vocabulary Terms
   $labels = array(
@@ -202,6 +246,7 @@ add_action( 'init', 'BASICHWN_post_types' );
 
 // Basic Hawaiian Custom Taxonomies
 function BASICHWN_taxonomies() {
+  
   // Add new taxonomy, make it hierarchical (like categories)
   $labels = array(
     'name' => _x( 'Vocabulary Categories', 'taxonomy general name' ),
@@ -250,29 +295,57 @@ function BASICHWN_taxonomies() {
 }
 add_action( 'init', 'BASICHWN_taxonomies');
 
-// Posts 2 Posts Connections
+/*
+ * Posts 2 Posts Connections
+ */
 function BASICHWN_connections() {
-  // Connect Vocabulary Games to Modules
+  
+  /*
+   * Core IA Connections
+   */
+  
+  // Connect Modules to Units
   p2p_register_connection_type(array(
-    'name' => 'vocabulary_games_to_modules',
-    'from' => 'vocabulary_games',
+    'name' => 'modules_to_units',
+    'from' => 'modules',
+    'to' => 'units',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Modules to One Unit
+  ));
+
+  /*
+   * Assessment IA Connections
+   */
+
+  // Connect Vocabulary Lessons to Modules
+  p2p_register_connection_type(array(
+    'name' => 'vocabulary_lessons_to_modules',
+    'from' => 'vocabulary_lessons',
     'to' => 'modules',
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Vocab Games to One Module
   ));
-  // Connect Pronoun Practice to Modules
+  // Connect Phrases Lessons to Modules
   p2p_register_connection_type(array(
-    'name' => 'pronoun_practices_to_modules',
-    'from' => 'pronoun_practices',
+    'name' => 'phrases_lessons_to_modules',
+    'from' => 'phrases_lessons',
+    'to' => 'modules',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Pron Practice to One Module
+  ));
+  // Connect Chants Lessons to Modules
+  p2p_register_connection_type(array(
+    'name' => 'chants_lessons_to_modules',
+    'from' => 'chants_lessons',
     'to' => 'modules',
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Pron Practice to One Module
   ));
   // Connect Vocabulary Terms to Vocabulary Games
   p2p_register_connection_type(array(
-    'name' => 'vocabulary_terms_to_vocabulary_games',
+    'name' => 'vocabulary_terms_to_vocabulary_lessons',
     'from' => 'vocabulary_terms',
-    'to' => 'vocabulary_games',
+    'to' => 'vocabulary_lessons',
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Vocab Terms to One Module
   ));

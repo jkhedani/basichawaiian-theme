@@ -94,7 +94,7 @@
       <header id="navbar-basic">
         <h2 class="pull-left"><?php bloginfo('name'); ?></h2>
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Sign-In</a></li>
+          <li class="active"><a href="wp/wp-admin">Sign-In</a></li>
         </ul>
       </header>
     <?php } // user not logged in ?>

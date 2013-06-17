@@ -20,8 +20,8 @@ get_header(); ?>
 
 			<?php
 				// MODULE PAGE CONTENT
-				if(get_post_type($post->ID) == 'modules') {
-					get_template_part( 'templates/module', 'single' );
+				if(get_post_type($post->ID) == 'units') {
+					get_template_part( 'templates/unit', 'single' );
 				
 				// VOCABULARY GAMES CONTENT
 				} elseif(get_post_type($post->ID) == 'vocabulary_games') {
