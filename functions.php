@@ -5,57 +5,11 @@
  * Please read the documentation on how to use this file within child theme (README.md)
  */
 
+
 /**
- * External Functions
+ * Load User Interactions Functions
  */
-
-// Install/Update "User Interactions"
-function install_interactions_database() {
-  global $wpdb;
-  global $user_interactions_db_version;
-  $user_interactions_db_version = "0.1";
-  $installed_ver = get_option('user_interactions_db_version');
-  
-  // WHY MY PRIMARY KEYS ARE SET THE WAY THEY IS
-  //http://stackoverflow.com/questions/5835978/how-to-properly-create-composite-primary-keys-mysql
-  if($installed_ver != $user_interactions_db_version) {
-    $user_interactions_db_version = "0.1";
-    $table_name = $wpdb->prefix . "user_interactions";
-    $sql = $wpdb->prepare("CREATE TABLE $table_name (
-      interaction_id bigint(20) unsigned NOT NULL auto_increment,
-      user_id bigint(20) unsigned NOT NULL,
-      post_id bigint(20) unsigned NOT NULL,
-      times_correct bigint(20) NOT NULL,
-      times_wrong bigint(20) NOT NULL,
-      times_viewed bigint(20) NOT NULL,
-      times_completed bigint(20) NOT NULL,
-      UNIQUE KEY  (interaction_id),
-      PRIMARY KEY (user_id, post_id),
-      KEY times_correct (times_correct),
-      KEY times_wrong (times_wrong),
-      KEY times_viewed (times_viewed),
-      KEY times_completed (times_completed))
-      DEFAULT CHARACTER SET = utf8
-      COLLATE = utf8_general_ci
-    ");
-
-    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-    dbDelta( $sql );
-    
-    if(!get_option('user_interactions_db_version')) {
-      // Create the option
-      error_log(print_r('new',true));
-      add_option( "user_interactions_db_version", $user_interactions_db_version );
-    } else {
-      error_log(print_r('version updated',true));
-      update_option('user_interactions_db_version', $user_interactions_db_version);  
-    }
-    
-  }
-  error_log(print_r('version same',true));
-}
-add_action('after_switch_theme','install_interactions_database', 10, 2); // on activate theme
-//add_action('switch_theme','basic_database_destroy', 10, 2); // on deactivate theme
+require( 'lib/user-interactions-functions.php' );
 
 /**
  * Custom Body Classes
@@ -80,8 +34,9 @@ function diamond_scripts() {
 
   wp_enqueue_style( 'diamond-style', get_stylesheet_directory_uri().'/css/diamond-style.css' );
   wp_enqueue_style( 'diamond-style-responsive', get_stylesheet_directory_uri().'/css/diamond-style-responsive.css', array('diamond-style','resets','bootstrap-base-styles','bootstrap-parent-style'));
-	wp_enqueue_script('diamond-custom-script', get_stylesheet_directory_uri().'/js/scripts.js', array(), false, true);
-	wp_enqueue_script('bootstrap-modal', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-modal.js', array(), false, true);
+	wp_enqueue_script('bootstrap-modal', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-modal.js', array('jquery'), false, true);
+  wp_enqueue_script('bootstrap-carousel', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-carousel.js', array('jquery'), false, true);
+  wp_enqueue_script('diamond-custom-script', get_stylesheet_directory_uri().'/js/scripts.js', array('jquery'), false, true);
 
 	// AJAX Calls  
 	wp_enqueue_script('json2');

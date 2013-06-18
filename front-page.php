@@ -48,17 +48,12 @@ get_header(); ?>
 			<!-- Content Navigation -->
 
 			<div class="row">
+			
 			<?php
-				
-				// PROBLEMS:
-				// If areModulesCompleted has one good value, record interactions passes
-				// Rows now error out if they are duplicates. Might need to create ON DUPLICATE KEY UPDATE clause.
-				// EXCELLENT! http://stackoverflow.com/questions/779986/insert-multiple-rows-via-a-php-array-into-mysql
-				// Object completion check doesn't associate completion with an ID but with a particular order instead.
 
-				// Possibly create graceful degredation if there are no Kukui's (more useful error)
-
-				// Retrieve all units...
+				/*
+				 * Display user primary "dashboard" (All Kukui People)
+				 */
 				$units = new WP_Query(array(
 					'post_type' => 'units',
 					'orderby' => 'ID',
@@ -73,83 +68,20 @@ get_header(); ?>
 				endwhile;
 				rewind_posts();
 
-				// Check if user has interacted with any of the ids above...
-				if ( is_user_logged_in() &&  $units->have_posts() ) {
+				// Create fresh object records if they do not have any for this page.
+				create_object_record( $unitIDs );
 
-					$current_user = wp_get_current_user();
-					$user_ID = $current_user->ID;
-					$post_ids = implode(', ',$unitIDs); // Prepare IDs to get passed to the query
-					$post_ids_safe = mysql_real_escape_string($post_ids); // Just because I like being safe.
-
-					/*
-					 * Check if user has interacted with object before (using the data later that's why)
-					 * Tells us if they have a record or not.
-					 */
-					$areUnitsCompleted = $wpdb->get_results( $wpdb->prepare(
-						"
-						SELECT times_completed
-						FROM wp_user_interactions
-						WHERE user_id = %d
-							AND post_id IN (".$post_ids_safe.")
-						ORDER BY post_id DESC
-						LIMIT 0, 10
-						"
-						, $user_ID
-					));
-
-					/*
-					 * Create initial records for users who haven't seen this queried object.
-					 */
-					// If no record of interactions with modules exist in the database...
-					// Error check: This database will only be updated if the amount
-					// of IDs that exist are different from the IDs the user has interacted with.
-					if ( count( $unitIDs ) != count( $areUnitsCompleted ) ) {
-						// construct the loop for publishing
-						$values = array();
-						$placeHolders = array();
-
-						// Prepare individual values separately to get passed to the query
-						while ($units->have_posts()) : $units->the_post();
-							$values[] = $user_ID.',';
-							$values[] = $post->ID.',';
-							$values[] = '0';
-							$placeHolders[] = '(%d, %d, %d)';
-						endwhile;
-						rewind_posts();
-
-						// Prepare placeholders for the query
-						$placeHolderCreate = implode( ', ', $placeHolders );
-
-						// Insert records for the user
-						$wpdb->query( $wpdb->prepare("
-							INSERT INTO wp_user_interactions
-							( user_id, post_id, times_completed )
-							VALUES ".$placeHolderCreate."
-						", $values ));
-					}
-
-					// Rewind query for use in final call
-					wp_reset_postdata();
-
-				} else { ?>
-					<p>Currently, there are no published units available.</p>
-				<?php } // is_user_logged_in
-
-				/*
-				 * Let's display all our Units now...
-				 */
+				// Show all units and check if they are complete
 				echo '<ul class="units dashboard-selections">';
 				$unitCount = 0;
 				while ( $units->have_posts() ) : $units->the_post();
 					echo '<li>';
 						echo 	'<a class="units dashboard-selection" href="'.get_permalink().'" title="Go to the'.get_the_title().' activity"';
 						// Check to see if we user has completed any modules
-						if ( $areUnitsCompleted ) {
-							if ( $areUnitsCompleted[$unitCount]->times_completed == 0 ) {
-								echo 'data-complete="0"';
-							} else {
-								echo 'data-complete="1"';
-							}
+						if ( is_object_complete( $post->ID ) ) {
+							echo 'data-complete="1"';
+						} else {
+							echo 'data-complete="0"';
 						}
 						echo 	'>';
 						echo 		'<div class="dashboard-selection-info"><h3>'.get_the_title().'</h3></div>';

@@ -2,7 +2,9 @@
 
 /*
  * General User-Made Functions
+ * NOTE: For Creating Tables via Functions (http://codex.wordpress.org/Creating_Tables_with_Plugins#The_Whole_Function)
  */
+
 
 // Adding Custom Fields to User Registration
 // http://justintadlock.com/archives/2009/09/10/adding-and-using-custom-user-profile-fields

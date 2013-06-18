@@ -12,6 +12,16 @@ jQuery(document).ready(function($){
     });
   }
 
+  /*
+   * Unit Page Scripts (Kukui People)
+   */
+  if ( $('body').hasClass('single-units') ) {
+  	// Module List Carousel
+  	$('.carousel').carousel({
+  		'interval' : false,
+  	});
+  }
+
 	// Vocabulary Game Controllers
 	if($('#vocabulary-games').length > 0) {
 		
