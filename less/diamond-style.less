@@ -5,10 +5,10 @@
 @import "../../bedrock/inc/less/bedrock-variables.less"; // Replace this line with your new variables, if you like.
 @import "../../bedrock/inc/bootstrap/less/mixins.less";
 @import "../../bedrock/inc/bootstrap/less/carousel.less";
+@import "../../bedrock/inc/bootstrap/less/modals.less";
 
-/*
- * Public Genral
- *
+/**
+ *  Public Genral
  */
 body.not-logged-in {
 	.nav { margin-top: 15px; }
@@ -30,6 +30,89 @@ body.not-logged-in {
 	footer#colophon {
 		background: none;
 		.container-narrow { padding-top: 20px; border-top: 1px solid #CBCBCB; }
+	}
+}
+
+/**
+ * General Styles
+ */
+body {
+	a:visited {
+		color: @linkColor;
+		&.btn { color: @grayDark;
+			&.btn-primary { color: #FFF; }
+		}
+	}
+	.btn-back { margin-bottom: 10px !important; }
+}
+
+/**
+ *	Scene Modals
+ */
+.modal-slide {
+	display: none;
+	&.current-modal-slide { display: block; }
+}
+
+/**
+ *  Front Page
+ */
+body.home.logged-in {
+	ul.units {
+		li.unit {
+			list-style: none;
+			a {
+				color: #FFF;
+				h4 { padding: 25px; background-color: @grayDark; }
+			}
+		}
+	}
+}
+
+/**
+ *  Post Single: Unit
+ */
+body.single-units {
+ 	.entry-content {
+ 		#module-list {
+ 			min-height: 500px;
+ 			ul.modules { 
+				li.module {
+			 		ul.topics {
+				 		li.topic {
+				 			list-style: none;
+				 			a {
+								color: #FFF;
+								h4 { padding: 25px; background-color: @grayDark; }
+				 			}
+				 		}
+			 		}
+			 	}
+	 		}
+	 	}
+	}
+	// Specific Carousel Styles
+	.carousel {
+		.carousel-control {
+			bottom: 0;
+			top: auto;
+			&.right { right: 0; }
+		}
+	}
+}
+
+/**
+ *  Post Single: Topic
+ */
+body.single-topics {
+	ul.lessons {
+		li.lesson {
+			list-style: none;
+			a {
+				color: #FFF;
+				h4 { padding: 25px; background-color: @grayDark; }
+			}
+		}
 	}
 }
 

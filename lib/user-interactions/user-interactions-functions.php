@@ -60,9 +60,48 @@ function update_user_interactions_db() {
 add_action( 'after_switch_theme', 'update_user_interactions_db', 10, 2);
 
 /**
+ * Function: Retrieve Object Record
+ * Usage: Run when you want to retrieve a record for a particular object or set of objects
+ *		@param int,array $postIDs An array of IDs you wish to create records for
+ */
+if ( !function_exists('get_object_record') ) :
+function get_object_record( $postIDs ) {
+	if ( is_user_logged_in() ) {
+		global $wpdb;
+		$current_user = wp_get_current_user();
+    $affected_user_id = $current_user->ID;
+
+    // Determine if object is an array or an int.
+    if ( is_array( $postIDs ) ) {
+			$post_ids = implode(', ',$postIDs); // Prepare post ids to be passed to wpdb
+		} else if ( is_numeric( $postIDs ) ) {
+			$post_ids = $postIDs;
+		} else {
+			die( __('Busted.') );
+		}
+		$post_ids_safe = mysql_real_escape_string( $post_ids ); // Just because I like being safe.
+
+		// Check if a record for queried objects exist
+		$queriedObject = $wpdb->get_results( $wpdb->prepare(
+			"
+			SELECT *
+			FROM wp_user_interactions
+			WHERE user_id = %d
+				AND post_id IN (".$post_ids_safe.")
+			ORDER BY post_id DESC
+			LIMIT 0, 10
+			"
+			, $affected_user_id
+		));
+		return $queriedObject;
+	} // is_user_logged_in
+}
+endif;
+
+/**
  * Function: Create Object Record
  * Usage: Run when you want to create a record for a particular object
- *		@param array $postIDs An array IDs you wish to create records for
+ *		@param int, array $postIDs An array IDs you wish to create records for
  */
 if ( !function_exists('create_object_record') ) :
 function create_object_record( $postIDs ) {
@@ -70,9 +109,17 @@ function create_object_record( $postIDs ) {
 		global $wpdb;
 		$current_user = wp_get_current_user();
     $affected_user_id = $current_user->ID;
-		// Prepare post ids to be passed to wpdb
-		$post_ids = implode(', ',$postIDs);
-		$post_ids_safe = mysql_real_escape_string($post_ids); // Just because I like being safe.
+
+		// Determine if object is an array or an int.
+    if ( is_array( $postIDs ) ) {
+			$post_ids = implode(', ',$postIDs); // Prepare post ids to be passed to wpdb
+		} else if ( is_numeric( $postIDs ) ) {
+			$post_ids = $postIDs;
+		} else {
+			die( __('Busted.') );
+		}
+		$post_ids_safe = mysql_real_escape_string( $post_ids ); // Just because I like being safe.
+
 		// Check if a record for queried objects exist
 		$doObjectsExist = $wpdb->get_results( $wpdb->prepare(
 			"
@@ -89,7 +136,7 @@ function create_object_record( $postIDs ) {
 		// Prepare existing objects to be checked
 		$existingObjectIDs = array();
 		// Throw all existing object IDs into an array
-		foreach ($doObjectsExist as $existingObject) {
+		foreach ( $doObjectsExist as $existingObject ) {
 			$existingObjectIDs[] = $existingObject->post_id;
 		}
 

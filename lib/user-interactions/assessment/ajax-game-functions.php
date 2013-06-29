@@ -1,5 +1,29 @@
 <?php
 
+/**
+ *	Function: Get Connected Parent ID
+ *	@param int $postID The ID of the post you wish to find the parent ID of.
+ *	@param int $connectionType The p2p connection type you wish to find a "parent" by
+ *  Return the ID of a connected parent (currently only works for objects with one parent)
+ *
+ */
+
+function get_connected_parent_ID( $postID , $connectionType ) {
+	global $post;
+	// Get connected parent
+	$connectedParent = new WP_Query( array(
+		'connected_type' => $connectionType,
+		'connected_items' => $postID,
+		'nopaging' => true,
+		'orderby' => 'menu_order',
+		'order' => 'ASC',
+	));
+	while( $connectedParent->have_posts() ) : $connectedParent->the_post();
+		return $post->ID;
+	endwhile;
+	wp_reset_postdata();
+}
+
 // VOCABULARY GAME: Step One: Run user choice through TLA & display the game
 function get_game_difficulty() {
 

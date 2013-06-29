@@ -1,26 +1,63 @@
 <?php
 /**
+ *
+ * Unit Page (Kukuis)
+ *
  * @package _s
  * @since _s 1.0
  */
+
+// "Previous" page (doesn't work very well if user is logged in and edits a page...)
+$previousPageURL = htmlspecialchars($_SERVER['HTTP_REFERER']);
+
+/**
+ * Check users interaction status with object. 
+ * Usage: Helps determine how stories/scenes are displayed and how to handle interaction values
+ * Requires: user-interactions-functions.php
+ */
+
+$objectInteractionStatus = get_object_record( $post->ID );
+$objectViewed = 0; // Assume current object hasn't been viewed.
+$objectComplete = 0; // Assume current object hasn't been completed.
+
+/* 
+ * Is this the first time a user is visiting this page?
+ */
+if ( $objectInteractionStatus[0]->times_viewed > 0 ) : // If not...
+	$objectViewed = 1; // Mark data object "viewed" as viewed.
+else :	// If so...
+	// Use javascript to send for modal result is in scene-scripts.js
+	$objectViewed = 0; // Mark data object as not viewed for js	
+endif;
+
+/*
+ * Did the user complete this object/page?
+ */
+if ( $objectInteractionStatus[0]->times_completed == 0 ) :
+	$objectComplete = 0;
+else :
+	$objectComplete = 1;
+endif;
+
+// View should be incremented regardless of conditions above. I promise.
+increment_object_value ( $post->ID, 'times_viewed' );
+
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article
+	id="post-<?php the_ID(); ?>" 
+	<?php post_class(); ?> 
+	data-postid="<?php echo $post->ID; ?>" 
+	data-viewed="<?php echo $objectViewed ?>"
+	data-complete="<?php echo $objectComplete ?>">
 
 	<?php bedrock_postcontentstart(); ?>
 
 	<header class="entry-header">
-		
-		<?php
-			// BREADCRUMB
-			echo '<ul class="breadcrumb">';
-			echo 	'<li class="breadcrumb-home"><a href="'.get_home_url().'" title="Go back home.">Home</a> <span class="divider">/</span></li>';
-			echo 	'<li class="breadcrumb-last active">'.get_the_title().'</li>';
-			echo '</ul>';
-		?>
 
 		<?php bedrock_abovetitle(); ?>
 		
+		<a class="btn btn-back" href="<?php echo get_home_URL(); ?>"><i class="icon-arrow-left" style="padding-right:10px;"></i>Back to Unit View</a>
 		<h1 class="entry-title"><?php the_title(); ?></h1>
 		
 		<?php bedrock_belowtitle(); ?>
@@ -32,7 +69,7 @@
 		</div><!-- .entry-meta -->
 	</header><!-- .entry-header -->
 
-	<div class="entry-content">
+	<div class="entry-content row">
 		<?php
 
 		the_content();
@@ -41,15 +78,16 @@
 		 * "Display all Modules associated with this particular Unit along with any associated lessons under each object."
 		 */
 		$unitHasModules = p2p_connection_exists( 'modules_to_units', array('to'=> get_queried_object()) );
-		
+
 		// If this unit contains modules...
 		if ( $unitHasModules ) {
 
 			// Retrieve all modules associated with this unit.
-			$modules = new WP_Query(array(
+			$modules = new WP_Query( array(
 				'connected_type' => 'modules_to_units',
 				'connected_items' => get_queried_object(),
 				'nopaging' => true,
+				'orderby' => 'menu_order',
 			));
 
 			// Store all modules IDs in an array for use in the DB.
@@ -57,110 +95,60 @@
 			while ( $modules->have_posts() ) : $modules->the_post();
 				$moduleIDs[] = $post->ID;
 			endwhile;
-			rewind_posts();
 			
 			// Create fresh object records if they do not have any for this page.
 			create_object_record( $moduleIDs );
 
 			/*
-		 	 * Update user interactions to reflect that a user has "viewed" a singular object
-		   * NOTE: If user refreshes page, that will also count as a view
-		   */
-			increment_object_value ( $post->ID, 'times_viewed' );
-
-			/*
 			 * Display all modules and their associated lesson types here...
 			 */
-			$carouselID = 'moduleList';
+			$carouselID = 'module-list'; ?>
 
-			echo '<div id="'.$carouselID.'" class="carousel slide">';
-			echo 	'<ol class="carousel-indicators">';
-			echo 		'<li data-target="#'.$carouselID.'" data-slide-to="0" class="active"></li>';
-    	echo 		'<li data-target="#'.$carouselID.'" data-slide-to="1"></li>';
-    	echo 	'</ol>';
+			<div id="<?php echo $carouselID; ?>" class="span12 carousel slide">
+				<ol class="carousel-indicators row">
+					<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="active"></li>
+	    		<li data-target="#<?php echo $carouselID; ?>" data-slide-to="1"></li>
+	    	</ol>
 
-			echo '<ul class="carousel-inner">';
-			$indexCount = 0;
+				<ul class="modules carousel-inner row">
+			
+				<?php
+				$indexCount = 0;
+				while ( $modules->have_posts() ) : $modules->the_post();
+				$moduleID = $post->ID; ?>
 
-			while ( $modules->have_posts() ) : $modules->the_post();
-				$postID = $post->ID;
-				echo '<li class="item '; // yes, there's a space.
-				if ( $indexCount == 0 )
-					echo 'active';
-				echo '">';
-				echo 	'<a class="modules unit-selection" href="'.get_permalink().'" title="Go to the'.get_the_title().' activity"';
-				if ( is_object_complete( $post->ID ) ) {
-					echo 'data-complete="1"';
-				} else {
-					echo 'data-complete="0"';
-				}
-				echo 	'>';
-				echo 		'<div class="unit-selection-info"><h3>'.get_the_title().'</h3></div>';
-				echo 	'</a>';
+				<li class="module span12 item <?php if ( $indexCount == 0 ) echo 'active'; ?>" <?php if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; } ?>>
+					<h3 class="module-title"><?php the_title(); ?></h3>
 
-				/*
-				 * Display connected content (i.e. Lesson Types)
-				 * NOTE: If you can get each_connected to work, please use that instead.
-				 */
-
-				// VOCABULARY LESSONS
-				$vocabLessons = new WP_Query(array(
-					'connected_type' => 'vocabulary_lessons_to_modules',
-					'connected_items' => $postID,
-					'nopaging' => true,
-					'orderby' => 'menu_order',
-					'order' => 'ASC',
-				));
-				if ( $vocabLessons->have_posts() ) {
-					echo '<h4>Vocabulary Lessons</h4>';
-					while( $vocabLessons->have_posts() ) : $vocabLessons->the_post();
-						echo get_the_title();
-					endwhile;
-					wp_reset_postdata();
-				}
-
-				// PHRASES LESSONS
-				$phrasesLessons = new WP_Query(array(
-					'connected_type' => 'phrases_lessons_to_modules',
-					'connected_items' => $postID,
-					'nopaging' => true,
-					'orderby' => 'menu_order',
-					'order' => 'ASC',
-				));
-				if ( $vocabLessons->have_posts() ) {
-					echo '<h4>Phrases Lessons</h4>';
-					while( $phrasesLessons->have_posts() ) : $phrasesLessons->the_post();
-						echo get_the_title();
-					endwhile;
-					wp_reset_postdata();
-				}
-
-				// CHANTS LESSONS
-				$chantsLessons = new WP_Query(array(
-					'connected_type' => 'chants_lessons_to_modules',
-					'connected_items' => $postID,
-					'nopaging' => true,
-					'orderby' => 'menu_order',
-					'order' => 'ASC',
-				));
-				if ( $vocabLessons->have_posts() ) {
-					echo '<h4>Chants Lessons</h4>';
-					while( $chantsLessons->have_posts() ) : $chantsLessons->the_post();
-						echo get_the_title();
-					endwhile;
-					wp_reset_postdata();
-				}
-
-				echo '</li>';
-				$indexCount++;
-			endwhile;
-			echo '</ul>';
-			wp_reset_postdata();
-			echo '<a class="carousel-control left" href="#'.$carouselID.'" data-slide="prev">&lsaquo;</a>';
-			echo '<a class="carousel-control right" href="#'.$carouselID.'" data-slide="next">&rsaquo;</a>';
-			echo '</div>'; // #moduleList
-
-		} // MODULES ?>
+				<?php
+					// Connected Modules
+					$lessons = new WP_Query( array(
+						'connected_type' => 'topics_to_modules',
+						'connected_items' => $moduleID,
+						'nopaging' => true
+					));
+					if ( $lessons->have_posts() ) :
+						echo '<ul class="topics row">';
+						while( $lessons->have_posts() ) : $lessons->the_post();
+							$topicID = $post->ID;
+							echo '<li class="topic span4 pull-left">';
+							echo 	'<a href="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a>';
+							echo '</li>';
+						endwhile;
+						wp_reset_postdata();
+						echo '</ul>'; // .topics
+					endif;
+				?>
+				</li>
+				<?php $indexCount++; ?>
+				<?php endwhile; ?>
+			</ul>
+			<?php wp_reset_postdata(); ?>
+			<a class="carousel-control left" href="#<?php echo $carouselID ?>" data-slide="prev">&lsaquo;</a>
+			<a class="carousel-control right" href="#<?php echo $carouselID ?>" data-slide="next">&rsaquo;</a>
+			</div><!-- #moduleList -->
+		
+		<?php } // MODULES ?>
 
 
 

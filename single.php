@@ -8,8 +8,7 @@
 
 get_header(); ?>
 
-	<div class="row"><!-- Bootstrap: REQUIRED! -->
-		<div id="primary" class="content-area span12">
+		<div id="primary" class="content-area">
 			<div id="content" class="site-content" role="main">
 			
 			<?php bedrock_contentstart(); ?>
@@ -20,9 +19,17 @@ get_header(); ?>
 
 			<?php
 				// MODULE PAGE CONTENT
-				if(get_post_type($post->ID) == 'units') {
+				if ( get_post_type( $post->ID ) == 'units' ) {
 					get_template_part( 'templates/unit', 'single' );
+
+				// VOCABULARY GAMES CONTENT
+				} elseif ( get_post_type( $post->ID ) == 'topics') {
+					get_template_part( 'templates/topic', 'single' );
 				
+				// VOCABULARY GAMES CONTENT
+				} elseif(get_post_type($post->ID) == 'lectures') {
+					get_template_part( 'templates/lectures', 'single' );
+
 				// VOCABULARY GAMES CONTENT
 				} elseif(get_post_type($post->ID) == 'vocabulary_games') {
 					get_template_part( 'templates/vocabulary-game', 'single' );
@@ -45,6 +52,5 @@ get_header(); ?>
 			</div><!-- #content .site-content -->
 		</div><!-- #primary .content-area -->
 		<?php //get_sidebar(); ?>
-	</div><!-- .row-fluid -->
 
 <?php get_footer(); ?>

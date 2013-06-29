@@ -28,26 +28,17 @@ get_header(); ?>
 
 	<!-- Learner's Dashboard -->
 			
-	<div id="primary" class="content-area row">
-		<div id="content" class="site-content span12" role="main">
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
 			
 			<!-- User Metadata -->
 
-			<div class="row">
-				<header class="span12">
-					<h1><?php _e('Welcome','hwn'); ?></h1>
-				</header>
-				<div class="span6">
-					<?php // Get User Profile
-						$current_user = wp_get_current_user();
-						echo '<h3>'. $current_user->user_firstname . '&nbsp;' . $current_user->user_lastname .'</h3>'; // There's a space
-					?>
-				</div>
-			</div>
+			<header>
+				<h1><?php _e('Welcome','hwn'); ?></h1>
+				<hr />
+			</header>
 
 			<!-- Content Navigation -->
-
-			<div class="row">
 			
 			<?php
 
@@ -72,11 +63,11 @@ get_header(); ?>
 				create_object_record( $unitIDs );
 
 				// Show all units and check if they are complete
-				echo '<ul class="units dashboard-selections">';
+				echo '<ul class="units dashboard-selections row">';
 				$unitCount = 0;
 				while ( $units->have_posts() ) : $units->the_post();
-					echo '<li>';
-						echo 	'<a class="units dashboard-selection" href="'.get_permalink().'" title="Go to the'.get_the_title().' activity"';
+					echo '<li class="unit span4 pull-left">';
+						echo 	'<a class="dashboard-selection" href="'.get_permalink().'" title="Go to the'.get_the_title().' activity"';
 						// Check to see if we user has completed any modules
 						if ( is_object_complete( $post->ID ) ) {
 							echo 'data-complete="1"';
@@ -84,18 +75,14 @@ get_header(); ?>
 							echo 'data-complete="0"';
 						}
 						echo 	'>';
-						echo 		'<div class="dashboard-selection-info"><h3>'.get_the_title().'</h3></div>';
+						echo 		'<div class="dashboard-selection-info"><h4>'.get_the_title().'</h4></div>';
 						echo 	'</a>';
 					echo '</li>';
 					$unitCount++;
 				endwhile;
 				echo '</ul>';
 				wp_reset_postdata();
-
-			?>
-			</div><!-- .row -->
-
-			<?php } // End Dashboard ?>
+			} // End Dashboard ?>
 
 		</div><!-- #content .site-content -->
 	</div><!-- #primary .content-area -->

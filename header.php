@@ -60,47 +60,42 @@
 ?></head>
 
 <body <?php body_class(); ?>>
-  <?php
-    if ( is_user_logged_in() ) {
-      echo '<div class="cover"></div>';
-      //echo '<img class="full-background-image" src="'.get_stylesheet_directory_uri().'/images/sample-bg.jpg" />';
-    }
-  ?>
 
   <?php bedrock_before(); ?>
   
-  <div id="page" class="hfeed site">
-   
-    <?php bedrock_aboveheader();?>
-    <?php if ( is_user_logged_in() ) {  ?>
-  	<header id="navbar" class="navbar navbar-inverse navbar-fixed-top">
-    	<div class="navbar-inner">
-      	<div class="container">
-      		<!-- Bootstrap: Collapses to form mobile toggle menu -->
-        	<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          	<span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand site-title" href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
-          <nav class="nav-collapse collapse">
-          	<h1 class="assistive-text"><?php _e( 'Menu', '_s' ); ?></h1>
-  					<div class="assistive-text skip-link"><a href="#content" title="<?php esc_attr_e( 'Skip to content', '_s' ); ?>"><?php _e( 'Skip to content', '_s' ); ?></a></div>
-        	</nav><!--/.nav-collapse -->
-      	</div><!-- .container -->
-    	</div><!-- .navbar-inner -->
-    </header>
-    <?php } else { // user is not logged in ?>
-      <header id="navbar-basic">
-        <h2 class="pull-left"><?php bloginfo('name'); ?></h2>
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="wp/wp-admin">Sign-In</a></li>
-        </ul>
-      </header>
-    <?php } // user not logged in ?>
+  <?php bedrock_aboveheader();?>
+
+  <?php if ( is_user_logged_in() ) {  ?>
+  <header id="navbar" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <!-- Bootstrap: Collapses to form mobile toggle menu -->
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand site-title" href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
+        <nav class="nav-collapse collapse">
+          <h1 class="assistive-text"><?php _e( 'Menu', '_s' ); ?></h1>
+          <div class="assistive-text skip-link"><a href="#content" title="<?php esc_attr_e( 'Skip to content', '_s' ); ?>"><?php _e( 'Skip to content', '_s' ); ?></a></div>
+        </nav><!--/.nav-collapse -->
+      </div><!-- .container -->
+    </div><!-- .navbar-inner -->
+  </header>
+  <?php } else { // user is not logged in ?>
+  <header id="navbar-basic">
+    <h2 class="pull-left"><?php bloginfo('name'); ?></h2>
+    <ul class="nav nav-pills pull-right">
+      <li class="active"><a href="wp/wp-admin">Sign-In</a></li>
+    </ul>
+  </header>
+  <?php } // user not logged in ?>
+
+  <div id="page" class="hfeed site container">
 
     <?php bedrock_belowheader();?>
 
-  	<div id="main" role="main" class="site-main container">
+  	<div id="main" role="main" class="site-main">
 
       <?php bedrock_mainstart(); ?>

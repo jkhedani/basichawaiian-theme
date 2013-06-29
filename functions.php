@@ -9,7 +9,12 @@
 /**
  * Load User Interactions Functions
  */
-require( 'lib/user-interactions-functions.php' );
+require( 'lib/user-interactions/user-interactions-functions.php' );
+
+/**
+ * Load Scene Generator Functions
+ */
+require( 'lib/scene-generator/scene-functions.php' );
 
 /**
  * Custom Body Classes
@@ -38,13 +43,19 @@ function diamond_scripts() {
   wp_enqueue_script('bootstrap-carousel', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-carousel.js', array('jquery'), false, true);
   wp_enqueue_script('diamond-custom-script', get_stylesheet_directory_uri().'/js/scripts.js', array('jquery'), false, true);
 
-	// AJAX Calls  
-	wp_enqueue_script('json2');
-  wp_enqueue_script('ajax_scripts', "$stylesheetDir/js/ajax-game-scripts.js", array('jquery','json2'), true);
+	// AJAX Calls
+  wp_enqueue_script('ajax_scripts', "$stylesheetDir/lib/user-interactions/assessment/ajax-game-scripts.js", array('jquery','json2'), true);
 	wp_localize_script('ajax_scripts', 'ajax_scripts', array(
 		'ajaxurl' => admin_url('admin-ajax.php',$protocol),
 		'nonce' => wp_create_nonce('ajax_scripts_nonce')
 	));
+
+  // Course Storage Scripts
+  wp_enqueue_script('scene-scripts', "$stylesheetDir/lib/scene-generator/scene-scripts.js", array( 'jquery','json2' ), true);
+  wp_localize_script('scene-scripts', 'scene_scripts', array(
+    'ajaxurl' => admin_url('admin-ajax.php',$protocol),
+    'nonce' => wp_create_nonce('scene_scripts_nonce')
+  ));
 }
 add_action( 'wp_enqueue_scripts', 'diamond_scripts' );
 
@@ -64,6 +75,36 @@ function my_theme_localized($locale) {
   return $locale;
 }
 add_filter( 'locale', 'my_theme_localized' );
+
+// Remove unncessary admin menu items
+function remove_admin_menu_items() {
+  global $userdata;
+  remove_menu_page('edit.php'); // "Posts"
+  remove_menu_page('link-manager.php'); // "Links"
+  remove_menu_page('upload.php'); // "Media"
+
+  // Disable Comments from the get-go...
+  $option_name = 'default_comment_status' ;
+  $new_value = 'closed' ;
+  if ( get_option( $option_name ) != $new_value ) {
+    update_option( $option_name, $new_value );
+  }
+
+  // Start removing menu items conditionally
+  if (get_option('default_comment_status') == 'closed')
+    remove_menu_page('edit-comments.php'); // "Comments"
+
+  // Based on user
+  // http://codex.wordpress.org/Roles_and_Capabilities
+  //get_currentuserinfo();
+  //if ( !is_super_admin() && $userdata->user_level < 2 ) {
+  //  remove_menu_page('plugins.php'); // "Plugins"
+  //  remove_menu_page('tools.php'); // "Tools"
+  //  remove_menu_page('users.php'); // "Users"
+  //  remove_menu_page('options-general.php'); // "Settings"
+  //}
+}
+add_action( 'admin_menu', 'remove_admin_menu_items' );
 
 // Basic Hawaiian Custom Post Types
 function BASICHWN_post_types() {
@@ -110,7 +151,49 @@ function BASICHWN_post_types() {
     )
   );
 
-  // Vocabulary Lessons
+  // Topics
+  $labels = array(
+    'name' => __( 'Topics' ),
+    'singular_name' => __( 'Topic' ),
+    'add_new' => __( 'Add New Topic' ),
+    'add_new_item' => __( 'Add New Topic' ),
+    'edit_name' => __( 'Edit This Topic' ),
+    'view_item' => __( 'View This Topic' ),
+    'search_items' => __('Search Topics'),
+    'not_found' => __('No Topics found.'),
+  );
+  register_post_type( 'topics',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'topic'),
+    )
+  );
+
+  // Lectures
+  $labels = array(
+    'name' => __( 'Lectures' ),
+    'singular_name' => __( 'Lecture' ),
+    'add_new' => __( 'Add New Lecture' ),
+    'add_new_item' => __( 'Add New Lecture' ),
+    'edit_name' => __( 'Edit This Lecture' ),
+    'view_item' => __( 'View This Lecture' ),
+    'search_items' => __('Search Lectures'),
+    'not_found' => __('No Lectures found.'),
+  );
+  register_post_type( 'lectures',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'lecture'),
+    )
+  );
+
+  // Vocabulary Lesson
   $labels = array(
     'name' => __( 'Vocabulary Lessons' ),
     'singular_name' => __( 'Vocabulary Lesson' ),
@@ -131,7 +214,7 @@ function BASICHWN_post_types() {
     )
   );
 
-  // Phrases Lessons
+  // Phrases Lesson
   $labels = array(
     'name' => __( 'Phrases Lessons' ),
     'singular_name' => __( 'Phrases Lesson' ),
@@ -139,8 +222,8 @@ function BASICHWN_post_types() {
     'add_new_item' => __( 'Add New Phrases Lesson' ),
     'edit_name' => __( 'Edit This Phrases Lesson' ),
     'view_item' => __( 'View This Phrases Lesson' ),
-    'search_items' => __('Search Phrases Lessons'),
-    'not_found' => __('No Phrases Lessons found.'),
+    'search_items' => __('Search Phrases Lesson'),
+    'not_found' => __('No Phrases Lesson found.'),
   );
   register_post_type( 'phrases_lessons',
     array(
@@ -152,7 +235,7 @@ function BASICHWN_post_types() {
     )
   );
 
-  // Chants Lessons
+  // Chants Lesson
   $labels = array(
     'name' => __( 'Chants Lessons' ),
     'singular_name' => __( 'Chants Lesson' ),
@@ -160,8 +243,8 @@ function BASICHWN_post_types() {
     'add_new_item' => __( 'Add New Chants Lesson' ),
     'edit_name' => __( 'Edit This Chants Lesson' ),
     'view_item' => __( 'View This Chants Lesson' ),
-    'search_items' => __('Search Chants Lessons'),
-    'not_found' => __('No Chants Lessons found.'),
+    'search_items' => __('Search Chants Lesson'),
+    'not_found' => __('No Chants Lesson found.'),
   );
   register_post_type( 'chants_lessons',
     array(
@@ -173,7 +256,26 @@ function BASICHWN_post_types() {
     )
   );
 
-
+  // Scenes
+  $labels = array(
+    'name' => __( 'Scenes' ),
+    'singular_name' => __( 'Scene' ),
+    'add_new' => __( 'Add New Scene' ),
+    'add_new_item' => __( 'Add New Scene' ),
+    'edit_name' => __( 'Edit This Scene' ),
+    'view_item' => __( 'View This Scene' ),
+    'search_items' => __('Search Scenes'),
+    'not_found' => __('No Scenes found.'),
+  );
+  register_post_type( 'scenes',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail','page-attributes'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'scene'),
+    )
+  );
 
   // Vocabulary Terms
   $labels = array(
@@ -268,31 +370,49 @@ function BASICHWN_connections() {
     'cardinality' => 'many-to-one', // Many Modules to One Unit
   ));
 
+  // Connect Lessons to Modules
+  p2p_register_connection_type(array(
+    'name' => 'topics_to_modules',
+    'from' => 'topics',
+    'to' => 'modules',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Lessons to One Module
+  ));
+
   /*
    * Assessment IA Connections
    */
 
-  // Connect Vocabulary Lessons to Modules
+  // Connect Lectures to Lessons
   p2p_register_connection_type(array(
-    'name' => 'vocabulary_lessons_to_modules',
+    'name' => 'lectures_to_topics',
+    'from' => 'lectures',
+    'to' => 'topics',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Lectures to One Module
+  ));
+
+  // Connect Vocabulary Practice to Lessons
+  p2p_register_connection_type(array(
+    'name' => 'vocabulary_lessons_to_topics',
     'from' => 'vocabulary_lessons',
-    'to' => 'modules',
+    'to' => 'topics',
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Vocab Games to One Module
   ));
-  // Connect Phrases Lessons to Modules
+  // Connect Phrases Practice to Lessons
   p2p_register_connection_type(array(
-    'name' => 'phrases_lessons_to_modules',
+    'name' => 'phrases_lessons_to_topics',
     'from' => 'phrases_lessons',
-    'to' => 'modules',
+    'to' => 'topics',
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Pron Practice to One Module
   ));
-  // Connect Chants Lessons to Modules
+  // Connect Chants Practice to Lessons
   p2p_register_connection_type(array(
-    'name' => 'chants_lessons_to_modules',
+    'name' => 'chants_lessons_to_topics',
     'from' => 'chants_lessons',
-    'to' => 'modules',
+    'to' => 'topics',
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Pron Practice to One Module
   ));
@@ -309,10 +429,7 @@ add_action( 'p2p_init', 'BASICHWN_connections' );
 
 // Load Ajax Game Functions
 // IMPORTANT: needs to be loaded after taxonomies if using taxonomies
-require( 'lib/ajax-game-functions.php' );
-
-// Load User Creation/Edit Functions
-require( 'lib/user-functions.php' );
+require( 'lib/user-interactions/assessment/ajax-game-functions.php' );
 
 /**
  * Custom Hook Functions
