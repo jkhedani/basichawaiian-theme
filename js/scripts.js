@@ -106,20 +106,20 @@ jQuery(document).ready(function($){
       
 		});
 
-		// When audio playback button is played, trigger said game card's audio element
-		$(document).on('click', '#vocabulary-games a.pronunciationPlay', function() {
-			$(this).parent().find('audio.pronunciation').get(0).play();
-		});
+		// // When audio playback button is played, trigger said game card's audio element
+		// $(document).on('click', '#vocabulary-games a.pronunciationPlay', function() {
+		// 	$(this).parent().find('audio.pronunciation').get(0).play();
+		// });
 
-		// When "Show Hawaiian" is clicked, show
-		$(document).on('click', '#vocabulary-games a.toggleHwnTranslation', function() {
-			$(this).parent().find('.hwnTranslation').toggleClass('hidden', 'visible');
-		});
+		// // When "Show Hawaiian" is clicked, show
+		// $(document).on('click', '#vocabulary-games a.toggleHwnTranslation', function() {
+		// 	$(this).parent().find('.hwnTranslation').toggleClass('hidden', 'visible');
+		// });
 
-		// When "Show English" is clicked, show
-		$(document).on('click', '#vocabulary-games a.toggleEngTranslation', function() {
-			$(this).parent().find('.engTranslation').toggleClass('hidden', 'visible');
-		});
+		// // When "Show English" is clicked, show
+		// $(document).on('click', '#vocabulary-games a.toggleEngTranslation', function() {
+		// 	$(this).parent().find('.engTranslation').toggleClass('hidden', 'visible');
+		// });
 
 	} // vocabularyGames
 

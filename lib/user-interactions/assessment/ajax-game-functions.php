@@ -1,28 +1,160 @@
 <?php
 
 /**
- *	Function: Get Connected Parent ID
+ *	Function: Get Connected Object ID
  *	@param int $postID The ID of the post you wish to find the parent ID of.
- *	@param int $connectionType The p2p connection type you wish to find a "parent" by
- *  Return the ID of a connected parent (currently only works for objects with one parent)
+ *	@param int $parentConnectionType The p2p connection type of the current post to immediate parent
+ *	@param int $grandparentConnectionType optional The p2p connection type of the immediate parent to grandparent
+ *	@param int $grandparentConnectionType optional The p2p connection type of the grandparent to great grandparent
+ *  Return the ID of a connected parent (currently only works for objects with one parent and/or one grandparent and/or one great grandparent ... poor child)
  *
  */
-
-function get_connected_parent_ID( $postID , $connectionType ) {
+function get_connected_object_ID( $postID, $parentConnectionType = false, $grandparentConnectionType = false, $greatGrandparentConnectionType = false ) {
 	global $post;
-	// Get connected parent
+	$connectedParentID = false;
+	$connectedGrandparentID = false;
+	$connectedGreatGrandparentID = false;
+	
+	// Get connected parent if connection type exists to prevent direction error
+	if ( p2p_connection_exists( $parentConnectionType ) ) :
 	$connectedParent = new WP_Query( array(
-		'connected_type' => $connectionType,
-		'connected_items' => $postID,
-		'nopaging' => true,
-		'orderby' => 'menu_order',
-		'order' => 'ASC',
+	'connected_type' => $parentConnectionType,
+	'connected_items' => $postID,
+	'nopaging' => true,
+	'orderby' => 'menu_order',
+	'order' => 'ASC',
 	));
 	while( $connectedParent->have_posts() ) : $connectedParent->the_post();
-		return $post->ID;
+		$connectedParentID = $post->ID;
+
+		// Get connected grandparent if desired & check if connection type exists to prevent direction error
+		if ( !empty( $grandparentConnectionType ) && ( p2p_connection_exists( $grandparentConnectionType ) ) ) :
+			$connectedGrandparent = new WP_Query( array(
+			'connected_type' => $grandparentConnectionType,
+			'connected_items' => $connectedParentID,
+			'nopaging' => true,
+			'orderby' => 'menu_order',
+			'order' => 'ASC',
+			));
+			while( $connectedGrandparent->have_posts() ) : $connectedGrandparent->the_post();
+				$connectedGrandparentID = $post->ID;
+
+				// Get connected greatgrandparent if desired & check if connection type exists to prevent direction error
+				if ( !empty( $greatGrandparentConnectionType ) && ( p2p_connection_exists( $greatGrandparentConnectionType ) ) ) :
+				$connectedGreatGrandparent = new WP_Query( array(
+				'connected_type' => $greatGrandparentConnectionType,
+				'connected_items' => $connectedGrandparentID,
+				'nopaging' => true,
+				'orderby' => 'menu_order',
+				'order' => 'ASC',
+				));
+				while( $connectedGreatGrandparent->have_posts() ) : $connectedGreatGrandparent->the_post();
+					$connectedGreatGrandparentID = $post->ID;
+				endwhile;
+				wp_reset_postdata();
+				endif;
+
+			endwhile;
+			wp_reset_postdata();
+		endif;
+
 	endwhile;
 	wp_reset_postdata();
+
+	endif;
+
+	// Return desired connections
+	if ( !empty( $greatgrandparentConnectionType ) ) {
+		return $connectedGreatgrandparentID;
+	} elseif ( !empty( $grandparentConnectionType ) ) {
+		return $connectedGrandparentID;
+	} else {
+		return $connectedParentID;
+	}
 }
+
+/**
+ * Funtion: Complete Lesson
+ */
+function complete_lesson( $postID ) {
+	$objectRecord = get_object_record( $postID );
+	
+	// LECTURES
+	if ( get_post_type( $postID ) == "lectures" ) {
+		if ( $objectRecord[0]->times_correct > 0 ) {
+			increment_object_value( $postID, 'times_completed' );
+		}
+	} elseif ( get_post_type( $postID ) == "vocabulary_lessons" ) {
+		// parameters to indicate that vocabulary lessons are complete
+	}
+
+}
+
+
+/*
+ * Update records and display results screen
+ */
+function finish_lesson() {
+	global $wpdb;
+
+	// Nonce check
+	$nonce = $_REQUEST['nonce'];
+	if (!wp_verify_nonce($nonce, 'ajax_scripts_nonce')) die(__('Busted.'));
+	
+	$html = "";
+	$success = false;
+	$lessonID = $_REQUEST['lessonID'];
+	$lessonResult = $_REQUEST['lessonResult'];
+	$landingID = $_REQUEST['landingID'];
+
+	if ( $lessonResult == 'pass' ) :
+
+		// Add points to times_correct if applicable
+		increment_object_value ( $lessonID, 'times_correct' );
+		// Complete if applicable
+		complete_lesson( $lessonID );
+
+		// Return Lesson Result page
+		$html .= '<h1>' . __('Maika&#8216;i!') . '</h1>';
+		$html .= '<p>You completed this lesson!</p>';
+		$html .= '<a href="'. get_permalink( $lessonID ) .'" class="replay-lesson btn btn-primary">Replay Lesson</a>';
+		$html .= '<a href="'. get_permalink( $landingID ) .'" class="btn btn-primary">Continue</a>';
+
+	elseif ( $lessonResult == 'fail' ) :
+
+		// Add points to times_wrong if applicable
+		increment_object_value ( $lessonID, 'times_wrong' );
+
+		// Return Lesson Result page
+		$html .= '<h1>' . __('Maika&#8216;i!') . '</h1>';
+		$html .= '<p>You completed this lesson!</p>';
+		$html .= '<a href="'. get_permalink( $lessonID ) .'" class="replay-lesson btn btn-primary">Replay Lesson</a>';
+		$html .= '<a href="'. get_permalink( $landingID ) .'" class="btn btn-primary">Continue</a>';
+
+	endif;
+
+	// Build the response...
+	$success = true;
+	$response = json_encode(array(
+		'success' => $success,
+		'html' => $html
+	));
+	
+	// Construct and send the response
+	header("content-type: application/json");
+	echo $response;
+	exit;
+}
+add_action('wp_ajax_nopriv_finish_lesson', 'finish_lesson');
+add_action('wp_ajax_finish_lesson', 'finish_lesson');
+
+
+
+
+
+
+
+
 
 // VOCABULARY GAME: Step One: Run user choice through TLA & display the game
 function get_game_difficulty() {

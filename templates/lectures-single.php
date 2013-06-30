@@ -4,14 +4,21 @@
  * @since _s 1.0
  */
 
-$postType = get_post_type($post->ID);
-$postTypeObject = get_post_type_object($postType);
+// Reflect a view for user on this object (object created if it doesn't already exist)
+increment_object_value ( $post->ID, 'times_viewed' );create_object_record( $post->ID );
 
-echo get_connected_parent_ID( $post->ID, 'lectures_to_topics' );
+$postType = get_post_type( $post->ID );
+$postTypeObject = get_post_type_object($postType);
+$landingPageID = get_connected_object_ID( $post->ID, 'lectures_to_topics' );
+if ( is_object_complete ( $post->ID ) ) {
+	$objectCompleted = 1;
+} else {
+	$objectCompleted = 0;
+};
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('lesson-container'); ?> data-lesson-id="<?php echo $post->ID; ?>" data-lesson-complete="<?php echo $objectCompleted; ?>">
 
 	<?php bedrock_postcontentstart(); ?>
 
@@ -24,7 +31,7 @@ echo get_connected_parent_ID( $post->ID, 'lectures_to_topics' );
 
 	<hr />
 
-	<div class="entry-content">
+	<div class="lesson-content">
 		<iframe width="420" height="315" src="//www.youtube.com/embed/O7X9AAeDCr4" frameborder="0" allowfullscreen></iframe>
 	</div><!-- .entry-content -->
 
@@ -32,10 +39,7 @@ echo get_connected_parent_ID( $post->ID, 'lectures_to_topics' );
 
 	<footer class="lesson-footer">
 		<div id="lesson-controls">
-			<a class="btn btn-primary finish-lesson" href="javascript:void(0);"><?php echo __('Pau!'); ?></a>
-		</div>
-		<div id="lesson-results">
-			<span data-lesson-passed="true"></span>
+			<a class="btn btn-primary finish-lesson" href="javascript:void(0);" data-lesson-result="pass" data-landing-id="<?php echo $landingPageID; ?>"><?php echo __('Pau!'); ?></a>
 		</div>
 	</footer>
 

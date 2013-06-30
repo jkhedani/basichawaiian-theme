@@ -7,6 +7,9 @@
  * @since _s 1.0
  */
 
+// Reflect a view for user on this object (object created if it doesn't already exist)
+increment_object_value ( $post->ID, 'times_viewed' );
+
 // "Previous" page (doesn't work very well if user is logged in and edits a page...)
 $previousPageURL = htmlspecialchars($_SERVER['HTTP_REFERER']);
 
@@ -38,9 +41,6 @@ if ( $objectInteractionStatus[0]->times_completed == 0 ) :
 else :
 	$objectComplete = 1;
 endif;
-
-// View should be incremented regardless of conditions above. I promise.
-increment_object_value ( $post->ID, 'times_viewed' );
 
 ?>
 
@@ -96,9 +96,6 @@ increment_object_value ( $post->ID, 'times_viewed' );
 				$moduleIDs[] = $post->ID;
 			endwhile;
 			
-			// Create fresh object records if they do not have any for this page.
-			create_object_record( $moduleIDs );
-
 			/*
 			 * Display all modules and their associated lesson types here...
 			 */

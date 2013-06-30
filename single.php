@@ -31,8 +31,8 @@ get_header(); ?>
 					get_template_part( 'templates/lectures', 'single' );
 
 				// VOCABULARY GAMES CONTENT
-				} elseif(get_post_type($post->ID) == 'vocabulary_games') {
-					get_template_part( 'templates/vocabulary-game', 'single' );
+				} elseif(get_post_type($post->ID) == 'vocabulary_lessons') {
+					get_template_part( 'templates/vocabulary-lesson', 'single' );
 
 				// DEFAULT SINGLE LOOP
 				} else {

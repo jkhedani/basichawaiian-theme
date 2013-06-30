@@ -4,11 +4,15 @@
  * @since _s 1.0
  */
 
+// Reflect a view for user on this object (object created if it doesn't already exist)
+increment_object_value ( $post->ID, 'times_viewed' );
+
 $postType = get_post_type($post->ID);
 $postTypeObject = get_post_type_object($postType);
+$previousPageURL = get_permalink( get_connected_object_ID( $post->ID, 'topics_to_modules', 'modules_to_units') );
 
 // "Previous" page (doesn't work very well if user is logged in and edits a page...)
-$previousPageURL = htmlspecialchars($_SERVER['HTTP_REFERER']);
+//$previousPageURL = htmlspecialchars($_SERVER['HTTP_REFERER']);
 
 ?>
 

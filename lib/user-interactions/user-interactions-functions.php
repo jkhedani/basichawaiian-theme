@@ -109,6 +109,7 @@ function create_object_record( $postIDs ) {
 		global $wpdb;
 		$current_user = wp_get_current_user();
     $affected_user_id = $current_user->ID;
+    $newObjectIDs = array();
 
 		// Determine if object is an array or an int.
     if ( is_array( $postIDs ) ) {
@@ -133,17 +134,35 @@ function create_object_record( $postIDs ) {
 			, $affected_user_id
 		));
 
-		// Prepare existing objects to be checked
-		$existingObjectIDs = array();
-		// Throw all existing object IDs into an array
-		foreach ( $doObjectsExist as $existingObject ) {
-			$existingObjectIDs[] = $existingObject->post_id;
+		// If we have objects that already exist in the database...
+		if ( !empty($doObjectsExist) ) {
+			// Prepare existing objects to be checked
+			$existingObjectIDs = array();
+			// Throw all existing object IDs into an array
+			foreach ( $doObjectsExist as $existingObject ) {
+				$existingObjectIDs[] = $existingObject->post_id;
+			}
+			// Remove existing objects from queried post IDs
+			// exposing only new object IDs
+			if ( is_array( $postIDs ) ) {	
+				$newObjectIDs = array_diff($postIDs, $existingObjectIDs);
+			} else {
+				$tempPostID =  array();
+				$tempPostID[] = $postIDs;
+				$newObjectIDs = array_diff($tempPostID, $existingObjectIDs);
+			}
+		
+		// Otherwise, all queried postIDs are new and should be entered into DB
+		} else {
+			// If queried postIDs is array
+			if ( is_array( $postIDs ) ) {	
+				$newObjectIDs = $postIDs;
+			} else {
+				$newObjectIDs[] = $postIDs;
+			}		
+
 		}
 
-		// Remove existing objects from queried post IDs
-		// exposing only new object IDs
-		$newObjectIDs = array_diff($postIDs, $existingObjectIDs);
-		
 		// Create new object records if new objects exist.
 		if ( !empty($newObjectIDs) ) {
 			$values = array();
