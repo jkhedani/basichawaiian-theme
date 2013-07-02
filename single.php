@@ -18,21 +18,33 @@ get_header(); ?>
 			<?php bedrock_abovepostcontent(); ?>
 
 			<?php
-				// MODULE PAGE CONTENT
+				// UNIT PAGE CONTENT
 				if ( get_post_type( $post->ID ) == 'units' ) {
 					get_template_part( 'templates/unit', 'single' );
 
-				// VOCABULARY GAMES CONTENT
+				// TOPIC PAGE CONTENT
 				} elseif ( get_post_type( $post->ID ) == 'topics') {
 					get_template_part( 'templates/topic', 'single' );
 				
-				// VOCABULARY GAMES CONTENT
+				// LECUTURE CONTENT
 				} elseif(get_post_type($post->ID) == 'lectures') {
 					get_template_part( 'templates/lectures', 'single' );
 
-				// VOCABULARY GAMES CONTENT
+				// VOCABULARY LESSON CONTENT
 				} elseif(get_post_type($post->ID) == 'vocabulary_lessons') {
 					get_template_part( 'templates/vocabulary-lesson', 'single' );
+
+				// PHRASES LESSON CONTENT
+				} elseif ( get_post_type( $post->ID ) == 'phrases_lessons' ) {
+					get_template_part( 'templates/phrases-lesson', 'single' );
+
+				// PRONOUN LESSON CONTENT
+				} elseif ( get_post_type( $post->ID ) == 'pronoun_lessons' ) {
+					get_template_part( 'templates/pronouns-lesson', 'single' );
+
+				// ACTIVITIES CONTENT
+				} elseif ( get_post_type( $post->ID ) == 'activities' ) {
+					get_template_part( 'templates/activities', 'single' );
 
 				// DEFAULT SINGLE LOOP
 				} else {

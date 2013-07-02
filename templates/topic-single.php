@@ -7,12 +7,8 @@
 // Reflect a view for user on this object (object created if it doesn't already exist)
 increment_object_value ( $post->ID, 'times_viewed' );
 
-$postType = get_post_type($post->ID);
-$postTypeObject = get_post_type_object($postType);
 $previousPageURL = get_permalink( get_connected_object_ID( $post->ID, 'topics_to_modules', 'modules_to_units') );
-
-// "Previous" page (doesn't work very well if user is logged in and edits a page...)
-//$previousPageURL = htmlspecialchars($_SERVER['HTTP_REFERER']);
+$walletBalance = get_wallet_balance($post->ID);
 
 ?>
 
@@ -21,12 +17,13 @@ $previousPageURL = get_permalink( get_connected_object_ID( $post->ID, 'topics_to
 	<?php bedrock_postcontentstart(); ?>
 
 	<header class="entry-header">
-		<?php bedrock_abovetitle(); ?>
+		<div class="wallet-balance span4 pull-right">
+			<?php if ( $walletBalance > 1 ) { echo '<a class="btn btn-small pull-right claim-kukui" href="javascript:void(0);">Claim a kukui</a>'; } ?>
+			<p class="pull-right">Flowers: <strong><?php echo !empty($walletBalance) ? $walletBalance : "0"; ?></strong></p>
+		</div>
 		<a class="btn btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left" style="padding-right:10px;"></i>Back to Module View</a>
 		<h1 class="entry-title"><?php the_title(); ?></h1>
 		<hr />
-		<?php bedrock_belowtitle(); ?>
-		<div class="entry-meta"><?php //_s_posted_on(); ?></div><!-- .entry-meta -->
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">
@@ -44,7 +41,11 @@ $previousPageURL = get_permalink( get_connected_object_ID( $post->ID, 'topics_to
 			));
 			if ( $lectures->have_posts() ) {
 				while( $lectures->have_posts() ) : $lectures->the_post();
-					echo '<li class="lesson lecture span4 pull-left"><a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
+					echo '<li class="lesson lecture span4 pull-left" ';
+						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
+					echo '>';
+					echo 	'<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a>';
+					echo '</li>';
 				endwhile;
 				wp_reset_postdata();
 			}
@@ -59,7 +60,10 @@ $previousPageURL = get_permalink( get_connected_object_ID( $post->ID, 'topics_to
 			));
 			if ( $vocabLessons->have_posts() ) {
 				while( $vocabLessons->have_posts() ) : $vocabLessons->the_post();
-					echo '<li class="lesson vocabulary span4 pull-left"><a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
+					echo '<li class="lesson vocabulary span4 pull-left" ';
+						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
+					echo '>';
+					echo '<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
 				endwhile;
 				wp_reset_postdata();
 			}
@@ -74,7 +78,46 @@ $previousPageURL = get_permalink( get_connected_object_ID( $post->ID, 'topics_to
 			));
 			if ( $phrasesLessons->have_posts() ) {
 				while( $phrasesLessons->have_posts() ) : $phrasesLessons->the_post();
-					echo '<li class="lesson phrases span4 pull-left"><a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
+					echo '<li class="lesson phrase span4 pull-left" ';
+						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
+					echo '>';
+					echo '<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
+				endwhile;
+				wp_reset_postdata();
+			}
+
+			// PRONOUN LESSONS
+			$pronounLessons = new WP_Query( array(
+				'connected_type' => 'pronoun_lessons_to_topics',
+				'connected_items' => $post->ID,
+				'nopaging' => true,
+				'orderby' => 'menu_order',
+				'order' => 'ASC',
+			));
+			if ( $pronounLessons->have_posts() ) {
+				while( $pronounLessons->have_posts() ) : $pronounLessons->the_post();
+					echo '<li class="lesson pronoun span4 pull-left" ';
+						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
+					echo '>';
+					echo '<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
+				endwhile;
+				wp_reset_postdata();
+			}
+
+			// ACTIVITIES
+			$activities = new WP_Query( array(
+				'connected_type' => 'activities_to_topics',
+				'connected_items' => $post->ID,
+				'nopaging' => true,
+				'orderby' => 'menu_order',
+				'order' => 'ASC',
+			));
+			if ( $activities->have_posts() ) {
+				while( $activities->have_posts() ) : $activities->the_post();
+					echo '<li class="lesson activity span4 pull-left" ';
+						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
+					echo '>';
+					echo '<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
 				endwhile;
 				wp_reset_postdata();
 			}

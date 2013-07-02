@@ -64,8 +64,8 @@ function get_connected_object_ID( $postID, $parentConnectionType = false, $grand
 	endif;
 
 	// Return desired connections
-	if ( !empty( $greatgrandparentConnectionType ) ) {
-		return $connectedGreatgrandparentID;
+	if ( !empty( $greatGrandparentConnectionType ) ) {
+		return $connectedGreatGrandparentID;
 	} elseif ( !empty( $grandparentConnectionType ) ) {
 		return $connectedGrandparentID;
 	} else {
@@ -73,23 +73,129 @@ function get_connected_object_ID( $postID, $parentConnectionType = false, $grand
 	}
 }
 
-/**
- * Funtion: Complete Lesson
- */
-function complete_lesson( $postID ) {
-	$objectRecord = get_object_record( $postID );
-	
-	// LECTURES
-	if ( get_post_type( $postID ) == "lectures" ) {
-		if ( $objectRecord[0]->times_correct > 0 ) {
-			increment_object_value( $postID, 'times_completed' );
-		}
-	} elseif ( get_post_type( $postID ) == "vocabulary_lessons" ) {
-		// parameters to indicate that vocabulary lessons are complete
-	}
+function is_topic_complete($postID) {
+	global $post;
+	$topicComplete = true;
 
+	// LECTURES
+	$lectures = new WP_Query( array(
+		'connected_type' => 'lectures_to_topics',
+		'connected_items' => $postID,
+		'nopaging' => true,
+		'orderby' => 'menu_order',
+		'order' => 'ASC',
+	));
+	if ( $lectures->have_posts() ) {
+	while( $lectures->have_posts() ) : $lectures->the_post();
+		if (!is_object_complete($post->ID))
+			$topicComplete = false;
+	endwhile;
+	}
+	wp_reset_postdata();
+
+	// VOCABULARY LESSONS
+	$vocabLessons = new WP_Query( array(
+		'connected_type' => 'vocabulary_lessons_to_topics',
+		'connected_items' => $postID,
+		'nopaging' => true,
+		'orderby' => 'menu_order',
+		'order' => 'ASC',
+	));
+	if ( $vocabLessons->have_posts() ) {
+	while( $vocabLessons->have_posts() ) : $vocabLessons->the_post();
+		if (!is_object_complete($post->ID))
+			$topicComplete = false;
+	endwhile;
+	}
+	wp_reset_postdata();
+
+	// PHRASES LESSONS
+	$phrasesLessons = new WP_Query( array(
+		'connected_type' => 'phrases_lessons_to_topics',
+		'connected_items' => $postID,
+		'nopaging' => true,
+		'orderby' => 'menu_order',
+		'order' => 'ASC',
+	));
+	if ( $phrasesLessons->have_posts() ) {
+	while( $phrasesLessons->have_posts() ) : $phrasesLessons->the_post();
+		if (!is_object_complete($post->ID))
+			$topicComplete = false;
+	endwhile;
+	}
+	wp_reset_postdata();
+
+	// PRONOUN LESSONS
+	$pronounLessons = new WP_Query( array(
+		'connected_type' => 'pronoun_lessons_to_topics',
+		'connected_items' => $post->ID,
+		'nopaging' => true,
+		'orderby' => 'menu_order',
+		'order' => 'ASC',
+	));
+	if ( $pronounLessons->have_posts() ) {
+		while( $pronounLessons->have_posts() ) : $pronounLessons->the_post();
+			if (!is_object_complete($post->ID))
+			$topicComplete = false;
+		endwhile;
+	}
+	wp_reset_postdata();
+
+	// ACTIVITIES
+	$activities = new WP_Query( array(
+		'connected_type' => 'activities_to_topics',
+		'connected_items' => $postID,
+		'nopaging' => true,
+		'orderby' => 'menu_order',
+		'order' => 'ASC',
+	));
+	if ( $activities->have_posts() ) {
+	while( $activities->have_posts() ) : $activities->the_post();
+		if (!is_object_complete($post->ID))
+		$topicComplete = false;
+	endwhile;
+	}
+	wp_reset_postdata();
+
+	return $topicComplete;
 }
 
+function get_wallet_balance( $postID ) {
+	global $post;
+	$current_user = wp_get_current_user();
+	$user_id = $current_user->ID;
+
+	if ( get_post_type($postID) == "units" ) :
+		$currencyIssuer = $postID;
+	elseif ( get_post_type($postID) == "topics" ) :
+		$currencyIssuer = get_connected_object_ID( $postID, 'topics_to_modules', 'modules_to_units');
+	endif;
+
+	// Aunty Aloha
+	if ( $currencyIssuer == "204" ) :
+		$currencyType = "bh_currency_flowers";
+	endif;
+
+	$walletBalance = get_user_meta($user_id, $currencyType, true);
+
+	return $walletBalance;
+}
+
+function updateWallet( $currencyTypeID ) {
+	$current_user = wp_get_current_user();
+ 	$user_id = $current_user->ID;
+	
+	// AUNTY ALOHA
+	if ( $currencyTypeID == 204 ) {
+		$currentBalance = get_user_meta( $user_id, 'bh_currency_flowers', true);
+		if ( !$currentBalance ) :
+			add_user_meta( $user_id, 'bh_currency_flowers', 1 );
+		else :
+			$updatedBalance = intval($currentBalance) + 1; 
+			update_user_meta( $user_id, 'bh_currency_flowers', $updatedBalance );
+		endif;
+	}
+}
 
 /*
  * Update records and display results screen
@@ -104,30 +210,66 @@ function finish_lesson() {
 	$html = "";
 	$success = false;
 	$lessonID = $_REQUEST['lessonID'];
-	$lessonResult = $_REQUEST['lessonResult'];
+	$lessonOutcome = $_REQUEST['lessonOutcome'];
+	$currencyTypeID = $_REQUEST['currencyTypeID'];
+	$lessonResults = $_REQUEST['lessonResults'];
 	$landingID = $_REQUEST['landingID'];
 
-	if ( $lessonResult == 'pass' ) :
+	// Update learner's score card
+	if ( !empty($lessonResults) ) {
+		$lessonCardCount = 0;
+		$lessonCardCorrectCount = 0;
+		foreach ( $lessonResults as $lessonResult ) {
+			$lessonCardScore = explode(',', $lessonResult);
+			$lessonCardID = $lessonCardScore[0];
+			$lessonCardResult = $lessonCardScore[1];
+			// If user got lesson card correct...
+			if ( $lessonCardResult == 1 ) {
+				increment_object_value ( $lessonCardID, 'times_viewed' );
+				increment_object_value ( $lessonCardID, 'times_correct' );
+				// Increment lesson card correct count for use in outcome display
+				$lessonCardCorrectCount++;
+			} elseif ( $lessonCardResult == 0 ) {
+				increment_object_value ( $lessonCardID, 'times_viewed' );
+				increment_object_value ( $lessonCardID, 'times_wrong' );
+			} else {
+				// do nothing (usually means learner failed game and didn't see an object)
+			}
+			// Increment lesson card count for use in outcome display
+			$lessonCardCount++;
+		}
+	}
+
+	// Update users wallet if they haven't already completed an learning object
+	$lessonRecord = get_object_record( $lessonID );
+	if ( $lessonRecord[0]->times_completed < 1 ) {
+		updateWallet( $currencyTypeID );
+	}
+
+	// Display appropriate outcome screen
+	if ( $lessonOutcome == 'pass' ) :
 
 		// Add points to times_correct if applicable
 		increment_object_value ( $lessonID, 'times_correct' );
 		// Complete if applicable
-		complete_lesson( $lessonID );
+		increment_object_value ( $lessonID, 'times_completed' );
 
 		// Return Lesson Result page
 		$html .= '<h1>' . __('Maika&#8216;i!') . '</h1>';
 		$html .= '<p>You completed this lesson!</p>';
-		$html .= '<a href="'. get_permalink( $lessonID ) .'" class="replay-lesson btn btn-primary">Replay Lesson</a>';
+		if ( !empty( $lessonCardCorrectCount ) )
+		$html .= '<p>You got '.$lessonCardCorrectCount.' out of '.$lessonCardCount.' correct!</p>';
+		$html .= '<a href="'. get_permalink( $lessonID ) .'" class="replay-lesson btn">Replay Lesson</a>';
 		$html .= '<a href="'. get_permalink( $landingID ) .'" class="btn btn-primary">Continue</a>';
 
-	elseif ( $lessonResult == 'fail' ) :
+	elseif ( $lessonOutcome == 'fail' ) :
 
 		// Add points to times_wrong if applicable
 		increment_object_value ( $lessonID, 'times_wrong' );
 
 		// Return Lesson Result page
-		$html .= '<h1>' . __('Maika&#8216;i!') . '</h1>';
-		$html .= '<p>You completed this lesson!</p>';
+		$html .= '<h1>' . __('Aue!') . '</h1>';
+		$html .= '<p>Take a break and try again!</p>';
 		$html .= '<a href="'. get_permalink( $lessonID ) .'" class="replay-lesson btn btn-primary">Replay Lesson</a>';
 		$html .= '<a href="'. get_permalink( $landingID ) .'" class="btn btn-primary">Continue</a>';
 
@@ -147,6 +289,11 @@ function finish_lesson() {
 }
 add_action('wp_ajax_nopriv_finish_lesson', 'finish_lesson');
 add_action('wp_ajax_finish_lesson', 'finish_lesson');
+
+
+
+
+
 
 
 

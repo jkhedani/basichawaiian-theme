@@ -11,7 +11,10 @@
  * @since _s 1.0
  */
 
-get_header(); ?>
+get_header();
+increment_object_value ( $post->ID, 'times_viewed' );
+
+?>
 	
 	<!-- Basic Hawaiian Home -->
 
@@ -29,7 +32,10 @@ get_header(); ?>
 	<!-- Learner's Dashboard -->
 			
 	<div id="primary" class="content-area">
-		<div id="content" class="site-content" role="main">
+		<div id="content" class="site-content" role="main"
+			data-post-id="<?php echo $post->ID; ?>" 
+			data-viewed="<?php echo is_first_object_visit( $post->ID ); ?>"
+			data-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>">
 			
 			<!-- User Metadata -->
 

@@ -208,7 +208,7 @@ function BASICHWN_post_types() {
     array(
     'menu_position' => 5,
     'public' => true,
-    'supports' => array('title', 'editor', 'thumbnail'),
+    'supports' => array('title', 'thumbnail'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'vocabulary-lesson'),
     )
@@ -229,9 +229,30 @@ function BASICHWN_post_types() {
     array(
     'menu_position' => 5,
     'public' => true,
-    'supports' => array('title', 'editor', 'thumbnail'),
+    'supports' => array('title', 'thumbnail'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'phrases-lesson'),
+    )
+  );
+
+  // Pronoun Lesson
+  $labels = array(
+    'name' => __( 'Pronoun Lessons' ),
+    'singular_name' => __( 'Pronoun Lesson' ),
+    'add_new' => __( 'Add New Pronoun Lesson' ),
+    'add_new_item' => __( 'Add New Pronoun Lesson' ),
+    'edit_name' => __( 'Edit This Pronoun Lesson' ),
+    'view_item' => __( 'View This Pronoun Lesson' ),
+    'search_items' => __('Search Pronoun Lesson'),
+    'not_found' => __('No Pronoun Lesson found.'),
+  );
+  register_post_type( 'pronoun_lessons',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'pronoun-lesson'),
     )
   );
 
@@ -253,6 +274,27 @@ function BASICHWN_post_types() {
     'supports' => array('title', 'editor', 'thumbnail'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'chants-lesson'),
+    )
+  );
+
+  // Activities
+  $labels = array(
+    'name' => __( 'Activities' ),
+    'singular_name' => __( 'Activity' ),
+    'add_new' => __( 'Add New Activity' ),
+    'add_new_item' => __( 'Add New Activity' ),
+    'edit_name' => __( 'Edit This Activity' ),
+    'view_item' => __( 'View This Activity' ),
+    'search_items' => __('Search Activities'),
+    'not_found' => __('No Activities found.'),
+  );
+  register_post_type( 'activities',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail','page-attributes'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'activity'),
     )
   );
 
@@ -298,6 +340,49 @@ function BASICHWN_post_types() {
     'taxonomies' => array('vocabulary_categories'),
     )
   );
+
+  // Phrases
+  $labels = array(
+    'name' => __( 'Phrases' ),
+    'singular_name' => __( 'Phrase' ),
+    'add_new' => __( 'Add New Phrase' ),
+    'add_new_item' => __( 'Add New Phrase' ),
+    'edit_name' => __( 'Edit This Phrase' ),
+    'view_item' => __( 'View This Phrase' ),
+    'search_items' => __('Search Phrases'),
+    'not_found' => __('No Phrases found.'),
+  );
+  register_post_type( 'phrases',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'phrase'),
+    )
+  );
+
+  // Pronoun
+  $labels = array(
+    'name' => __( 'Pronouns' ),
+    'singular_name' => __( 'Pronoun' ),
+    'add_new' => __( 'Add New Pronoun' ),
+    'add_new_item' => __( 'Add New Pronoun' ),
+    'edit_name' => __( 'Edit This Pronoun' ),
+    'view_item' => __( 'View This Pronoun' ),
+    'search_items' => __('Search Pronouns'),
+    'not_found' => __('No Pronouns found.'),
+  );
+  register_post_type( 'pronouns',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'pronoun'),
+    )
+  );
+
 }
 add_action( 'init', 'BASICHWN_post_types' );
 
@@ -369,7 +454,6 @@ function BASICHWN_connections() {
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Modules to One Unit
   ));
-
   // Connect Lessons to Modules
   p2p_register_connection_type(array(
     'name' => 'topics_to_modules',
@@ -391,7 +475,6 @@ function BASICHWN_connections() {
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Lectures to One Module
   ));
-
   // Connect Vocabulary Practice to Lessons
   p2p_register_connection_type(array(
     'name' => 'vocabulary_lessons_to_topics',
@@ -408,6 +491,14 @@ function BASICHWN_connections() {
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Pron Practice to One Module
   ));
+  // Connect Pronouns to Topics
+  p2p_register_connection_type(array(
+    'name' => 'pronoun_lessons_to_topics',
+    'from' => 'pronoun_lessons',
+    'to' => 'topics',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Pron Practice to One Module
+  ));
   // Connect Chants Practice to Lessons
   p2p_register_connection_type(array(
     'name' => 'chants_lessons_to_topics',
@@ -416,13 +507,38 @@ function BASICHWN_connections() {
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Pron Practice to One Module
   ));
-  // Connect Vocabulary Terms to Vocabulary Games
+  // Connect Activities to Topics
+  p2p_register_connection_type(array(
+    'name' => 'activities_to_topics',
+    'from' => 'activities',
+    'to' => 'topics',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Pron Practice to One Module
+  ));
+
+  // Connect Vocabulary Terms to Vocabulary Lessons
   p2p_register_connection_type(array(
     'name' => 'vocabulary_terms_to_vocabulary_lessons',
     'from' => 'vocabulary_terms',
     'to' => 'vocabulary_lessons',
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Vocab Terms to One Module
+  ));
+  // Connect Phrases to Phrases Lessons
+  p2p_register_connection_type(array(
+    'name' => 'phrases_to_phrases_lessons',
+    'from' => 'phrases',
+    'to' => 'phrases_lessons',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Phrases to One Lesson
+  ));
+  // Connect Phrases to Phrases Lessons
+  p2p_register_connection_type(array(
+    'name' => 'pronouns_to_pronoun_lessons',
+    'from' => 'pronouns',
+    'to' => 'pronoun_lessons',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Phrases to One Lesson
   ));
 }
 add_action( 'p2p_init', 'BASICHWN_connections' );

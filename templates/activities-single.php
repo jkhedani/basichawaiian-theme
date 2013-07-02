@@ -9,8 +9,8 @@ increment_object_value ( $post->ID, 'times_viewed' );
 
 $postType = get_post_type( $post->ID );
 $postTypeObject = get_post_type_object($postType);
-$landingPageID = get_connected_object_ID( $post->ID, 'lectures_to_topics' );
-$currencyTypeID = get_connected_object_ID( $post->ID, 'lectures_to_topics', 'topics_to_modules', 'modules_to_units' );
+$landingPageID = get_connected_object_ID( $post->ID, 'activities_to_topics' );
+$currencyTypeID = get_connected_object_ID( $post->ID, 'activites_to_topics', 'topics_to_modules', 'modules_to_units' );
 
 ?>
 
@@ -28,7 +28,7 @@ $currencyTypeID = get_connected_object_ID( $post->ID, 'lectures_to_topics', 'top
 	<hr />
 
 	<div class="lesson-content">
-		<iframe width="420" height="315" src="//www.youtube.com/embed/O7X9AAeDCr4" frameborder="0" allowfullscreen></iframe>
+		<iframe width="420" height="315" src="//www.youtube.com/embed/vwYA_G4sH24" frameborder="0" allowfullscreen></iframe>
 	</div><!-- .entry-content -->
 
 	<hr />

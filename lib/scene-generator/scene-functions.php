@@ -31,6 +31,8 @@ function filter_links_rel_external( $content ) {
 	return preg_replace( '/\<a /i', '<a rel="external" ', $content );
 }
 
+
+
 /*
  * Scene story board
  */
@@ -41,10 +43,10 @@ function check_scene_progress( $queriedPostID ) {
 		 */
 		$selectScene = 219;
 
-		// #1 INTRO SCENE
-    //if ( !has_scene_been_viewed( 219 ) ):
-   	//   $currentSceneID = 219;
-    //endif;
+		// #1 INTRO SCENE (First Time logging in)
+    if ( $queriedPostID ==  2 ):
+    	$selectScene = 259;
+    endif;
 
     /**
      *  KUKUI INTRO -  UNCLE IKAIKA
@@ -52,9 +54,37 @@ function check_scene_progress( $queriedPostID ) {
     if ( $queriedPostID ==  203 ):
     	$selectScene = 219;
     endif;
+
+    /**
+     *  EXERCISES
+     */
+
+    // BASIC II -> CARDIO I
+    if ( $queriedPostID ==  238 ):
+    	$selectScene = 262;
+    endif;
+
+    // LAU LAU MAKING -> CARDIO II
+    if ( $queriedPostID ==  239 ):
+    	$selectScene = 266;
+    endif;
     
     return $selectScene;
   }
+}
+
+/*
+ * Is scene viewed?
+ */
+function scene_viewed( $postID ) {
+
+	$sceneID = check_scene_progress( $postID );
+	$sceneViewed = true;
+	$sceneRecord =  get_object_record( $sceneID );
+	if ( $sceneRecord[0]->times_viewed < 1 ) {
+		$sceneViewed = false;
+	}
+	return $sceneViewed;
 }
 
 /**
@@ -113,9 +143,9 @@ function display_scene() {
 		  // Last slide
 		  if ($i == $slideCount - 1) { 
 		  $html .= '		<a href="javascript:void(0);" class="btn prev">Prev</a>';
-		  $html .= '		<a href="javascript:void(0);" class="btn btn-primary endScene">Done</a>';
+		  $html .= '		<a href="javascript:void(0);" class="btn btn-primary end-scene" data-dismiss="modal">Done</a>';
 		  } else {
-		  $html .= '		<a href="javascript:void(0);" class="btn" data-dismiss="modal">Skip Tutorial</a>';
+		  $html .= '		<a href="javascript:void(0);" class="btn" data-dismiss="modal">Skip</a>';
 		  $html .= '		<a href="javascript:void(0);" class="btn btn-primary prev">Prev</a>';
 		  $html .= '		<a href="javascript:void(0);" class="btn btn-primary next">Next</a>';
 		  }
@@ -164,7 +194,6 @@ function mark_scene_viewed() {
 
 	// Determine what scene to display
 	$sceneID = check_scene_progress( $postID );
-
 	// Mark the scene as viewed.
 	increment_object_value( $sceneID, 'times_viewed' );
 

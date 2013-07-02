@@ -278,6 +278,21 @@ function is_object_complete ( $postID ) {
 }
 endif;
 
+/* 
+ * Is this the first time a user is visiting this page?
+ */
+if ( !function_exists('is_first_object_visit') ) :
+function is_first_object_visit( $postID ) {
+	$objectInteractionStatus = get_object_record( $postID );
+	if ( $objectInteractionStatus[0]->times_viewed == 1 ) :
+		$objectViewed = 0;
+	else :
+		$objectViewed = 1;
+	endif;
+	return $objectViewed;
+}
+endif;
+
 
 
 ?>

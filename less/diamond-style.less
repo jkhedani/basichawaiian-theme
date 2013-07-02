@@ -14,6 +14,7 @@
 body.not-logged-in {
 	.nav { margin-top: 15px; }
 	.container-narrow { max-width: 700px; margin: 0 auto; }
+	header#navbar-basic { max-width: 700px; margin: 0 auto 15px; overflow: hidden; }
 	#page {
 		max-width: 700px;
 		#navbar-basic { .clearfix(); }
@@ -45,15 +46,51 @@ body {
 		}
 	}
 	.btn-back { margin-bottom: 10px !important; }
+	// Styling for completed lessons, topics, modules and units
+	[data-complete^="1"] a h4, [data-complete*="1"] a h4 {
+		background-color: @green !important;
+	}
+	// "Claim a kukui"
+	.claim-kukui { margin-left: 15px; }
 }
+
+/**
+ * General Lesson Styles
+ */
+.lesson-content {
+	.lesson-feedback {
+		display: none;
+		.lesson-feedback-correct { display: none; }
+		.lesson-feedback-incorrect { display: none; }
+	}
+	.lesson-card {
+		display: none;
+		&.current { display: block; }
+	}
+}
+
+.lesson-footer {
+	.lesson-controls {
+		.advance-lesson { display: none; }
+		.check-lesson { display: none; }
+		.finish-lesson { display: none; }
+	}
+}
+
 
 /**
  *	Scene Modals
  */
-.modal-slide {
-	display: none;
-	&.current-modal-slide { display: block; }
+.modal {
+	.modal-slide {
+		display: none;
+		&.current-modal-slide { display: block; }
+	}
+	.modal-body {
+		min-height: 300px;
+	}
 }
+
 
 /**
  *  Front Page

@@ -7,57 +7,32 @@
  * @since _s 1.0
  */
 
+
 // Reflect a view for user on this object (object created if it doesn't already exist)
 increment_object_value ( $post->ID, 'times_viewed' );
 
-// "Previous" page (doesn't work very well if user is logged in and edits a page...)
-$previousPageURL = htmlspecialchars($_SERVER['HTTP_REFERER']);
-
-/**
- * Check users interaction status with object. 
- * Usage: Helps determine how stories/scenes are displayed and how to handle interaction values
- * Requires: user-interactions-functions.php
- */
-
-$objectInteractionStatus = get_object_record( $post->ID );
-$objectViewed = 0; // Assume current object hasn't been viewed.
-$objectComplete = 0; // Assume current object hasn't been completed.
-
-/* 
- * Is this the first time a user is visiting this page?
- */
-if ( $objectInteractionStatus[0]->times_viewed > 0 ) : // If not...
-	$objectViewed = 1; // Mark data object "viewed" as viewed.
-else :	// If so...
-	// Use javascript to send for modal result is in scene-scripts.js
-	$objectViewed = 0; // Mark data object as not viewed for js	
-endif;
-
-/*
- * Did the user complete this object/page?
- */
-if ( $objectInteractionStatus[0]->times_completed == 0 ) :
-	$objectComplete = 0;
-else :
-	$objectComplete = 1;
-endif;
+$previousPageURL = get_home_URL();
+$walletBalance = get_wallet_balance($post->ID);
 
 ?>
 
 <article
 	id="post-<?php the_ID(); ?>" 
 	<?php post_class(); ?> 
-	data-postid="<?php echo $post->ID; ?>" 
-	data-viewed="<?php echo $objectViewed ?>"
-	data-complete="<?php echo $objectComplete ?>">
+	data-post-id="<?php echo $post->ID; ?>" 
+	data-viewed="<?php echo is_first_object_visit( $post->ID ); ?>"
+	data-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>">
 
 	<?php bedrock_postcontentstart(); ?>
 
 	<header class="entry-header">
 
-		<?php bedrock_abovetitle(); ?>
+		<div class="wallet-balance span4 pull-right">
+			<?php if ( $walletBalance > 1 ) { echo '<a class="btn btn-small pull-right claim-kukui" href="javascript:void(0);">Claim a kukui</a>'; } ?>
+			<p class="pull-right">Flowers: <strong><?php echo !empty($walletBalance) ? $walletBalance : "0"; ?></strong></p>
+		</div>
 		
-		<a class="btn btn-back" href="<?php echo get_home_URL(); ?>"><i class="icon-arrow-left" style="padding-right:10px;"></i>Back to Unit View</a>
+		<a class="btn btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left" style="padding-right:10px;"></i>Back to Unit View</a>
 		<h1 class="entry-title"><?php the_title(); ?></h1>
 		
 		<?php bedrock_belowtitle(); ?>
@@ -95,6 +70,7 @@ endif;
 			while ( $modules->have_posts() ) : $modules->the_post();
 				$moduleIDs[] = $post->ID;
 			endwhile;
+			wp_reset_postdata();
 			
 			/*
 			 * Display all modules and their associated lesson types here...
@@ -112,9 +88,11 @@ endif;
 				<?php
 				$indexCount = 0;
 				while ( $modules->have_posts() ) : $modules->the_post();
-				$moduleID = $post->ID; ?>
+					$moduleID = $post->ID;
+					create_object_record( $moduleID ); // May be redundant but for first time visitors, this prevents missing records errors.
+				?>
 
-				<li class="module span12 item <?php if ( $indexCount == 0 ) echo 'active'; ?>" <?php if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; } ?>>
+				<li class="module span12 item <?php if ( $indexCount == 0 ) echo 'active'; ?>" data-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>">
 					<h3 class="module-title"><?php the_title(); ?></h3>
 
 				<?php
@@ -128,8 +106,10 @@ endif;
 						echo '<ul class="topics row">';
 						while( $lessons->have_posts() ) : $lessons->the_post();
 							$topicID = $post->ID;
-							echo '<li class="topic span4 pull-left">';
-							echo 	'<a href="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a>';
+							?>
+							<li class="topic span4 pull-left" data-topic-id="<?php echo $post->ID; ?>" data-complete="<?php echo is_topic_complete( $topicID ) ? "1" : "0"; ?>" data-exercise-complete="<?php echo scene_viewed( $topicID ) ? "1" : "0"; ?>">
+							<?php
+							echo 	'<a href="'.get_permalink($topicID).'"><h4>' . get_the_title($topicID) . '</h4></a>';
 							echo '</li>';
 						endwhile;
 						wp_reset_postdata();
