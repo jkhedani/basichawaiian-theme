@@ -69,11 +69,11 @@ $pronounsCount = $pronouns->post_count;
 		$lessonCardCounter = 0;
 		while ( $pronouns->have_posts() ) : $pronouns->the_post();
 			if ( $lessonCardCounter === 0 ) :
-				echo '<div class="lesson-card current" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
+				echo '<div class="lesson-card test-card current" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 			elseif ( $lessonCardCounter == $pronounsCount - 1 ) :
-				echo '<div class="lesson-card last" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
+				echo '<div class="lesson-card test-card last" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 			else :
-				echo '<div class="lesson-card" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
+				echo '<div class="lesson-card test-card" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 			endif;
 
 			echo '<h3>'. get_field('hawaiian_question') .'</h3>';

@@ -284,7 +284,7 @@ endif;
 if ( !function_exists('is_first_object_visit') ) :
 function is_first_object_visit( $postID ) {
 	$objectInteractionStatus = get_object_record( $postID );
-	if ( $objectInteractionStatus[0]->times_viewed == 1 ) :
+	if ( $objectInteractionStatus[0]->times_viewed <= 1 ) :
 		$objectViewed = 0;
 	else :
 		$objectViewed = 1;

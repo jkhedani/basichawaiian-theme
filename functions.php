@@ -5,7 +5,6 @@
  * Please read the documentation on how to use this file within child theme (README.md)
  */
 
-
 /**
  * Load User Interactions Functions
  */
@@ -27,6 +26,126 @@ function custom_body_classes( $classes ) {
   return $classes;
 }
 add_filter( 'body_class', 'custom_body_classes' );
+
+/**
+ * User Herding
+ */
+
+// For users that can't edit posts ( students, instructors )
+function low_level_user_hide_admin_bar() {
+  if ( ! current_user_can('edit_posts') ) {
+    add_filter('show_admin_bar', '__return_false'); 
+  }
+}
+add_action( 'after_setup_theme', 'low_level_user_hide_admin_bar' );
+
+function low_level_user_redirect_admin() {
+  if ( ! current_user_can('edit_posts') ) {
+    wp_redirect( site_url() );
+    exit;
+  }
+}
+add_action( 'admin_init', 'low_level_user_redirect_admin' );
+
+// On theme activation, do the following...
+function course_theme_activate_enable_roles($old_name, $old_theme = false) {
+
+  // Role: Editor (default)
+  remove_role("editor");
+
+  // Role: Author (default)
+  remove_role("author");
+
+  // Role: Contributor (default)
+  remove_role("contributor");
+
+  // Role: Subscriber (default)
+  remove_role("subscriber");
+
+  // Role: Student (based on Subscriber)
+  add_role('student', 'Student', array(
+    // Subscriber permissions:
+    'read' => true,
+  ));
+}
+add_action("after_switch_theme", "course_theme_activate_enable_roles", 10, 2);
+
+// On theme deactivation, do the following...
+function course_theme_deactivate_disable_roles($newname, $newtheme) {
+  // Role: Editor (default)
+  add_role('editor', 'Editor', array(
+    // Editor permissions:
+    'moderate_comments' => true,
+    'manage_categories' => true,
+    'manage_links' => true,
+    'edit_others_posts' => true,
+    'edit_pages' => true,
+    'edit_others_pages' => true,
+    'edit_published_pages' => true,
+    'publish_pages' => true,
+    'delete_pages' => true,
+    'delete_others_pages' => true,
+    'delete_published_pages' => true,
+    'delete_others_posts' => true,
+    'delete_private_posts' => true,
+    'edit_private_posts' => true,
+    'read_private_posts' => true,
+    'delete_private_pages' => true,
+    'edit_private_pages' => true,
+    'read_private_pages' => true,
+
+    // Author permissions:
+    'edit_published_posts' => true,
+    'upload_files' => true,
+    'publish_posts' => true,
+    'delete_published_posts' => true,
+
+    // Contributor permissions:
+    'edit_posts' => true,
+    'delete_posts' => true,
+
+    // Subscriber permissions:
+    'read' => true,
+  ));
+
+  // Role: Author (default)
+  add_role('author', 'Author', array(
+    // Author permissions:
+    'edit_published_posts' => true,
+    'upload_files' => true,
+    'publish_posts' => true,
+    'delete_published_posts' => true,
+
+    // Contributor permissions:
+    'edit_posts' => true,
+    'delete_posts' => true,
+
+    // Subscriber permissions:
+    'read' => true,
+  ));
+
+  // Role: Contributor (default)
+  add_role('contributor', 'Contributor', array(
+    // Contributor permissions:
+    'edit_posts' => true,
+    'delete_posts' => true,
+
+    // Subscriber permissions:
+    'read' => true,
+  ));
+
+  // Role: Subscriber (default)
+  add_role('subscriber', 'Subscriber', array(
+    // Subscriber permissions:
+    'read' => true,
+  ));
+
+  // Role: Student (based on Subscriber)
+  remove_role('student');
+}
+add_action("switch_theme", "course_theme_deactivate_disable_roles", 10 , 2);
+
+
 
 /**
  * Properly add new script files using this function.

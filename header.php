@@ -47,7 +47,7 @@
   // ADMIN: Move navbar down from under admin when user is
   // logged in but not in the theme customizer previewer
   global $wp_customize;
-  if(is_user_logged_in() && ! isset( $wp_customize )) {
+  if( current_user_can('edit_posts') && ! isset( $wp_customize )) {
     echo '
     <style type="text/css">
       #navbar { margin-top: 28px; } /* Positions navbar below admin bar */
@@ -69,17 +69,11 @@
   <header id="navbar" class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
-        <!-- Bootstrap: Collapses to form mobile toggle menu -->
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
         <a class="brand site-title" href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
-        <nav class="nav-collapse collapse">
-          <h1 class="assistive-text"><?php _e( 'Menu', '_s' ); ?></h1>
-          <div class="assistive-text skip-link"><a href="#content" title="<?php esc_attr_e( 'Skip to content', '_s' ); ?>"><?php _e( 'Skip to content', '_s' ); ?></a></div>
-        </nav><!--/.nav-collapse -->
+        <ul class="nav pull-right">
+          <li><a href="<?php echo site_url(); ?>/progress">Progress</a></li>
+          <li><a href="<?php echo wp_logout_url(); ?>" title="Logout">Logout</a></li>
+        </ul>
       </div><!-- .container -->
     </div><!-- .navbar-inner -->
   </header>

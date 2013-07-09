@@ -16,7 +16,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 
 ?>
 	
-	<!-- Basic Hawaiian Home -->
+	<!-- Public Home -->
 
 	<?php
 		if ( ! is_user_logged_in() ) {

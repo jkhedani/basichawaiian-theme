@@ -37,10 +37,10 @@ while ($vocabularyTerms->have_posts()) : $vocabularyTerms->the_post();
 endwhile;
 wp_reset_postdata();
 
-// Retrieve object records
-$vocabularyObjectRecords = get_object_record( $vocabularyObjectIDs );
 // Create a record if we don't have one already
 create_object_record( $vocabularyObjectIDs );
+// Retrieve object records
+$vocabularyObjectRecords = get_object_record( $vocabularyObjectIDs );
 
 // Assign each ID to a prestige level
 $new = array();
@@ -96,10 +96,8 @@ foreach ( $vocabularyObjectRecords as $vocabularyObjectRecord ) {
 $lessonCardsToTeach = array_merge( $failed, $unfamiliar, $new );
 $lessonCardsToTeachCount = count($lessonCardsToTeach);
 
-
 // Count the total amount of lesson objects
 $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
-
 
 ?>
 
@@ -107,7 +105,8 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 
 	<header class="lesson-header row">
 		<h1 class="lesson-title span12"><?php the_title(); ?></h1>
-		<h4 class="lesson-instructions span12">Learn the Hawaiian vocabulary term and its pronunciation below.</h4>
+		<h4 class="lesson-instructions learn-instructions hide span12">Learn the Hawaiian vocabulary term and its pronunciation below.</h4>
+		<h4 class="lesson-instructions test-instructions hide span12">Select the image the matches the hawaiian word below.</h4>
 		<div class="lesson-progress progress span5">
 			<?php
 				$width = 100 / $totalLessonCards;
@@ -124,7 +123,7 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 		</div>
 		<div class="lesson-karma span5 pull-right">
 			<?php
-				$karmaAllowance = 100 / $totalLessonCards;
+				$karmaAllowance = 100 / count($vocabularyObjectIDs); // Vocab karma allowance based on total amount of testable cards.
 				$karmaAllowance = round( 60 / $karmaAllowance );
 				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
 					echo '<i class="karma-point icon-leaf pull-right"></i>';
@@ -149,6 +148,7 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 		 * Display learn cards only if they haven't seen the word before or have demonstrated tha they don't "know" the word.
 		 *
 		 */
+		if ( !empty($lessonCardsToTeach) ) {
 		$teachingCards = new WP_Query( array(
 			'post__in' => $lessonCardsToTeach,
 			'orderby' => 'post__in',
@@ -157,23 +157,24 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 		while ( $teachingCards->have_posts() ) : $teachingCards->the_post();
 
 			if ( $lessonCardCounter === 0 ) :
-			echo '<div class="lesson-card current" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
-			elseif ( $lessonCardCounter == $totalLessonCards - 1 ) :
-			echo '<div class="lesson-card last" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
+			echo '<div class="lesson-card learn-card current" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 			else :
-			echo '<div class="lesson-card" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
+			echo '<div class="lesson-card learn-card" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 			endif;
 			echo 	'<h3>'. get_the_title() .'</h3>';
 			echo 	'<div style="margin-bottom:15px;">'. get_the_post_thumbnail() . '</div>';
+			
 			echo 	'<button class="btn btn-primary play-pronunciation">Play Audio</button>';
 			echo 	'<audio class="pronunciation" src="'.get_field('audio_track').'"></audio>';
-			echo 	'<button class="btn btn-primary show-english">Show English</button>';
-			echo  '<div class="engTranslation hidden">'.get_field('english_translation').'</div>';
+
+			echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
+			echo  '<div class="translation english-translation hidden">'.get_field('english_translation').'</div>';
 			echo '</div>'; // .lesson-card
 		
 			$lessonCardCounter++;
 		endwhile;
 		wp_reset_postdata();
+		}
 
 		/*
 		 * Test Stack
@@ -181,18 +182,42 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 		 *
 		 */
 		while ( $vocabularyTerms->have_posts() ) : $vocabularyTerms->the_post();
-
-			if ( $lessonCardCounter == $totalLessonCards - 1 ) :
-			echo '<div class="lesson-card last" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
+			if ( $lessonCardCounter === 0 ) :
+			echo '<div class="lesson-card test-card current" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
+			elseif ( $lessonCardCounter == $totalLessonCards - 1 ) :
+			echo '<div class="lesson-card test-card last" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 			else :
-			echo '<div class="lesson-card" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
+			echo '<div class="lesson-card test-card" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 			endif;
 			echo 	'<h3>'. get_the_title() .'</h3>';
-			echo 	get_the_post_thumbnail();
+			
 			echo 	'<button class="btn btn-primary play-pronunciation">Play Audio</button>';
 			echo 	'<audio class="pronunciation" src="'.get_field('audio_track').'"></audio>';
-			echo 	'<button class="btn btn-primary show-english">Show English</button>';
-			echo  '<div class="engTranslation hidden">'.get_field('english_translation').'</div>';
+
+			echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
+			echo  '<div class="translation english-translation hidden">'.get_field('english_translation').'</div>';
+
+			// Randomize output by storing options in array, shuffling then displaying content
+			$lessonAssessmentOptions =  array();
+			$lessonAssessmentFalseOptions = array_rand( $vocabularyObjectIDs , 2 );
+			$lessonAssessmentOptions[] = $post->ID;
+			$lessonAssessmentOptions[] = $vocabularyObjectIDs[$lessonAssessmentFalseOptions[0]];
+			$lessonAssessmentOptions[] = $vocabularyObjectIDs[$lessonAssessmentFalseOptions[1]];
+		
+			shuffle($lessonAssessmentOptions);
+			echo '<div class="lesson-card-assessment row">';
+			echo '<!-- You spent more cheating then you did learning. -->';
+				foreach ( $lessonAssessmentOptions as $lessonAssessmentOption ) {
+					if ( $lessonAssessmentOption == $post->ID ) :
+						echo '<a class="lesson-card-assessment-option correct-option span4">'.get_the_post_thumbnail($lessonAssessmentOption, 'post-thumbnail', array( 'alt' => get_field('english_translation', $lessonAssessmentOption), )).'</a>';
+					else :
+						echo '<a class="lesson-card-assessment-option span4">'.get_the_post_thumbnail($lessonAssessmentOption, 'post-thumbnail', array( 'alt' => get_field('english_translation', $lessonAssessmentOption), )).'</a>';
+					endif;
+				}
+			echo '</div>';
+
+
+
 			echo '</div>'; // .lesson-card
 		
 			$lessonCardCounter++;

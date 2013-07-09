@@ -92,7 +92,7 @@ $walletBalance = get_wallet_balance($post->ID);
 					create_object_record( $moduleID ); // May be redundant but for first time visitors, this prevents missing records errors.
 				?>
 
-				<li class="module span12 item <?php if ( $indexCount == 0 ) echo 'active'; ?>" data-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>">
+				<li class="module span12 item <?php if ( $indexCount == 0 ) echo 'active'; ?>" data-complete="<?php echo is_object_complete( $moduleID ) ? "1" : "0"; ?>">
 					<h3 class="module-title"><?php the_title(); ?></h3>
 
 				<?php
@@ -106,8 +106,14 @@ $walletBalance = get_wallet_balance($post->ID);
 						echo '<ul class="topics row">';
 						while( $lessons->have_posts() ) : $lessons->the_post();
 							$topicID = $post->ID;
+							create_object_record( $topicID ); // May be redundant but for first time visitors, this prevents missing records errors.
 							?>
-							<li class="topic span4 pull-left" data-topic-id="<?php echo $post->ID; ?>" data-complete="<?php echo is_topic_complete( $topicID ) ? "1" : "0"; ?>" data-exercise-complete="<?php echo scene_viewed( $topicID ) ? "1" : "0"; ?>">
+							<li 
+								class="topic span4 pull-left" 
+								data-topic-id="<?php echo $topicID; ?>" 
+								data-complete="<?php echo is_topic_complete( $topicID ) ? "1" : "0"; ?>"
+								data-exercise-complete="<?php echo scene_viewed( $topicID ) ? "1" : "0"; ?>"
+							>
 							<?php
 							echo 	'<a href="'.get_permalink($topicID).'"><h4>' . get_the_title($topicID) . '</h4></a>';
 							echo '</li>';
@@ -119,6 +125,7 @@ $walletBalance = get_wallet_balance($post->ID);
 				</li>
 				<?php $indexCount++; ?>
 				<?php endwhile; ?>
+
 			</ul>
 			<?php wp_reset_postdata(); ?>
 			<a class="carousel-control left" href="#<?php echo $carouselID ?>" data-slide="prev">&lsaquo;</a>

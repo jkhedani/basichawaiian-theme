@@ -31,17 +31,13 @@ function filter_links_rel_external( $content ) {
 	return preg_replace( '/\<a /i', '<a rel="external" ', $content );
 }
 
-
-
 /*
  * Scene story board
  */
 function check_scene_progress( $queriedPostID ) {
 	if ( is_user_logged_in() ) {
-		/*
-		 * FALL BACK SCENE
-		 */
-		$selectScene = 219;
+
+		$selectScene = 0;
 
 		// #1 INTRO SCENE (First Time logging in)
     if ( $queriedPostID ==  2 ):
@@ -49,9 +45,16 @@ function check_scene_progress( $queriedPostID ) {
     endif;
 
     /**
-     *  KUKUI INTRO -  UNCLE IKAIKA
+     *  KUKUI INTROS
      */
+
+    // UNCLE IKAIKA
     if ( $queriedPostID ==  203 ):
+    	$selectScene = 219;
+    endif;
+    
+    // AUNTY ALOHA 
+    if ( $queriedPostID ==  204 ):
     	$selectScene = 219;
     endif;
 
@@ -59,17 +62,21 @@ function check_scene_progress( $queriedPostID ) {
      *  EXERCISES
      */
 
-    // BASIC II -> CARDIO I
+    // Completing BASIC II shows CARDIO I
     if ( $queriedPostID ==  238 ):
     	$selectScene = 262;
     endif;
 
-    // LAU LAU MAKING -> CARDIO II
+    // Completing LAU LAU MAKING shows CARDIO II
     if ( $queriedPostID ==  239 ):
     	$selectScene = 266;
     endif;
     
-    return $selectScene;
+    if ( $selectScene == 0 ) {
+    	return false;
+    } else {
+    	return $selectScene;
+    }    
   }
 }
 
@@ -77,12 +84,13 @@ function check_scene_progress( $queriedPostID ) {
  * Is scene viewed?
  */
 function scene_viewed( $postID ) {
-
-	$sceneID = check_scene_progress( $postID );
+	$sceneID = check_scene_progress( $postID ); // Find associated scene
 	$sceneViewed = true;
-	$sceneRecord =  get_object_record( $sceneID );
-	if ( $sceneRecord[0]->times_viewed < 1 ) {
-		$sceneViewed = false;
+	if ( $sceneID ) {
+		$sceneRecord =  get_object_record( $sceneID );
+		if ( $sceneRecord[0]->times_viewed < 1 ) {
+			$sceneViewed = false;
+		}
 	}
 	return $sceneViewed;
 }
@@ -99,67 +107,69 @@ function display_scene() {
 	$nonce = $_REQUEST['nonce'];
 	if ( !wp_verify_nonce( $nonce, 'scene_scripts_nonce' ) ) die( __( 'Busted.' ) );
 
-	// Initialize working variables
-	$postID = $_REQUEST['postID'];
-	$sceneID = "";
-	$html = "";
-	$success = false;
-
 	// Determine what scene to display
+	$postID = $_REQUEST['postID'];
 	$sceneID = check_scene_progress( $postID );
 	
-	// Return proper modal to display
-	$sceneSlides = new WP_Query( array(
-		'post_type' => 'scenes',
-		'p' => $sceneID, 
-	));
+	// Ensure a scene is available to be presented
+	if ( $sceneID ) {
+		// Initialize working variables
+		$html = "";
+		$success = false;
 
-	while( $sceneSlides->have_posts() ) : $sceneSlides->the_post();
-		
-		$splitContent = split_the_content();
-		$slideCount = count($splitContent); // Plus one to include dynamically generated start slide
+		// Return proper modal to display
+		$sceneSlides = new WP_Query( array( 'post_type' => 'scenes', 'p' => $sceneID, ));
+		while( $sceneSlides->have_posts() ) : $sceneSlides->the_post();
+			
+			$splitContent = split_the_content();
+			$slideCount = count($splitContent); // Plus one to include dynamically generated start slide
 
-		$html .= '<div id="sceneModal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">';
+			$html .= '<div id="sceneModal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">';
 
-		// All other slides
-		for($i = 0; $i < $slideCount; $i++) {
-			// Select the first "modal slide as the initial slide to show"
-			$html .= '<div id="modal-slide-'.$i.'" ';
-			if ( $i == 0 ) {
-				$html .= 'class="modal-slide current-modal-slide"';
-			} else {
-				$html .= 'class="modal-slide"';
-			}
-			$html .= '>';	
+			// All other slides
+			for($i = 0; $i < $slideCount; $i++) {
+				// Select the first "modal slide as the initial slide to show"
+				$html .= '<div id="modal-slide-'.$i.'" ';
+				if ( $i == 0 ) {
+					$html .= 'class="modal-slide current-modal-slide"';
+				} else {
+					$html .= 'class="modal-slide"';
+				}
+				$html .= '>';	
 
-		  // Modal Slide Content
-		  $html .= '	<div class="modal-body">';
-	  	$html .= '		<div class="modal-count">'.($i+1).' of '.$slideCount.'</div>';
-	  	$html .= 			$splitContent[$i];
-		  $html .= ' 	</div>'; // .modal-body
-		  
-		  // Modal Slide Footer
-		  $html .= '	<div class="modal-footer">';
-		  // Last slide
-		  if ($i == $slideCount - 1) { 
-		  $html .= '		<a href="javascript:void(0);" class="btn prev">Prev</a>';
-		  $html .= '		<a href="javascript:void(0);" class="btn btn-primary end-scene" data-dismiss="modal">Done</a>';
-		  } else {
-		  $html .= '		<a href="javascript:void(0);" class="btn" data-dismiss="modal">Skip</a>';
-		  $html .= '		<a href="javascript:void(0);" class="btn btn-primary prev">Prev</a>';
-		  $html .= '		<a href="javascript:void(0);" class="btn btn-primary next">Next</a>';
-		  }
-		  $html .= '	</div>'; // .modal-footer
-			$html .= '</div>'; // .modal-slide-X
-		} // end for (slide iterator)
+			  // Modal Slide Content
+			  $html .= '	<div class="modal-body">';
+		  	$html .= '		<div class="modal-count">'.($i+1).' of '.$slideCount.'</div>';
+		  	$html .= 			$splitContent[$i];
+			  $html .= ' 	</div>'; // .modal-body
+			  
+			  // Modal Slide Footer
+			  $html .= '	<div class="modal-footer">';
+			  // Last slide
+			  if ($i == $slideCount - 1) { 
+			  $html .= '		<a href="javascript:void(0);" class="btn prev">Prev</a>';
+			  $html .= '		<a href="javascript:void(0);" class="btn btn-primary end-scene" data-dismiss="modal">Done</a>';
+			  } else {
+			  $html .= '		<a href="javascript:void(0);" class="btn skip-scene" data-dismiss="modal">Skip</a>';
+			  $html .= '		<a href="javascript:void(0);" class="btn btn-primary prev">Prev</a>';
+			  $html .= '		<a href="javascript:void(0);" class="btn btn-primary next">Next</a>';
+			  }
+			  $html .= '	</div>'; // .modal-footer
+				$html .= '</div>'; // .modal-slide-X
+			} // end for (slide iterator)
 
-		$html .= '</div>'; // #sceneModal
+			$html .= '</div>'; // #sceneModal
 
-	endwhile;
-	wp_reset_postdata();
-
-	// Return true in our response
-	$success = true;
+		endwhile;
+		wp_reset_postdata();
+		// Return true in our response
+		$success = true;
+	
+	} else {
+		// If no scene is to be presented, return nothing.
+		$success = false;
+		$html = "";
+	}
 
 	// Build response...
 	$response = json_encode(array(
@@ -186,19 +196,26 @@ function mark_scene_viewed() {
 	$nonce = $_REQUEST['nonce'];
 	if ( !wp_verify_nonce( $nonce, 'scene_scripts_nonce' ) ) die( __( 'Busted.' ) );
 
-	// Initialize working variables
-	$postID = $_REQUEST['postID'];
-	$sceneID = "";
-	$html = "";
-	$success = false;
-
 	// Determine what scene to display
+	$postID = $_REQUEST['postID'];
 	$sceneID = check_scene_progress( $postID );
-	// Mark the scene as viewed.
-	increment_object_value( $sceneID, 'times_viewed' );
 
-	// Return true in our response
-	$success = true;
+	// Ensure a scene is available to be presented
+	if ( $sceneID ) {
+
+		$html = "";
+		$success = false;
+
+		// Mark the scene as viewed.
+		increment_object_value( $sceneID, 'times_viewed' );
+
+		// Return true in our response
+		$success = true;
+
+	} else {
+		$html = "";
+		$success = false;
+	}
 
 	// Build response...
 	$response = json_encode(array(
@@ -216,11 +233,12 @@ add_action('wp_ajax_nopriv_mark_scene_viewed', 'mark_scene_viewed');
 add_action('wp_ajax_mark_scene_viewed', 'mark_scene_viewed');
 
 // Run Ajax calls even if user is logged in
-// Not sure what we were using this for but it is interfering with our p2p ajax connection calls...
-// if ( isset( $_REQUEST['action'] ) ):
-// 	do_action( 'wp_ajax_' . $_REQUEST['action'] );
-//   do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] );
-// endif;
+// MAYBE NOT RELEVANT: Not sure what we were using this for but it is interfering with our p2p ajax connection calls...
+// Attempting specificity in this request to maybe prevent conflicts with other requests
+if ( ( isset($_REQUEST['action']) && ($_REQUEST['action']=='display_scene') ) || ( isset($_REQUEST['action']) && ($_REQUEST['action']=='mark_scene_viewed') ) ):
+	do_action( 'wp_ajax_' . $_REQUEST['action'] );
+  do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] );
+endif;
 
 
 ?>
