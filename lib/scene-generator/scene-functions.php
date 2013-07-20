@@ -8,30 +8,6 @@
  */
 
 /*
- * Split content by More Tags
- * Updated from: http://www.sitepoint.com/split-wordpress-content-into-multiple-sections/
- * NOTE: Needed to update regex as some more tags were not being converted into span tags.
- * This exists as a separate function so that the more tag may be used as intended on other pages.
- */
-function split_the_content() {
-	global $more;
-	$more = true;
-	$content = preg_split('/<span id="more-\d+"><\/span>|<!--more-->/i', get_the_content('more'));
-	for($c = 0, $csize = count($content); $c < $csize; $c++) {
-		$content[$c] = apply_filters('the_content', $content[$c]);
-		$content[$c] = filter_links_rel_external( $content[$c] );
-	}
-	return $content;
-}
-
-/*
- * Filter external links and append rel="external"
- */
-function filter_links_rel_external( $content ) {
-	return preg_replace( '/\<a /i', '<a rel="external" ', $content );
-}
-
-/*
  * Scene story board
  */
 function check_scene_progress( $queriedPostID ) {
@@ -55,7 +31,7 @@ function check_scene_progress( $queriedPostID ) {
     
     // AUNTY ALOHA 
     if ( $queriedPostID ==  204 ):
-    	$selectScene = 219;
+    	$selectScene = 289;
     endif;
 
     /**
@@ -101,6 +77,19 @@ function scene_viewed( $postID ) {
  *  	a) The user is visiting an object with an attached story
  *		b) The user wishes to re-watch a particular scene
  */
+
+function split_the_content_before_filter() {
+  global $more;
+  $more = true;
+  $content = preg_split('/<span id="more-\d+"><\/span>|<!--more-->/i', get_the_content());
+  error_log(print_r($content,true));
+  for($c = 0, $csize = count($content); $c < $csize; $c++) {
+    $content[$c] = apply_filters('the_content', $content[$c]);
+    $content[$c] = filter_links_rel_external( $content[$c] );
+  }
+  return $content;
+}
+
 function display_scene() {
 
 	// Check if request is valid via nonce
@@ -110,19 +99,21 @@ function display_scene() {
 	// Determine what scene to display
 	$postID = $_REQUEST['postID'];
 	$sceneID = check_scene_progress( $postID );
-	
+
 	// Ensure a scene is available to be presented
-	if ( $sceneID ) {
+	if ( $sceneID && !is_object_complete($sceneID) ) {
 		// Initialize working variables
 		$html = "";
 		$success = false;
+
+			error_log( 'sure!');
 
 		// Return proper modal to display
 		$sceneSlides = new WP_Query( array( 'post_type' => 'scenes', 'p' => $sceneID, ));
 		while( $sceneSlides->have_posts() ) : $sceneSlides->the_post();
 			
-			$splitContent = split_the_content();
-			$slideCount = count($splitContent); // Plus one to include dynamically generated start slide
+			$splitContent = split_the_content_before_filter();
+			$slideCount = count($splitContent);
 
 			$html .= '<div id="sceneModal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">';
 
@@ -150,7 +141,6 @@ function display_scene() {
 			  $html .= '		<a href="javascript:void(0);" class="btn prev">Prev</a>';
 			  $html .= '		<a href="javascript:void(0);" class="btn btn-primary end-scene" data-dismiss="modal">Done</a>';
 			  } else {
-			  $html .= '		<a href="javascript:void(0);" class="btn skip-scene" data-dismiss="modal">Skip</a>';
 			  $html .= '		<a href="javascript:void(0);" class="btn btn-primary prev">Prev</a>';
 			  $html .= '		<a href="javascript:void(0);" class="btn btn-primary next">Next</a>';
 			  }
@@ -186,9 +176,76 @@ function display_scene() {
 add_action('wp_ajax_nopriv_display_scene', 'display_scene');
 add_action('wp_ajax_display_scene', 'display_scene');
 
+
+function mark_scene_complete() {
+	// Check if request is valid via nonce
+	$nonce = $_REQUEST['nonce'];
+	if ( !wp_verify_nonce( $nonce, 'scene_scripts_nonce' ) ) die( __( 'Busted.' ) );
+	$success = false;
+
+	// Determine story post ID based on current query
+	$postID = $_REQUEST['postID'];
+	$sceneID = check_scene_progress( $postID );
+
+	// Mark scene as "complete" 
+	increment_object_value( $sceneID, 'times_completed' );	
+	$success = true;
+
+	// Build response...
+	$response = json_encode(array(
+		'success' => $success,
+	));
+	
+	// Construct and send the response
+	header("content-type: application/json");
+	echo $response;
+	exit;
+
+}
+add_action('wp_ajax_nopriv_mark_scene_complete', 'mark_scene_complete');
+add_action('wp_ajax_mark_scene_complete', 'mark_scene_complete');
+
+
+// Run Ajax calls even if user is logged in
+// MAYBE NOT RELEVANT: Not sure what we were using this for but it is interfering with our p2p ajax connection calls...
+// Attempting specificity in this request to maybe prevent conflicts with other requests
+if ( ( isset($_REQUEST['action']) && ($_REQUEST['action']=='display_scene') ) || ( isset($_REQUEST['action']) && ($_REQUEST['action']=='mark_scene_viewed') ) || ( isset($_REQUEST['action']) && ($_REQUEST['action']=='mark_scene_complete') ) ):
+	do_action( 'wp_ajax_' . $_REQUEST['action'] );
+  do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] );
+endif;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * 	Function: Mark Scene as Viewed
  * 	Marks the scene as viewed.
+ *	Verify that we need this function at a later time.
  */
 function mark_scene_viewed() {
 
@@ -232,13 +289,6 @@ function mark_scene_viewed() {
 add_action('wp_ajax_nopriv_mark_scene_viewed', 'mark_scene_viewed');
 add_action('wp_ajax_mark_scene_viewed', 'mark_scene_viewed');
 
-// Run Ajax calls even if user is logged in
-// MAYBE NOT RELEVANT: Not sure what we were using this for but it is interfering with our p2p ajax connection calls...
-// Attempting specificity in this request to maybe prevent conflicts with other requests
-if ( ( isset($_REQUEST['action']) && ($_REQUEST['action']=='display_scene') ) || ( isset($_REQUEST['action']) && ($_REQUEST['action']=='mark_scene_viewed') ) ):
-	do_action( 'wp_ajax_' . $_REQUEST['action'] );
-  do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] );
-endif;
 
 
 ?>

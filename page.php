@@ -24,7 +24,7 @@ get_header(); ?>
 					/*
 					 * NOTE: Ensure we move these calls to a setting somewhere.
 					 */
-					if ( is_page() == 'progress' ) {
+					if ( $post->ID == 276 ) {
 						get_template_part( 'templates/progress', 'page' );
 					} else {
 						get_template_part( 'templates/content', 'page' );

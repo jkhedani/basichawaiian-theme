@@ -1,6 +1,8 @@
 /lib/ajax-game-functions.php
-• If the last game card is a test card, the game breaks.
-• Object has the chance of being tested multiple times in one session.
+• ?If the last game card is a test card, the game breaks.
+• ?Object has the chance of being tested multiple times in one session.
+
+
 
 
 ## You Tube Embed & Data Options ##

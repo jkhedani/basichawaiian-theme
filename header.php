@@ -61,20 +61,14 @@
 
 <body <?php body_class(); ?>>
 
-  <?php bedrock_before(); ?>
-  
-  <?php bedrock_aboveheader();?>
-
   <?php if ( is_user_logged_in() ) {  ?>
-  <header id="navbar" class="navbar navbar-inverse navbar-fixed-top">
+  <header id="navbar" class="navbar navbar-inverse container">
     <div class="navbar-inner">
-      <div class="container">
-        <a class="brand site-title" href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
-        <ul class="nav pull-right">
-          <li><a href="<?php echo site_url(); ?>/progress">Progress</a></li>
-          <li><a href="<?php echo wp_logout_url(); ?>" title="Logout">Logout</a></li>
-        </ul>
-      </div><!-- .container -->
+      <a class="brand site-title" href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
+      <ul class="nav pull-right">
+        <li><a href="<?php echo site_url(); ?>/progress">Progress</a></li>
+        <li><a href="<?php echo wp_logout_url(); ?>" title="Logout">Logout</a></li>
+      </ul>
     </div><!-- .navbar-inner -->
   </header>
   <?php } else { // user is not logged in ?>

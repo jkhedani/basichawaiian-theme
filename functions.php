@@ -1,14 +1,43 @@
 <?php
 
 /**
- * Place any hand-crafted Wordpress
- * Please read the documentation on how to use this file within child theme (README.md)
+ *  Global Helper Functions
  */
+
+/*
+ * Split content by More Tags
+ * Updated from: http://www.sitepoint.com/split-wordpress-content-into-multiple-sections/
+ * NOTE: Needed to update regex as some more tags were not being converted into span tags.
+ * This exists as a separate function so that the more tag may be used as intended on other pages.
+ */
+function split_the_content( $unfilteredcontent ) {
+  global $more;
+  $more = true;
+  $content = preg_split('/<span id="more-\d+"><\/span>|<!--more-->/i', $unfilteredcontent);
+  error_log(print_r($content,true));
+  for($c = 0, $csize = count($content); $c < $csize; $c++) {
+    $content[$c] = apply_filters('the_content', $content[$c]);
+    $content[$c] = filter_links_rel_external( $content[$c] );
+  }
+  return $content;
+}
+
+/*
+ * Filter external links and append rel="external"
+ */
+function filter_links_rel_external( $content ) {
+  return preg_replace( '/\<a /i', '<a rel="external" ', $content );
+}
 
 /**
  * Load User Interactions Functions
  */
 require( 'lib/user-interactions/user-interactions-functions.php' );
+
+/**
+ * Load User Profile Functions
+ */
+require( 'lib/user-interactions/profile/user-profile-functions.php' );
 
 /**
  * Load Scene Generator Functions
@@ -160,6 +189,8 @@ function diamond_scripts() {
   wp_enqueue_style( 'diamond-style-responsive', get_stylesheet_directory_uri().'/css/diamond-style-responsive.css', array('diamond-style','resets','bootstrap-base-styles','bootstrap-parent-style'));
 	wp_enqueue_script('bootstrap-modal', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-modal.js', array('jquery'), false, true);
   wp_enqueue_script('bootstrap-carousel', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-carousel.js', array('jquery'), false, true);
+  wp_enqueue_script('bootstrap-tooltip', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-tooltip.js', array('jquery'), false, true);
+  wp_enqueue_script('bootstrap-popover', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-popover.js', array('jquery', 'bootstrap-tooltip'), false, true);
   wp_enqueue_script('diamond-custom-script', get_stylesheet_directory_uri().'/js/scripts.js', array('jquery'), false, true);
 
 	// AJAX Calls
@@ -312,6 +343,27 @@ function BASICHWN_post_types() {
     )
   );
 
+  // Readings
+  $labels = array(
+    'name' => __( 'Readings' ),
+    'singular_name' => __( 'Reading' ),
+    'add_new' => __( 'Add New Reading' ),
+    'add_new_item' => __( 'Add New Reading' ),
+    'edit_name' => __( 'Edit This Reading' ),
+    'view_item' => __( 'View This Reading' ),
+    'search_items' => __('Search Readings'),
+    'not_found' => __('No Readings found.'),
+  );
+  register_post_type( 'readings',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'reading'),
+    )
+  );
+
   // Vocabulary Lesson
   $labels = array(
     'name' => __( 'Vocabulary Lessons' ),
@@ -375,6 +427,27 @@ function BASICHWN_post_types() {
     )
   );
 
+  // Songs Lesson
+  $labels = array(
+    'name' => __( 'Song Lessons' ),
+    'singular_name' => __( 'Song Lesson' ),
+    'add_new' => __( 'Add New Song Lesson' ),
+    'add_new_item' => __( 'Add New Song Lesson' ),
+    'edit_name' => __( 'Edit This Song Lesson' ),
+    'view_item' => __( 'View This Song Lesson' ),
+    'search_items' => __('Search Song Lessons'),
+    'not_found' => __('No Song Lesson found.'),
+  );
+  register_post_type( 'song_lessons',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'songs-lesson'),
+    )
+  );
+
   // Chants Lesson
   $labels = array(
     'name' => __( 'Chants Lessons' ),
@@ -393,6 +466,48 @@ function BASICHWN_post_types() {
     'supports' => array('title', 'editor', 'thumbnail'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'chants-lesson'),
+    )
+  );
+
+  // Protocol Lesson
+  $labels = array(
+    'name' => __( 'Protocol Lessons' ),
+    'singular_name' => __( 'Protocol Lesson' ),
+    'add_new' => __( 'Add New Protocol Lesson' ),
+    'add_new_item' => __( 'Add New Protocol Lesson' ),
+    'edit_name' => __( 'Edit This Protocol Lesson' ),
+    'view_item' => __( 'View This Protocol Lesson' ),
+    'search_items' => __('Search Protocol Lessons'),
+    'not_found' => __('No Protocol Lesson found.'),
+  );
+  register_post_type( 'protocol_lessons',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'protocol-lesson'),
+    )
+  );
+
+  // Proverbs Lesson
+  $labels = array(
+    'name' => __( 'Proverb Lessons' ),
+    'singular_name' => __( 'Proverb Lesson' ),
+    'add_new' => __( 'Add New Proverb Lesson' ),
+    'add_new_item' => __( 'Add New Proverb Lesson' ),
+    'edit_name' => __( 'Edit This Proverb Lesson' ),
+    'view_item' => __( 'View This Proverb Lesson' ),
+    'search_items' => __('Search Proverb Lessons'),
+    'not_found' => __('No Proverb Lesson found.'),
+  );
+  register_post_type( 'proverb_lessons',
+    array(
+    'menu_position' => 5,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'proverb-lesson'),
     )
   );
 
@@ -594,6 +709,14 @@ function BASICHWN_connections() {
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Lectures to One Module
   ));
+  // Connect Readings to Topics
+  p2p_register_connection_type(array(
+    'name' => 'readings_to_topics',
+    'from' => 'readings',
+    'to' => 'topics',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Readings to One Module
+  ));
   // Connect Vocabulary Practice to Lessons
   p2p_register_connection_type(array(
     'name' => 'vocabulary_lessons_to_topics',
@@ -610,10 +733,34 @@ function BASICHWN_connections() {
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Pron Practice to One Module
   ));
+  // Connect Protocol Lessons to Topics
+  p2p_register_connection_type(array(
+    'name' => 'protocol_lessons_to_topics',
+    'from' => 'protocol_lessons',
+    'to' => 'topics',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Pron Practice to One Module
+  ));
+  // Connect Proverb Lessons to Topics
+  p2p_register_connection_type(array(
+    'name' => 'proverb_lessons_to_topics',
+    'from' => 'proverb_lessons',
+    'to' => 'topics',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Pron Practice to One Module
+  ));
   // Connect Pronouns to Topics
   p2p_register_connection_type(array(
     'name' => 'pronoun_lessons_to_topics',
     'from' => 'pronoun_lessons',
+    'to' => 'topics',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Pron Practice to One Module
+  ));
+  // Connect Song Lessons to Topics
+  p2p_register_connection_type(array(
+    'name' => 'song_lessons_to_topics',
+    'from' => 'song_lessons',
     'to' => 'topics',
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Pron Practice to One Module

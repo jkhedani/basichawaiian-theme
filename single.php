@@ -30,17 +30,37 @@ get_header(); ?>
 				} elseif(get_post_type($post->ID) == 'lectures') {
 					get_template_part( 'templates/lectures', 'single' );
 
+				// READINGS CONTENT
+				} elseif(get_post_type($post->ID) == 'readings') {
+					get_template_part( 'templates/readings', 'single' );
+
 				// VOCABULARY LESSON CONTENT
 				} elseif(get_post_type($post->ID) == 'vocabulary_lessons') {
-					get_template_part( 'templates/vocabulary-lesson', 'single' );
+					get_template_part( 'templates/lesson-vocabulary', 'single' );
 
 				// PHRASES LESSON CONTENT
 				} elseif ( get_post_type( $post->ID ) == 'phrases_lessons' ) {
-					get_template_part( 'templates/phrases-lesson', 'single' );
+					get_template_part( 'templates/lesson-phrases', 'single' );
+
+				// PROVERBS LESSON CONTENT
+				} elseif ( get_post_type( $post->ID ) == 'proverbs_lessons' ) {
+					get_template_part( 'templates/lesson-proverbs', 'single' );
+
+				// PROTOCOL LESSON CONTENT
+				} elseif ( get_post_type( $post->ID ) == 'protocol_lessons' ) {
+					get_template_part( 'templates/lesson-proverbs', 'single' );
 
 				// PRONOUN LESSON CONTENT
 				} elseif ( get_post_type( $post->ID ) == 'pronoun_lessons' ) {
-					get_template_part( 'templates/pronouns-lesson', 'single' );
+					get_template_part( 'templates/lesson-pronouns', 'single' );
+
+				// SONGS CONTENT
+				} elseif ( get_post_type( $post->ID ) == 'song_lessons' ) {
+					get_template_part( 'templates/lesson-songs', 'single' );
+
+				// CHANTS CONTENT
+				} elseif ( get_post_type( $post->ID ) == 'chants_lessons' ) {
+					get_template_part( 'templates/lesson-chants', 'single' );
 
 				// ACTIVITIES CONTENT
 				} elseif ( get_post_type( $post->ID ) == 'activities' ) {

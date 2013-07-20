@@ -50,6 +50,25 @@ $walletBalance = get_wallet_balance($post->ID);
 				wp_reset_postdata();
 			}
 
+			// READINGS
+			$readings = new WP_Query( array(
+				'connected_type' => 'readings_to_topics',
+				'connected_items' => $post->ID,
+				'nopaging' => true,
+				'orderby' => 'menu_order',
+				'order' => 'ASC',
+			));
+			if ( $readings->have_posts() ) {
+				while( $readings->have_posts() ) : $readings->the_post();
+					echo '<li class="lesson lecture span4 pull-left" ';
+						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
+					echo '>';
+					echo 	'<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a>';
+					echo '</li>';
+				endwhile;
+				wp_reset_postdata();
+			}
+
 			// VOCABULARY LESSONS
 			$vocabLessons = new WP_Query( array(
 				'connected_type' => 'vocabulary_lessons_to_topics',
@@ -96,6 +115,78 @@ $walletBalance = get_wallet_balance($post->ID);
 			));
 			if ( $pronounLessons->have_posts() ) {
 				while( $pronounLessons->have_posts() ) : $pronounLessons->the_post();
+					echo '<li class="lesson pronoun span4 pull-left" ';
+						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
+					echo '>';
+					echo '<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
+				endwhile;
+				wp_reset_postdata();
+			}
+
+			// PROTOCOL LESSONS
+			$protocolLessons = new WP_Query( array(
+				'connected_type' => 'protocol_lessons_to_topics',
+				'connected_items' => $post->ID,
+				'nopaging' => true,
+				'orderby' => 'menu_order',
+				'order' => 'ASC',
+			));
+			if ( $protocolLessons->have_posts() ) {
+				while( $protocolLessons->have_posts() ) : $protocolLessons->the_post();
+					echo '<li class="lesson pronoun span4 pull-left" ';
+						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
+					echo '>';
+					echo '<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
+				endwhile;
+				wp_reset_postdata();
+			}
+
+			// PROVERB LESSONS
+			$proverbLessons = new WP_Query( array(
+				'connected_type' => 'proverb_lessons_to_topics',
+				'connected_items' => $post->ID,
+				'nopaging' => true,
+				'orderby' => 'menu_order',
+				'order' => 'ASC',
+			));
+			if ( $proverbLessons->have_posts() ) {
+				while( $proverbLessons->have_posts() ) : $proverbLessons->the_post();
+					echo '<li class="lesson pronoun span4 pull-left" ';
+						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
+					echo '>';
+					echo '<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
+				endwhile;
+				wp_reset_postdata();
+			}
+
+			// SONG LESSONS
+			$songLessons = new WP_Query( array(
+				'connected_type' => 'song_lessons_to_topics',
+				'connected_items' => $post->ID,
+				'nopaging' => true,
+				'orderby' => 'menu_order',
+				'order' => 'ASC',
+			));
+			if ( $songLessons->have_posts() ) {
+				while( $songLessons->have_posts() ) : $songLessons->the_post();
+					echo '<li class="lesson pronoun span4 pull-left" ';
+						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
+					echo '>';
+					echo '<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
+				endwhile;
+				wp_reset_postdata();
+			}
+
+			// CHANTS LESSONS
+			$chantsLessons = new WP_Query( array(
+				'connected_type' => 'chants_lessons_to_topics',
+				'connected_items' => $post->ID,
+				'nopaging' => true,
+				'orderby' => 'menu_order',
+				'order' => 'ASC',
+			));
+			if ( $chantsLessons->have_posts() ) {
+				while( $chantsLessons->have_posts() ) : $chantsLessons->the_post();
 					echo '<li class="lesson pronoun span4 pull-left" ';
 						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
 					echo '>';

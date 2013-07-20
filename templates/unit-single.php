@@ -7,7 +7,6 @@
  * @since _s 1.0
  */
 
-
 // Reflect a view for user on this object (object created if it doesn't already exist)
 increment_object_value ( $post->ID, 'times_viewed' );
 

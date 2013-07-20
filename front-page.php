@@ -40,8 +40,11 @@ increment_object_value ( $post->ID, 'times_viewed' );
 			<!-- User Metadata -->
 
 			<header>
-				<h1><?php _e('Welcome','hwn'); ?></h1>
-				<hr />
+				<?php if ( !is_unit_complete( 204 ) ) { // Checking if Aunty Aloha is done ?>
+				<h1><?php _e('Visit <span class="inline-kukui aunty-aloha">&#8216;Anake Aloha</span> in her Garden','hwn'); ?></h1>
+				<?php } else { ?>
+				<h1><?php _e('Visit a kukui to further your knowledge.','hwn'); ?></h1>
+				<?php } ?>
 			</header>
 
 			<!-- Content Navigation -->
@@ -63,7 +66,15 @@ increment_object_value ( $post->ID, 'times_viewed' );
 				while ( $units->have_posts() ) : $units->the_post();
 					$unitIDs[] = $post->ID;
 				endwhile;
-				rewind_posts();
+
+				// Determine if unit is complete prior to loop (bug)
+				foreach ($unitIDs as $unitID) {
+					if ( is_unit_complete($unitID) ) {
+						$unitsCompleted[] = 1;
+					} else {
+						$unitsCompleted[] = 0;
+					}
+				}
 
 				// Create fresh object records if they do not have any for this page.
 				create_object_record( $unitIDs );
@@ -72,15 +83,12 @@ increment_object_value ( $post->ID, 'times_viewed' );
 				echo '<ul class="units dashboard-selections row">';
 				$unitCount = 0;
 				while ( $units->have_posts() ) : $units->the_post();
-					echo '<li class="unit span4 pull-left">';
-						echo 	'<a class="dashboard-selection" href="'.get_permalink().'" title="Go to the'.get_the_title().' activity"';
-						// Check to see if we user has completed any modules
-						if ( is_object_complete( $post->ID ) ) {
-							echo 'data-complete="1"';
-						} else {
-							echo 'data-complete="0"';
-						}
-						echo 	'>';
+					$unitID = $post->ID;
+					$unitLink = get_permalink();
+					$unitTitle = get_the_title();
+					$popoverContent = "Topics in this module: <ul><li>topicone</li><li>topictwo</li><li>topicthree</li></ul><a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>";
+					echo '<li class="unit pull-left">';
+						echo 	'<a class="dashboard-selection post'.$post->ID.'" href="javascript:void(0);" data-title="'.get_the_title().'" data-content="'.$popoverContent.'" data-complete="'.$unitsCompleted[$unitCount].'">';
 						echo 		'<div class="dashboard-selection-info"><h4>'.get_the_title().'</h4></div>';
 						echo 	'</a>';
 					echo '</li>';
@@ -88,6 +96,15 @@ increment_object_value ( $post->ID, 'times_viewed' );
 				endwhile;
 				echo '</ul>';
 				wp_reset_postdata();
+
+				/**
+				 * User Avatar
+				 */
+				$user = wp_get_current_user();
+    		$user_id = $user->ID;
+				$gender = get_user_meta( $user_id, 'gender', true );
+				echo '<div class="user-avatar '.$gender.' default"></div>';
+
 			} // End Dashboard ?>
 
 		</div><!-- #content .site-content -->

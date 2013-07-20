@@ -8,6 +8,10 @@
 # Basic Hawaiian Setup
 # (empty)
 
+# Basic Hawaiian Point System
 
-TODO
-	Have "Scoresheet" & "Scene Viewer" Page be loaded automatically on theme activation.
+# TODO
+	• Have "Scoresheet" & "Scene Viewer" Page be loaded automatically on theme activation.
+	• Custom Registration Screen Needed
+	• 
+

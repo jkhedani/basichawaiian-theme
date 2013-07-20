@@ -6,10 +6,83 @@
 @import "../../bedrock/inc/bootstrap/less/mixins.less";
 @import "../../bedrock/inc/bootstrap/less/carousel.less";
 @import "../../bedrock/inc/bootstrap/less/modals.less";
+@import "../../bedrock/inc/bootstrap/less/popovers.less";
 @import "../../bedrock/inc/bootstrap/less/progress-bars.less";
 
+@colorUser: rgb(148,61,80);
+@colorKukui: rgb(243,178,88);
+@colorAuntyAloha: rgb(113,195,197);
+
 /**
- *  Public Genral
+ * General Styles
+ */
+body {
+	// Layout
+	header#navbar {
+		margin: 0 auto;
+		.navbar-inner {
+			border-radius: 0;
+		}
+	}
+	#main {
+		position: relative;
+		margin: 0 auto;
+		padding: 0;
+	}
+	#page {
+		position: relative;
+		margin: 0 auto;
+		min-height: 0px;
+	}
+	#content {
+		header h1 { background-color: rgba(44,44,44,0.6); color: #FFF; margin: 0; padding: 28px; } // Instruction/Title text
+	}
+	footer#colophon {
+		background: none;
+		.site-info { text-align: center; }
+	}
+	// Typography
+	a:visited {
+		color: @linkColor;
+		&.btn { color: @grayDark;
+			&.btn-primary { color: #FFF; }
+		}
+	}
+	// Random elements
+	.btn-back { margin-bottom: 10px !important; }
+	// Styling for completed lessons, topics, modules and units
+	[data-complete^="1"] a h4, [data-complete*="1"] a h4 {
+		background-color: @green !important;
+	}
+	.claim-kukui { margin-left: 15px; }
+	.inline-kukui {
+		&.aunty-aloha { color: @colorAuntyAloha; }
+	}
+	.inline-user {
+		color: ;
+	}
+	.user-avatar {
+		height: 286px;
+		width: 150px;
+		&.male {
+			background: url('../images/male-avatar.png') no-repeat;
+		}
+	}
+	.user-avatar.male.default { background-position: -558px 0; }
+	.user-avatar-male-wave { background-position: -224px 0 !important; }
+}
+/**
+ *	Mixins
+ */ 
+.full-width-background-image {
+	-webkit-background-size: 100% auto;
+  -moz-background-size: 100% auto;
+  -o-background-size: 100% auto;
+  background-size: 100% auto;
+}
+
+/**
+ *  Public General
  */
 body.not-logged-in {
 	.nav { margin-top: 15px; }
@@ -36,23 +109,55 @@ body.not-logged-in {
 }
 
 /**
- * General Styles
+ *  Logged-in General
  */
-body {
-	a:visited {
-		color: @linkColor;
-		&.btn { color: @grayDark;
-			&.btn-primary { color: #FFF; }
+body.logged-in {
+	background: url('../images/texture-one.png');
+}
+
+
+/**
+ *	Logged in: Home
+ */
+body.home.logged-in {
+	.user-avatar {
+		position: absolute;
+		bottom: 0;
+		left: 120px;
+		&.male {
+
 		}
 	}
-	.btn-back { margin-bottom: 10px !important; }
-	// Styling for completed lessons, topics, modules and units
-	[data-complete^="1"] a h4, [data-complete*="1"] a h4 {
-		background-color: @green !important;
+	#page { background: url( '../images/dashboard-bg.jpg' ) no-repeat; .full-width-background-image; }
+	ul.units {
+		li.unit {
+			list-style: none;
+			a {
+				display: block;
+				position: absolute;
+				height: 100px;
+				width: 100px;
+				line-height: 100px;
+				border-radius: 100px;
+				text-indent: -9999px;
+				&.post204 {
+					top: 260px;
+					left: 360px;
+					background: url('../images/aunty-aloha-icon.png') center center no-repeat rgba(113,195,197,0.9);
+				}
+			}
+		}
 	}
-	// "Claim a kukui"
-	.claim-kukui { margin-left: 15px; }
 }
+
+/**
+ *	Unit Pages
+ */
+body.single-units {
+	// Aunty Aloha
+	&.postid-204 #page { background: url( '../images/aunty-aloha-bg.jpg' ) no-repeat; .full-width-background-image; }
+}
+
 
 /**
  * General Lesson Styles
@@ -77,11 +182,23 @@ body {
 	}
 }
 
+/**
+ * Lesson Styles: Readings
+ */ 
+body.single-readings {
+	.readings-text {
+		display: none;
+		&.active { display: block; }
+	}
+}
+
 
 /**
  *	Scene Modals
  */
 .modal {
+	background: rgb(223,224,218);
+	background: rgba(223,224,218,1.0);
 	.modal-slide {
 		display: none;
 		&.current-modal-slide { display: block; }
@@ -91,21 +208,6 @@ body {
 	}
 }
 
-
-/**
- *  Front Page
- */
-body.home.logged-in {
-	ul.units {
-		li.unit {
-			list-style: none;
-			a {
-				color: #FFF;
-				h4 { padding: 25px; background-color: @grayDark; }
-			}
-		}
-	}
-}
 
 /**
  *  Post Single: Unit
@@ -175,6 +277,73 @@ ul.scoresheet {
 		}
 	}
 }
+
+
+/**
+ *	Media Queries
+ */
+
+// Large & Above
+@media ( min-width: 1380px ) {
+	body {
+		.navbar .container { width: 1380px; }
+		.container { width: 1380px; }
+		#primary { min-height: 776px; }
+	}
+}
+
+// Large and below
+@media ( max-width: 1380px ) {
+	body {
+		.navbar .container { width: 1200px; }
+		.container { width: 1200px; }
+		#primary { min-height: 662px; }
+	}
+}
+
+// Large and below
+@media ( max-width: 1200px ) {
+
+}
+
+// Desktop & Below
+@media ( max-width: 979px ) {
+
+}
+
+// Tablet & Below
+@media ( max-width: 767px ) {
+	body {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+// Phones & Below
+@media (max-width: 479px) {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
  * General Styles
