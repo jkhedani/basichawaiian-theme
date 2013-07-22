@@ -31,16 +31,35 @@ $walletBalance = get_wallet_balance($post->ID);
 		<ul class="lessons row">
 
 		<?php
-			// LECTURES
-			$lectures = new WP_Query( array(
-				'connected_type' => 'lectures_to_topics',
+			// INFORMATION LESSONS
+			$instructional = new WP_Query( array(
+				'connected_type' => 'instructional_lessons_to_topics',
 				'connected_items' => $post->ID,
 				'nopaging' => true,
 				'orderby' => 'menu_order',
 				'order' => 'ASC',
 			));
-			if ( $lectures->have_posts() ) {
-				while( $lectures->have_posts() ) : $lectures->the_post();
+			if ( $instructional->have_posts() ) {
+				while( $instructional->have_posts() ) : $instructional->the_post();
+					echo '<li class="lesson lecture span4 pull-left" ';
+						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
+					echo '>';
+					echo 	'<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a>';
+					echo '</li>';
+				endwhile;
+				wp_reset_postdata();
+			}
+
+			// INFORMATION LESSONS
+			$listenRepeat = new WP_Query( array(
+				'connected_type' => 'listen_repeat_lessons_to_topics',
+				'connected_items' => $post->ID,
+				'nopaging' => true,
+				'orderby' => 'menu_order',
+				'order' => 'ASC',
+			));
+			if ( $listenRepeat->have_posts() ) {
+				while( $listenRepeat->have_posts() ) : $listenRepeat->the_post();
 					echo '<li class="lesson lecture span4 pull-left" ';
 						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
 					echo '>';
@@ -123,42 +142,6 @@ $walletBalance = get_wallet_balance($post->ID);
 				wp_reset_postdata();
 			}
 
-			// PROTOCOL LESSONS
-			$protocolLessons = new WP_Query( array(
-				'connected_type' => 'protocol_lessons_to_topics',
-				'connected_items' => $post->ID,
-				'nopaging' => true,
-				'orderby' => 'menu_order',
-				'order' => 'ASC',
-			));
-			if ( $protocolLessons->have_posts() ) {
-				while( $protocolLessons->have_posts() ) : $protocolLessons->the_post();
-					echo '<li class="lesson pronoun span4 pull-left" ';
-						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
-					echo '>';
-					echo '<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
-				endwhile;
-				wp_reset_postdata();
-			}
-
-			// PROVERB LESSONS
-			$proverbLessons = new WP_Query( array(
-				'connected_type' => 'proverb_lessons_to_topics',
-				'connected_items' => $post->ID,
-				'nopaging' => true,
-				'orderby' => 'menu_order',
-				'order' => 'ASC',
-			));
-			if ( $proverbLessons->have_posts() ) {
-				while( $proverbLessons->have_posts() ) : $proverbLessons->the_post();
-					echo '<li class="lesson pronoun span4 pull-left" ';
-						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
-					echo '>';
-					echo '<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
-				endwhile;
-				wp_reset_postdata();
-			}
-
 			// SONG LESSONS
 			$songLessons = new WP_Query( array(
 				'connected_type' => 'song_lessons_to_topics',
@@ -188,24 +171,6 @@ $walletBalance = get_wallet_balance($post->ID);
 			if ( $chantsLessons->have_posts() ) {
 				while( $chantsLessons->have_posts() ) : $chantsLessons->the_post();
 					echo '<li class="lesson pronoun span4 pull-left" ';
-						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
-					echo '>';
-					echo '<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';
-				endwhile;
-				wp_reset_postdata();
-			}
-
-			// ACTIVITIES
-			$activities = new WP_Query( array(
-				'connected_type' => 'activities_to_topics',
-				'connected_items' => $post->ID,
-				'nopaging' => true,
-				'orderby' => 'menu_order',
-				'order' => 'ASC',
-			));
-			if ( $activities->have_posts() ) {
-				while( $activities->have_posts() ) : $activities->the_post();
-					echo '<li class="lesson activity span4 pull-left" ';
 						if ( is_object_complete( $post->ID ) ) { echo 'data-complete="1"'; } else { echo 'data-complete="0"'; }
 					echo '>';
 					echo '<a class="prompt-lesson-start" href="#lesson-start-modal" data-lesson-url="'.get_permalink().'"><h4>' . get_the_title() . '</h4></a></li>';

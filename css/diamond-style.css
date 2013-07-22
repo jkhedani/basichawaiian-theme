@@ -753,6 +753,18 @@ body.single-units.postid-204 #page {
 /**
  * General Lesson Styles
  */
+.lesson-header {
+  *zoom: 1;
+}
+.lesson-header:before,
+.lesson-header:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.lesson-header:after {
+  clear: both;
+}
 .lesson-content .lesson-feedback {
   display: none;
 }

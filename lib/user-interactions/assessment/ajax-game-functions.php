@@ -262,16 +262,32 @@ function is_topic_complete($postID) {
 	global $post;
 	$topicComplete = true;
 
-	// LECTURES
-	$lectures = new WP_Query( array(
-		'connected_type' => 'lectures_to_topics',
+	// INSTRUCTIONAL LESSON
+	$instructional = new WP_Query( array(
+		'connected_type' => 'instructional_lessons_to_topics',
 		'connected_items' => $postID,
 		'nopaging' => true,
 		'orderby' => 'menu_order',
 		'order' => 'ASC',
 	));
-	if ( $lectures->have_posts() ) {
-	while( $lectures->have_posts() ) : $lectures->the_post();
+	if ( $instructional->have_posts() ) {
+	while( $instructional->have_posts() ) : $instructional->the_post();
+		if (!is_object_complete($post->ID))
+			$topicComplete = false;
+	endwhile;
+	}
+	wp_reset_postdata();
+
+	// LISTEN AND REPEAT LESSON
+	$listenRepeat = new WP_Query( array(
+		'connected_type' => 'listen_repeat_lessons_to_topics',
+		'connected_items' => $postID,
+		'nopaging' => true,
+		'orderby' => 'menu_order',
+		'order' => 'ASC',
+	));
+	if ( $listenRepeat->have_posts() ) {
+	while( $listenRepeat->have_posts() ) : $listenRepeat->the_post();
 		if (!is_object_complete($post->ID))
 			$topicComplete = false;
 	endwhile;
@@ -326,38 +342,6 @@ function is_topic_complete($postID) {
 	}
 	wp_reset_postdata();
 
-	// PROTOCOL LESSONS
-	$protocolLessons = new WP_Query( array(
-		'connected_type' => 'protocol_lessons_to_topics',
-		'connected_items' => $postID,
-		'nopaging' => true,
-		'orderby' => 'menu_order',
-		'order' => 'ASC',
-	));
-	if ( $protocolLessons->have_posts() ) {
-	while( $protocolLessons->have_posts() ) : $protocolLessons->the_post();
-		if (!is_object_complete($post->ID))
-			$topicComplete = false;
-	endwhile;
-	}
-	wp_reset_postdata();
-
-	// PROVERB LESSONS
-	$proverbLessons = new WP_Query( array(
-		'connected_type' => 'proverb_lessons_to_topics',
-		'connected_items' => $postID,
-		'nopaging' => true,
-		'orderby' => 'menu_order',
-		'order' => 'ASC',
-	));
-	if ( $proverbLessons->have_posts() ) {
-	while( $proverbLessons->have_posts() ) : $proverbLessons->the_post();
-		if (!is_object_complete($post->ID))
-			$topicComplete = false;
-	endwhile;
-	}
-	wp_reset_postdata();
-
 	// PRONOUN LESSONS
 	$pronounLessons = new WP_Query( array(
 		'connected_type' => 'pronoun_lessons_to_topics',
@@ -403,22 +387,6 @@ function is_topic_complete($postID) {
 			if (!is_object_complete($post->ID))
 				$topicComplete = false;
 		endwhile;
-	}
-	wp_reset_postdata();
-
-	// ACTIVITIES
-	$activities = new WP_Query( array(
-		'connected_type' => 'activities_to_topics',
-		'connected_items' => $postID,
-		'nopaging' => true,
-		'orderby' => 'menu_order',
-		'order' => 'ASC',
-	));
-	if ( $activities->have_posts() ) {
-	while( $activities->have_posts() ) : $activities->the_post();
-		if (!is_object_complete($post->ID))
-		$topicComplete = false;
-	endwhile;
 	}
 	wp_reset_postdata();
 

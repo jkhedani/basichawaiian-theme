@@ -30,6 +30,11 @@ function filter_links_rel_external( $content ) {
 }
 
 /**
+ * Load Tweaks
+ */
+require( 'lib/tweaks.php' );
+
+/**
  * Load User Interactions Functions
  */
 require( 'lib/user-interactions/user-interactions-functions.php' );
@@ -253,11 +258,23 @@ function remove_admin_menu_items() {
   //  remove_menu_page('users.php'); // "Users"
   //  remove_menu_page('options-general.php'); // "Settings"
   //}
+
+  // Move 
+
+  // Add menu separators
+  add_admin_menu_separator(10);
+  add_admin_menu_separator(15);
+  add_admin_menu_separator(25);
 }
 add_action( 'admin_menu', 'remove_admin_menu_items' );
 
+
 // Basic Hawaiian Custom Post Types
 function BASICHWN_post_types() {
+
+  /**
+   * Structure
+   */
 
   // Units
   $labels = array(
@@ -293,7 +310,7 @@ function BASICHWN_post_types() {
   );
   register_post_type( 'modules',
     array(
-    'menu_position' => 5,
+    'menu_position' => 6,
     'public' => true,
     'supports' => array('title', 'editor', 'thumbnail','page-attributes'),
     'labels' => $labels,
@@ -314,7 +331,7 @@ function BASICHWN_post_types() {
   );
   register_post_type( 'topics',
     array(
-    'menu_position' => 5,
+    'menu_position' => 7,
     'public' => true,
     'supports' => array('title'),
     'labels' => $labels,
@@ -322,24 +339,49 @@ function BASICHWN_post_types() {
     )
   );
 
-  // Lectures
+  /**
+   * Instructional Lessons
+   */
+
+  // Instructional Lessons
   $labels = array(
-    'name' => __( 'Lectures' ),
-    'singular_name' => __( 'Lecture' ),
-    'add_new' => __( 'Add New Lecture' ),
-    'add_new_item' => __( 'Add New Lecture' ),
-    'edit_name' => __( 'Edit This Lecture' ),
-    'view_item' => __( 'View This Lecture' ),
-    'search_items' => __('Search Lectures'),
-    'not_found' => __('No Lectures found.'),
+    'name' => __( 'Instructional Lessons' ),
+    'singular_name' => __( 'Instructional Lesson' ),
+    'add_new' => __( 'Add New Instructional Lesson' ),
+    'add_new_item' => __( 'Add New Instructional Lesson' ),
+    'edit_name' => __( 'Edit This Instructional Lesson' ),
+    'view_item' => __( 'View This Instructional Lesson' ),
+    'search_items' => __('Search Instructional Lessons'),
+    'not_found' => __('No Instructional Lessons found.'),
   );
-  register_post_type( 'lectures',
+  register_post_type( 'instruction_lessons',
     array(
-    'menu_position' => 5,
+    'menu_position' => 11,
     'public' => true,
-    'supports' => array('title', 'editor', 'thumbnail'),
+    'supports' => array( 'title' ),
     'labels' => $labels,
-    'rewrite' => array('slug' => 'lecture'),
+    'rewrite' => array('slug' => 'instruction-lessons'),
+    )
+  );
+
+  // Listen and Repeat Lessons
+  $labels = array(
+    'name' => __( 'Listen and Repeat Lessons' ),
+    'singular_name' => __( 'Listen and Repeat Lesson' ),
+    'add_new' => __( 'Add New Listen and Repeat Lesson' ),
+    'add_new_item' => __( 'Add New Listen and Repeat Lesson' ),
+    'edit_name' => __( 'Edit This Listen and Repeat Lesson' ),
+    'view_item' => __( 'View This Listen and Repeat Lesson' ),
+    'search_items' => __('Search Listen and Repeat Lessons'),
+    'not_found' => __('No Listen and Repeat Lessons found.'),
+  );
+  register_post_type( 'listenrepeat_lessons',
+    array(
+    'menu_position' => 11,
+    'public' => true,
+    'supports' => array( 'title' ),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'listen-repeat-lessons'),
     )
   );
 
@@ -356,7 +398,7 @@ function BASICHWN_post_types() {
   );
   register_post_type( 'readings',
     array(
-    'menu_position' => 5,
+    'menu_position' => 11,
     'public' => true,
     'supports' => array('title', 'editor', 'thumbnail'),
     'labels' => $labels,
@@ -364,194 +406,9 @@ function BASICHWN_post_types() {
     )
   );
 
-  // Vocabulary Lesson
-  $labels = array(
-    'name' => __( 'Vocabulary Lessons' ),
-    'singular_name' => __( 'Vocabulary Lesson' ),
-    'add_new' => __( 'Add New Vocabulary Lesson' ),
-    'add_new_item' => __( 'Add New Vocabulary Lesson' ),
-    'edit_name' => __( 'Edit This Vocabulary Lesson' ),
-    'view_item' => __( 'View This Vocabulary Lesson' ),
-    'search_items' => __('Search Vocabulary Lessons'),
-    'not_found' => __('No Vocabulary Lessons found.'),
-  );
-  register_post_type( 'vocabulary_lessons',
-    array(
-    'menu_position' => 5,
-    'public' => true,
-    'supports' => array('title', 'thumbnail'),
-    'labels' => $labels,
-    'rewrite' => array('slug' => 'vocabulary-lesson'),
-    )
-  );
-
-  // Phrases Lesson
-  $labels = array(
-    'name' => __( 'Phrases Lessons' ),
-    'singular_name' => __( 'Phrases Lesson' ),
-    'add_new' => __( 'Add New Phrases Lesson' ),
-    'add_new_item' => __( 'Add New Phrases Lesson' ),
-    'edit_name' => __( 'Edit This Phrases Lesson' ),
-    'view_item' => __( 'View This Phrases Lesson' ),
-    'search_items' => __('Search Phrases Lesson'),
-    'not_found' => __('No Phrases Lesson found.'),
-  );
-  register_post_type( 'phrases_lessons',
-    array(
-    'menu_position' => 5,
-    'public' => true,
-    'supports' => array('title', 'thumbnail'),
-    'labels' => $labels,
-    'rewrite' => array('slug' => 'phrases-lesson'),
-    )
-  );
-
-  // Pronoun Lesson
-  $labels = array(
-    'name' => __( 'Pronoun Lessons' ),
-    'singular_name' => __( 'Pronoun Lesson' ),
-    'add_new' => __( 'Add New Pronoun Lesson' ),
-    'add_new_item' => __( 'Add New Pronoun Lesson' ),
-    'edit_name' => __( 'Edit This Pronoun Lesson' ),
-    'view_item' => __( 'View This Pronoun Lesson' ),
-    'search_items' => __('Search Pronoun Lesson'),
-    'not_found' => __('No Pronoun Lesson found.'),
-  );
-  register_post_type( 'pronoun_lessons',
-    array(
-    'menu_position' => 5,
-    'public' => true,
-    'supports' => array('title', 'thumbnail'),
-    'labels' => $labels,
-    'rewrite' => array('slug' => 'pronoun-lesson'),
-    )
-  );
-
-  // Songs Lesson
-  $labels = array(
-    'name' => __( 'Song Lessons' ),
-    'singular_name' => __( 'Song Lesson' ),
-    'add_new' => __( 'Add New Song Lesson' ),
-    'add_new_item' => __( 'Add New Song Lesson' ),
-    'edit_name' => __( 'Edit This Song Lesson' ),
-    'view_item' => __( 'View This Song Lesson' ),
-    'search_items' => __('Search Song Lessons'),
-    'not_found' => __('No Song Lesson found.'),
-  );
-  register_post_type( 'song_lessons',
-    array(
-    'menu_position' => 5,
-    'public' => true,
-    'supports' => array('title', 'editor', 'thumbnail'),
-    'labels' => $labels,
-    'rewrite' => array('slug' => 'songs-lesson'),
-    )
-  );
-
-  // Chants Lesson
-  $labels = array(
-    'name' => __( 'Chants Lessons' ),
-    'singular_name' => __( 'Chants Lesson' ),
-    'add_new' => __( 'Add New Chants Lesson' ),
-    'add_new_item' => __( 'Add New Chants Lesson' ),
-    'edit_name' => __( 'Edit This Chants Lesson' ),
-    'view_item' => __( 'View This Chants Lesson' ),
-    'search_items' => __('Search Chants Lesson'),
-    'not_found' => __('No Chants Lesson found.'),
-  );
-  register_post_type( 'chants_lessons',
-    array(
-    'menu_position' => 5,
-    'public' => true,
-    'supports' => array('title', 'editor', 'thumbnail'),
-    'labels' => $labels,
-    'rewrite' => array('slug' => 'chants-lesson'),
-    )
-  );
-
-  // Protocol Lesson
-  $labels = array(
-    'name' => __( 'Protocol Lessons' ),
-    'singular_name' => __( 'Protocol Lesson' ),
-    'add_new' => __( 'Add New Protocol Lesson' ),
-    'add_new_item' => __( 'Add New Protocol Lesson' ),
-    'edit_name' => __( 'Edit This Protocol Lesson' ),
-    'view_item' => __( 'View This Protocol Lesson' ),
-    'search_items' => __('Search Protocol Lessons'),
-    'not_found' => __('No Protocol Lesson found.'),
-  );
-  register_post_type( 'protocol_lessons',
-    array(
-    'menu_position' => 5,
-    'public' => true,
-    'supports' => array('title', 'editor', 'thumbnail'),
-    'labels' => $labels,
-    'rewrite' => array('slug' => 'protocol-lesson'),
-    )
-  );
-
-  // Proverbs Lesson
-  $labels = array(
-    'name' => __( 'Proverb Lessons' ),
-    'singular_name' => __( 'Proverb Lesson' ),
-    'add_new' => __( 'Add New Proverb Lesson' ),
-    'add_new_item' => __( 'Add New Proverb Lesson' ),
-    'edit_name' => __( 'Edit This Proverb Lesson' ),
-    'view_item' => __( 'View This Proverb Lesson' ),
-    'search_items' => __('Search Proverb Lessons'),
-    'not_found' => __('No Proverb Lesson found.'),
-  );
-  register_post_type( 'proverb_lessons',
-    array(
-    'menu_position' => 5,
-    'public' => true,
-    'supports' => array('title', 'editor', 'thumbnail'),
-    'labels' => $labels,
-    'rewrite' => array('slug' => 'proverb-lesson'),
-    )
-  );
-
-  // Activities
-  $labels = array(
-    'name' => __( 'Activities' ),
-    'singular_name' => __( 'Activity' ),
-    'add_new' => __( 'Add New Activity' ),
-    'add_new_item' => __( 'Add New Activity' ),
-    'edit_name' => __( 'Edit This Activity' ),
-    'view_item' => __( 'View This Activity' ),
-    'search_items' => __('Search Activities'),
-    'not_found' => __('No Activities found.'),
-  );
-  register_post_type( 'activities',
-    array(
-    'menu_position' => 5,
-    'public' => true,
-    'supports' => array('title', 'editor', 'thumbnail','page-attributes'),
-    'labels' => $labels,
-    'rewrite' => array('slug' => 'activity'),
-    )
-  );
-
-  // Scenes
-  $labels = array(
-    'name' => __( 'Scenes' ),
-    'singular_name' => __( 'Scene' ),
-    'add_new' => __( 'Add New Scene' ),
-    'add_new_item' => __( 'Add New Scene' ),
-    'edit_name' => __( 'Edit This Scene' ),
-    'view_item' => __( 'View This Scene' ),
-    'search_items' => __('Search Scenes'),
-    'not_found' => __('No Scenes found.'),
-  );
-  register_post_type( 'scenes',
-    array(
-    'menu_position' => 5,
-    'public' => true,
-    'supports' => array('title', 'editor', 'thumbnail','page-attributes'),
-    'labels' => $labels,
-    'rewrite' => array('slug' => 'scene'),
-    )
-  );
+  /**
+   * Instructional Objects
+   */
 
   // Vocabulary Terms
   $labels = array(
@@ -566,7 +423,7 @@ function BASICHWN_post_types() {
   );
   register_post_type( 'vocabulary_terms',
     array(
-    'menu_position' => 5,
+    'menu_position' => 16,
     'public' => true,
     'supports' => array('title', 'editor', 'thumbnail'),
     'labels' => $labels,
@@ -588,7 +445,7 @@ function BASICHWN_post_types() {
   );
   register_post_type( 'phrases',
     array(
-    'menu_position' => 5,
+    'menu_position' => 16,
     'public' => true,
     'supports' => array('title', 'editor', 'thumbnail'),
     'labels' => $labels,
@@ -609,11 +466,141 @@ function BASICHWN_post_types() {
   );
   register_post_type( 'pronouns',
     array(
-    'menu_position' => 5,
+    'menu_position' => 16,
     'public' => true,
     'supports' => array('title', 'editor', 'thumbnail'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'pronoun'),
+    )
+  );
+
+  // Scenes
+  $labels = array(
+    'name' => __( 'Scenes' ),
+    'singular_name' => __( 'Scene' ),
+    'add_new' => __( 'Add New Scene' ),
+    'add_new_item' => __( 'Add New Scene' ),
+    'edit_name' => __( 'Edit This Scene' ),
+    'view_item' => __( 'View This Scene' ),
+    'search_items' => __('Search Scenes'),
+    'not_found' => __('No Scenes found.'),
+  );
+  register_post_type( 'scenes',
+    array(
+    'menu_position' => 16,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail','page-attributes'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'scene'),
+    )
+  );
+
+  /**
+   * Assessment Objects
+   */
+
+   // Vocabulary Lesson
+  $labels = array(
+    'name' => __( 'Vocabulary Lessons' ),
+    'singular_name' => __( 'Vocabulary Lesson' ),
+    'add_new' => __( 'Add New Vocabulary Lesson' ),
+    'add_new_item' => __( 'Add New Vocabulary Lesson' ),
+    'edit_name' => __( 'Edit This Vocabulary Lesson' ),
+    'view_item' => __( 'View This Vocabulary Lesson' ),
+    'search_items' => __('Search Vocabulary Lessons'),
+    'not_found' => __('No Vocabulary Lessons found.'),
+  );
+  register_post_type( 'vocabulary_lessons',
+    array(
+    'menu_position' => 25,
+    'public' => true,
+    'supports' => array('title', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'vocabulary-lesson'),
+    )
+  );
+
+  // Phrases Lesson
+  $labels = array(
+    'name' => __( 'Phrases Lessons' ),
+    'singular_name' => __( 'Phrases Lesson' ),
+    'add_new' => __( 'Add New Phrases Lesson' ),
+    'add_new_item' => __( 'Add New Phrases Lesson' ),
+    'edit_name' => __( 'Edit This Phrases Lesson' ),
+    'view_item' => __( 'View This Phrases Lesson' ),
+    'search_items' => __('Search Phrases Lesson'),
+    'not_found' => __('No Phrases Lesson found.'),
+  );
+  register_post_type( 'phrases_lessons',
+    array(
+    'menu_position' => 25,
+    'public' => true,
+    'supports' => array('title'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'phrases-lesson'),
+    )
+  );
+
+  // Pronoun Lesson
+  $labels = array(
+    'name' => __( 'Pronoun Lessons' ),
+    'singular_name' => __( 'Pronoun Lesson' ),
+    'add_new' => __( 'Add New Pronoun Lesson' ),
+    'add_new_item' => __( 'Add New Pronoun Lesson' ),
+    'edit_name' => __( 'Edit This Pronoun Lesson' ),
+    'view_item' => __( 'View This Pronoun Lesson' ),
+    'search_items' => __('Search Pronoun Lesson'),
+    'not_found' => __('No Pronoun Lesson found.'),
+  );
+  register_post_type( 'pronoun_lessons',
+    array(
+    'menu_position' => 25,
+    'public' => true,
+    'supports' => array('title', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'pronoun-lesson'),
+    )
+  );
+
+  // Songs Lesson
+  $labels = array(
+    'name' => __( 'Song Lessons' ),
+    'singular_name' => __( 'Song Lesson' ),
+    'add_new' => __( 'Add New Song Lesson' ),
+    'add_new_item' => __( 'Add New Song Lesson' ),
+    'edit_name' => __( 'Edit This Song Lesson' ),
+    'view_item' => __( 'View This Song Lesson' ),
+    'search_items' => __('Search Song Lessons'),
+    'not_found' => __('No Song Lesson found.'),
+  );
+  register_post_type( 'song_lessons',
+    array(
+    'menu_position' => 25,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'songs-lesson'),
+    )
+  );
+
+  // Chants Lesson
+  $labels = array(
+    'name' => __( 'Chants Lessons' ),
+    'singular_name' => __( 'Chants Lesson' ),
+    'add_new' => __( 'Add New Chants Lesson' ),
+    'add_new_item' => __( 'Add New Chants Lesson' ),
+    'edit_name' => __( 'Edit This Chants Lesson' ),
+    'view_item' => __( 'View This Chants Lesson' ),
+    'search_items' => __('Search Chants Lesson'),
+    'not_found' => __('No Chants Lesson found.'),
+  );
+  register_post_type( 'chants_lessons',
+    array(
+    'menu_position' => 25,
+    'public' => true,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'chants-lesson'),
     )
   );
 
@@ -623,6 +610,28 @@ add_action( 'init', 'BASICHWN_post_types' );
 // Basic Hawaiian Custom Taxonomies
 function BASICHWN_taxonomies() {
   
+  $labels = array(
+    'name' => _x( 'Instructional Categories', 'taxonomy general name' ),
+    'singular_name' => _x( 'Instructional Category', 'taxonomy singular name' ),
+    'search_items' =>  __( 'Search Instructional Categories' ),
+    'all_items' => __( 'All Instructional Categories' ),
+    'parent_item' => __( 'Parent Instructional Category' ),
+    'parent_item_colon' => __( 'Parent Instructional Category:' ),
+    'edit_item' => __( 'Edit Instructional Category' ), 
+    'update_item' => __( 'Update Instructional Category' ),
+    'add_new_item' => __( 'Add New Instructional Category' ),
+    'new_item_name' => __( 'New Instructional Category Name' ),
+    'menu_name' => __( ' Edit Instructional Categories' ),
+  );  
+
+  register_taxonomy('instructional_lesson_categories',array('instruction_lessons'), array(
+    'hierarchical' => true,
+    'labels' => $labels,
+    'show_ui' => true,
+    'query_var' => true,
+    //'rewrite' => array( 'slug' => 'vocabulary-categories' ),
+  ));
+
   // Add new taxonomy, make it hierarchical (like categories)
   $labels = array(
     'name' => _x( 'Vocabulary Categories', 'taxonomy general name' ),
@@ -700,11 +709,18 @@ function BASICHWN_connections() {
   /*
    * Assessment IA Connections
    */
-
-  // Connect Lectures to Lessons
+  // Connect Instructional Lessons to Topics
   p2p_register_connection_type(array(
-    'name' => 'lectures_to_topics',
-    'from' => 'lectures',
+    'name' => 'instructional_lessons_to_topics',
+    'from' => 'instruction_lessons',
+    'to' => 'topics',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Lectures to One Module
+  ));
+  // Connect Listen and Repeat Lessons to Topics
+  p2p_register_connection_type(array(
+    'name' => 'listen_repeat_lessons_to_topics',
+    'from' => 'listenrepeat_lessons',
     'to' => 'topics',
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Lectures to One Module
@@ -733,22 +749,6 @@ function BASICHWN_connections() {
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Pron Practice to One Module
   ));
-  // Connect Protocol Lessons to Topics
-  p2p_register_connection_type(array(
-    'name' => 'protocol_lessons_to_topics',
-    'from' => 'protocol_lessons',
-    'to' => 'topics',
-    'sortable' => 'any',
-    'cardinality' => 'many-to-one', // Many Pron Practice to One Module
-  ));
-  // Connect Proverb Lessons to Topics
-  p2p_register_connection_type(array(
-    'name' => 'proverb_lessons_to_topics',
-    'from' => 'proverb_lessons',
-    'to' => 'topics',
-    'sortable' => 'any',
-    'cardinality' => 'many-to-one', // Many Pron Practice to One Module
-  ));
   // Connect Pronouns to Topics
   p2p_register_connection_type(array(
     'name' => 'pronoun_lessons_to_topics',
@@ -769,14 +769,6 @@ function BASICHWN_connections() {
   p2p_register_connection_type(array(
     'name' => 'chants_lessons_to_topics',
     'from' => 'chants_lessons',
-    'to' => 'topics',
-    'sortable' => 'any',
-    'cardinality' => 'many-to-one', // Many Pron Practice to One Module
-  ));
-  // Connect Activities to Topics
-  p2p_register_connection_type(array(
-    'name' => 'activities_to_topics',
-    'from' => 'activities',
     'to' => 'topics',
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Pron Practice to One Module
@@ -803,6 +795,23 @@ function BASICHWN_connections() {
     'name' => 'pronouns_to_pronoun_lessons',
     'from' => 'pronouns',
     'to' => 'pronoun_lessons',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Phrases to One Lesson
+  ));
+
+  // Connect Vocabulary to Phrases
+  p2p_register_connection_type(array(
+    'name' => 'vocabulary_terms_to_phrases',
+    'from' => 'vocabulary_terms',
+    'to' => 'phrases',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Phrases to One Lesson
+  ));
+  // Connect Phrases to Listen Repeat Lessons
+  p2p_register_connection_type(array(
+    'name' => 'phrases_to_listen_repeat_lessons',
+    'from' => 'phrases',
+    'to' => 'listenrepeat_lessons',
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Phrases to One Lesson
   ));

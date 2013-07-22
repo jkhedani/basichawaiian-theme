@@ -26,9 +26,13 @@ get_header(); ?>
 				} elseif ( get_post_type( $post->ID ) == 'topics') {
 					get_template_part( 'templates/topic', 'single' );
 				
-				// LECUTURE CONTENT
-				} elseif(get_post_type($post->ID) == 'lectures') {
-					get_template_part( 'templates/lectures', 'single' );
+				// INSTRUCTIONAL CONTENT
+				} elseif(get_post_type($post->ID) == 'instruction_lessons') {
+					get_template_part( 'templates/lesson-instructional', 'single' );
+
+				// LISTEN AND REPEAT CONTENT
+				} elseif(get_post_type($post->ID) == 'listenrepeat_lessons') {
+					get_template_part( 'templates/lesson-listen-repeat', 'single' );
 
 				// READINGS CONTENT
 				} elseif(get_post_type($post->ID) == 'readings') {

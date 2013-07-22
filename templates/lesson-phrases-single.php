@@ -28,7 +28,7 @@ $phrasesCount = $phrases->post_count;
 <article id="post-<?php the_ID(); ?>" <?php post_class('lesson-container'); ?> data-lesson-id="<?php echo $post->ID; ?>">
 
 	<header class="lesson-header row">
-		<h1 class="lesson-title span12"><?php the_title(); ?></h1>
+		<h1 class="lesson-title"><?php the_title(); ?></h1>
 		<h4 class="lesson-instructions span12">Choose the English sentence that best represents the Hawaiian phrase below.</h4>
 		<div class="lesson-progress progress span5">
 			<?php
