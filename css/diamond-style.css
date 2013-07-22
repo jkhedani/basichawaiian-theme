@@ -765,6 +765,9 @@ body.single-units.postid-204 #page {
 .lesson-header:after {
   clear: both;
 }
+.lesson-header .lesson-progress .bar.current {
+  background: #339bb9;
+}
 .lesson-content .lesson-feedback {
   display: none;
 }
@@ -779,6 +782,9 @@ body.single-units.postid-204 #page {
 }
 .lesson-content .lesson-card.current {
   display: block;
+}
+.lesson-content .pause-audio {
+  display: none;
 }
 .lesson-footer .lesson-controls .advance-lesson {
   display: none;

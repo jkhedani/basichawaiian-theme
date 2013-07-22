@@ -44,9 +44,9 @@ function check_scene_progress( $queriedPostID ) {
     endif;
 
     // Completing LAU LAU MAKING shows CARDIO II
-    if ( $queriedPostID ==  239 ):
-    	$selectScene = 266;
-    endif;
+    //if ( $queriedPostID ==  239 ):
+    //	$selectScene = 266;
+    //endif;
     
     if ( $selectScene == 0 ) {
     	return false;

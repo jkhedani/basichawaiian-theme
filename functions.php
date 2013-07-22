@@ -474,6 +474,48 @@ function BASICHWN_post_types() {
     )
   );
 
+  // Song Lines
+  $labels = array(
+    'name' => __( 'Song Lines' ),
+    'singular_name' => __( 'Song Line' ),
+    'add_new' => __( 'Add New Song Line' ),
+    'add_new_item' => __( 'Add New Song Line' ),
+    'edit_name' => __( 'Edit This Song Line' ),
+    'view_item' => __( 'View This Song Line' ),
+    'search_items' => __('Search Song Lines'),
+    'not_found' => __('No Song Lines found.'),
+  );
+  register_post_type( 'song_lines',
+    array(
+    'menu_position' => 16,
+    'public' => true,
+    'supports' => array('title'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'song-line'),
+    )
+  );
+
+  // Chant Lines
+  $labels = array(
+    'name' => __( 'Chant Lines' ),
+    'singular_name' => __( 'Chant Line' ),
+    'add_new' => __( 'Add New Chant Line' ),
+    'add_new_item' => __( 'Add New Chant Line' ),
+    'edit_name' => __( 'Edit This Chant Line' ),
+    'view_item' => __( 'View This Chant Line' ),
+    'search_items' => __('Search Chant Lines'),
+    'not_found' => __('No Chant Lines found.'),
+  );
+  register_post_type( 'chant_lines',
+    array(
+    'menu_position' => 16,
+    'public' => true,
+    'supports' => array('title'),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'chant-line'),
+    )
+  );
+
   // Scenes
   $labels = array(
     'name' => __( 'Scenes' ),
@@ -577,7 +619,7 @@ function BASICHWN_post_types() {
     array(
     'menu_position' => 25,
     'public' => true,
-    'supports' => array('title', 'editor', 'thumbnail'),
+    'supports' => array('title'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'songs-lesson'),
     )
@@ -598,7 +640,7 @@ function BASICHWN_post_types() {
     array(
     'menu_position' => 25,
     'public' => true,
-    'supports' => array('title', 'editor', 'thumbnail'),
+    'supports' => array('title'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'chants-lesson'),
     )
@@ -790,11 +832,27 @@ function BASICHWN_connections() {
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Phrases to One Lesson
   ));
-  // Connect Phrases to Phrases Lessons
+  // Connect Pronouns to Pronoun Lessons
   p2p_register_connection_type(array(
     'name' => 'pronouns_to_pronoun_lessons',
     'from' => 'pronouns',
     'to' => 'pronoun_lessons',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Phrases to One Lesson
+  ));
+  // Connect Song Lines to Song Lessons
+  p2p_register_connection_type(array(
+    'name' => 'song_lines_to_song_lessons',
+    'from' => 'song_lines',
+    'to' => 'song_lessons',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Phrases to One Lesson
+  ));
+  // Connect Chant Lines to Chant Lessons
+  p2p_register_connection_type(array(
+    'name' => 'chant_lines_to_chant_lessons',
+    'from' => 'chant_lines',
+    'to' => 'chants_lessons',
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Phrases to One Lesson
   ));

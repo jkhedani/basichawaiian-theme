@@ -20,7 +20,7 @@ $phrases = new WP_Query( array(
 	'post_type' => 'phrases',
 ));
 $lessonCardCounter = 0;
-$lessonCardCount = count( $phrases );
+$lessonCardCount = $phrases->post_count;
 
 ?>
 
@@ -29,10 +29,22 @@ $lessonCardCount = count( $phrases );
 	<?php bedrock_postcontentstart(); ?>
 
 	<header class="lesson-header">
-		<?php bedrock_abovetitle(); ?>
 		<h1 class="lesson-title"><?php the_title(); ?></h1>
 		<h3 class="lesson-instructions">To complete this lecture, follow along with the entire video below.</h3>
-		<?php bedrock_belowtitle(); ?>
+		<div class="lesson-progress progress span5">
+			<?php
+				$width = 100 / $lessonCardCount;
+				for ( $i = 0; $i < $lessonCardCount; $i++ ) {
+					if ( $i == 0 ) :
+						echo '<div class="bar bar-info current" style="width: '.$width.'%;"></div>';
+					elseif ( $i == $lessonCardCount - 1 ):
+						echo '<div class="bar bar-info last" style="width: '.$width.'%;"></div>';
+					else :
+						echo '<div class="bar bar-info" style="width: '.$width.'%;"></div>';
+					endif;
+				}
+			?>
+		</div>
 	</header><!-- .entry-header -->
 
 	<hr />
@@ -41,14 +53,19 @@ $lessonCardCount = count( $phrases );
 		<?php
 			while ( $phrases->have_posts() ) : $phrases->the_post();
 				if ( $lessonCardCounter === 0 ) :
-				echo '<div class="lesson-card learn-card current" data-lesson-object-id="'.$post->ID.'">';
+				echo '<div class="lesson-card learn-card current" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 				elseif ( $lessonCardCounter == $lessonCardCount - 1 ) :
-				echo '<div class="lesson-card learn-card last" data-lesson-object-id="'.$post->ID.'">';
+				echo '<div class="lesson-card learn-card last" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 				else :
-				echo '<div class="lesson-card learn-card" data-lesson-object-id="'.$post->ID.'">';
+				echo '<div class="lesson-card learn-card" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 				endif;
 				echo get_the_title();
 				echo get_field('english_translation');
+				if ( get_field('phrases_pronunciation') ) {
+					echo 	'<button class="btn btn-primary play-audio">Play Audio</button>';
+					echo 	'<button class="btn btn-primary pause-audio">Pause Audio</button>';
+					echo 	'<audio class="pronunciation" src="'.get_field('phrases_pronunciation').'"></audio>';	
+				}
 				$vocabularyTerm = new WP_Query( array(
 					'connected_type' => 'vocabulary_terms_to_phrases',
 				  'connected_items' => $post->ID,
@@ -69,7 +86,7 @@ $lessonCardCount = count( $phrases );
 	<hr />
 
 	<footer class="lesson-footer">
-		<div id="lesson-controls">
+		<div class="lesson-controls">
 			<a class="btn btn-primary advance-lesson" href="javascript:void(0);">Next</a>
 			<a class="btn btn-primary finish-lesson" href="javascript:void(0);" data-lesson-outcome="pass" data-currency-type-id="<?php echo $currencyTypeID; ?>" data-landing-id="<?php echo $landingPageID; ?>"><?php echo __('Pau!'); ?></a>
 		</div>

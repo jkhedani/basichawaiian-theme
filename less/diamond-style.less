@@ -164,6 +164,9 @@ body.single-units {
  */
 .lesson-header {
 	.clearfix();
+	.lesson-progress {
+		.bar.current{ background: #339bb9; }
+	}
 }
 .lesson-content {
 	.lesson-feedback {
@@ -175,6 +178,7 @@ body.single-units {
 		display: none;
 		&.current { display: block; }
 	}
+	.pause-audio { display: none; }
 }
 
 .lesson-footer {

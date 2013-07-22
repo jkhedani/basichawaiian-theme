@@ -65,8 +65,9 @@ if ( get_field('instructional_slide') ) {
 					// Slide Audio
 					if ( $instructionalSlide['instructional_slide_audio_ogg'] ) {
 						echo 	'<div class="infromation-slide-audio">';
-						echo 		'<button class="btn btn-primary play-pronunciation">Play Audio</button>';
-						echo 		'<audio class="pronunciation" src="'.$instructionalSlide['instructional_slide_audio_ogg'].'"></audio>';
+						echo 		'<button class="btn btn-primary play-audio">Play Audio</button>';
+						echo 		'<button class="btn btn-primary pause-audio">Pause Audio</button>';
+						echo 		'<audio class="pronunciation" id="fuckhead" src="'.$instructionalSlide['instructional_slide_audio_ogg'].'"></audio>';
 						echo 	'</div>';
 					}
 					if ( $instructionalSlide['instructional_slide_translation'] )

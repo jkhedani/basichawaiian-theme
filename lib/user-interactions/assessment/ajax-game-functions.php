@@ -144,14 +144,19 @@ function finish_lesson() {
 				increment_object_value ( $lessonCardID, 'times_correct' );
 				// Increment lesson card correct count for use in outcome display
 				$lessonCardCorrectCount++;
+				// Increment lesson card count only for assessed objects
+				$lessonCardCount++;
 			} elseif ( $lessonCardResult == 0 ) {
 				increment_object_value ( $lessonCardID, 'times_viewed' );
 				increment_object_value ( $lessonCardID, 'times_wrong' );
+				// Increment lesson card count only for assessed objects
+				$lessonCardCount++;
+			} elseif ( $lessonCardResult == -99 ) {
+				// From an instructional card
+				increment_object_value ( $lessonCardID, 'times_viewed' );
 			} else {
 				// do nothing (usually means learner failed game and didn't see an object)
 			}
-			// Increment lesson card count for use in outcome display
-			$lessonCardCount++;
 		}
 	}
 
@@ -165,7 +170,6 @@ function finish_lesson() {
 
 		// Update users wallet if they haven't already completed an learning object
 		$lessonRecord = get_object_record( $lessonID );
-		error_log(print_r($lessonRecord,true));
 		if ( $lessonRecord[0]->times_completed <= 1 ) {
 			updateWallet( $currencyTypeID );
 		}

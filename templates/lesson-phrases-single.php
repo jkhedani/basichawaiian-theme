@@ -21,7 +21,8 @@ $phrases = new WP_Query( array(
 ));
 
 // Count the total amount of lesson objects
-$phrasesCount = $phrases->post_count;
+$lessonCardCounter = 0;
+$lessonCardCount = $phrases->post_count;
 
 ?>
 
@@ -32,11 +33,11 @@ $phrasesCount = $phrases->post_count;
 		<h4 class="lesson-instructions span12">Choose the English sentence that best represents the Hawaiian phrase below.</h4>
 		<div class="lesson-progress progress span5">
 			<?php
-				$width = 100 / $phrasesCount;
-				for ( $i = 0; $i < $phrasesCount; $i++ ) {
+				$width = 100 / $lessonCardCount;
+				for ( $i = 0; $i < $lessonCardCount; $i++ ) {
 					if ( $i == 0 ) :
 						echo '<div class="bar bar-info current" style="width: '.$width.'%;"></div>';
-					elseif ( $i == $phrasesCount - 1 ):
+					elseif ( $i == $lessonCardCount - 1 ):
 						echo '<div class="bar bar-info last" style="width: '.$width.'%;"></div>';
 					else :
 						echo '<div class="bar bar-info" style="width: '.$width.'%;"></div>';
@@ -46,7 +47,7 @@ $phrasesCount = $phrases->post_count;
 		</div>
 		<div class="lesson-karma span5 pull-right">
 			<?php
-				$karmaAllowance = 100 / $phrasesCount;
+				$karmaAllowance = 100 / $lessonCardCount;
 				$karmaAllowance = round( 60 / $karmaAllowance );
 				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
 					echo '<i class="karma-point icon-leaf pull-right"></i>';
@@ -70,7 +71,7 @@ $phrasesCount = $phrases->post_count;
 		while ( $phrases->have_posts() ) : $phrases->the_post();
 			if ( $lessonCardCounter === 0 ) :
 				echo '<div class="lesson-card test-card current" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
-			elseif ( $lessonCardCounter == $phrasesCount - 1 ) :
+			elseif ( $lessonCardCounter == $lessonCardCount - 1 ) :
 				echo '<div class="lesson-card test-card last" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 			else :
 				echo '<div class="lesson-card test-card" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';

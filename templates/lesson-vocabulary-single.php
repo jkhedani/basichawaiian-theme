@@ -164,7 +164,8 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 			echo 	'<h3>'. get_the_title() .'</h3>';
 			echo 	'<div style="margin-bottom:15px;">'. get_the_post_thumbnail() . '</div>';
 			
-			echo 	'<button class="btn btn-primary play-pronunciation">Play Audio</button>';
+			echo 	'<button class="btn btn-primary play-audio">Play Audio</button>';
+			echo 	'<button class="btn btn-primary pause-audio">Pause Audio</button>';
 			echo 	'<audio class="pronunciation" src="'.get_field('audio_track').'"></audio>';
 
 			echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
@@ -191,7 +192,8 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 			endif;
 			echo 	'<h3>'. get_the_title() .'</h3>';
 			
-			echo 	'<button class="btn btn-primary play-pronunciation">Play Audio</button>';
+			echo 	'<button class="btn btn-primary play-audio">Play Audio</button>';
+			echo 	'<button class="btn btn-primary pause-audio">Pause Audio</button>';
 			echo 	'<audio class="pronunciation" src="'.get_field('audio_track').'"></audio>';
 
 			echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
