@@ -35,6 +35,11 @@ function filter_links_rel_external( $content ) {
 require( 'lib/tweaks.php' );
 
 /**
+ *  Load Admin Tweaks
+ */
+require( 'lib/admin-tweaks/admin-tweaks.php' );
+
+/**
  * Load User Interactions Functions
  */
 require( 'lib/user-interactions/user-interactions-functions.php' );
@@ -52,11 +57,40 @@ require( 'lib/scene-generator/scene-functions.php' );
 /**
  * Custom Body Classes
  */
+
 function custom_body_classes( $classes ) {
   // Adds a class of group-blog to blogs with more than 1 published author
   if ( ! is_user_logged_in() ) {
     $classes[] = 'not-logged-in';
   }
+  global $post;
+
+  // Instantiate body classes for kukuis and their descendants
+  $auntyAlohaID = '204';
+  $auntyAlohaDescendants = get_connected_descendants(
+    $auntyAlohaID,
+    'modules_to_units',
+    'topics_to_modules',
+    array(
+      'instructional_lessons_to_topics',
+      'listen_repeat_lessons_to_topics',
+      'reading_lessons_to_topics',
+      'vocabulary_lessons_to_topics',
+      'phrases_lessons_to_topics',
+      'pronouns_lessons_to_topics',
+      'song_lessons_to_topics',
+      'chants_lessons_to_topics',
+    )
+  );
+  foreach ( $auntyAlohaDescendants as $auntyAlohaDescendant ) {
+    if ( $auntyAlohaDescendant == $post->ID ) {
+      $classes[] = 'aunty-aloha';
+    }
+  }
+  if ( $auntyAlohaID == $post->ID )  {
+    $classes[] = 'aunty-aloha';
+  }
+
   return $classes;
 }
 add_filter( 'body_class', 'custom_body_classes' );
@@ -95,6 +129,53 @@ function course_theme_activate_enable_roles($old_name, $old_theme = false) {
 
   // Role: Subscriber (default)
   remove_role("subscriber");
+
+  // Role: Instructional Designer (based on Editor)
+  add_role('instructional_designer', 'Instructional Designer', array(
+    // Administrator permissions:
+    'create_users' => true,
+    'delete_users' => true,
+    'edit_users' => true,
+    'list_users' => true,
+    'remove_users' => true,
+    //'promote_users' => true,
+    'edit_dashboard' => true,
+    'manage_options' => true,
+    'edit_theme_options' => true,
+
+    // Editor permissions:
+    'moderate_comments' => true,
+    'manage_categories' => true,
+    'manage_links' => true,
+    'edit_others_posts' => true,
+    'edit_pages' => true,
+    'edit_others_pages' => true,
+    'edit_published_pages' => true,
+    'publish_pages' => true,
+    'delete_pages' => true,
+    'delete_others_pages' => true,
+    'delete_published_pages' => true,
+    'delete_others_posts' => true,
+    'delete_private_posts' => true,
+    'edit_private_posts' => true,
+    'read_private_posts' => true,
+    'delete_private_pages' => true,
+    'edit_private_pages' => true,
+    'read_private_pages' => true,
+
+    // Author permissions:
+    'edit_published_posts' => true,
+    'upload_files' => true,
+    'publish_posts' => true,
+    'delete_published_posts' => true,
+
+    // Contributor permissions:
+    'edit_posts' => true,
+    'delete_posts' => true,
+
+    // Subscriber permissions:
+    'read' => true,
+  ));
 
   // Role: Student (based on Subscriber)
   add_role('student', 'Student', array(

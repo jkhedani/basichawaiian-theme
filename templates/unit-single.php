@@ -33,14 +33,7 @@ $walletBalance = get_wallet_balance($post->ID);
 		
 		<a class="btn btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left" style="padding-right:10px;"></i>Back to Unit View</a>
 		<h1 class="entry-title"><?php the_title(); ?></h1>
-		
-		<?php bedrock_belowtitle(); ?>
-		
-		<hr />
-
-		<div class="entry-meta">
-			<?php //_s_posted_on(); ?>
-		</div><!-- .entry-meta -->
+	
 	</header><!-- .entry-header -->
 
 	<div class="entry-content row">
@@ -60,9 +53,11 @@ $walletBalance = get_wallet_balance($post->ID);
 			$modules = new WP_Query( array(
 				'connected_type' => 'modules_to_units',
 				'connected_items' => get_queried_object(),
-				'nopaging' => true,
 				'orderby' => 'menu_order',
+				'order' => 'ASC',
+				'nopaging' => true,
 			));
+			$moduleCount = $modules->post_count;
 
 			// Store all modules IDs in an array for use in the DB.
 			$moduleIDs = array();
@@ -76,10 +71,15 @@ $walletBalance = get_wallet_balance($post->ID);
 			 */
 			$carouselID = 'module-list'; ?>
 
-			<div id="<?php echo $carouselID; ?>" class="span12 carousel slide">
+			<div id="<?php echo $carouselID; ?>" class="carousel slide">
 				<ol class="carousel-indicators row">
-					<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="active"></li>
-	    		<li data-target="#<?php echo $carouselID; ?>" data-slide-to="1"></li>
+					<?php for ( $i = 0; $i < $moduleCount; $i++ ) { ?>
+						<?php if ( $i == 0 ) { ?>
+						<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="active"></li>
+	    			<?php } else { ?>
+	    			<li data-target="#<?php echo $carouselID; ?>" data-slide-to="1"></li>
+	    			<?php } ?>
+	    		<?php } ?>
 	    	</ol>
 
 				<ul class="modules carousel-inner row">
@@ -91,7 +91,7 @@ $walletBalance = get_wallet_balance($post->ID);
 					create_object_record( $moduleID ); // May be redundant but for first time visitors, this prevents missing records errors.
 				?>
 
-				<li class="module span12 item <?php if ( $indexCount == 0 ) echo 'active'; ?>" data-complete="<?php echo is_object_complete( $moduleID ) ? "1" : "0"; ?>">
+				<li class="module item <?php if ( $indexCount == 0 ) echo 'active'; ?>" data-complete="<?php echo is_object_complete( $moduleID ) ? "1" : "0"; ?>">
 					<h3 class="module-title"><?php the_title(); ?></h3>
 
 				<?php
@@ -99,7 +99,7 @@ $walletBalance = get_wallet_balance($post->ID);
 					$lessons = new WP_Query( array(
 						'connected_type' => 'topics_to_modules',
 						'connected_items' => $moduleID,
-						'nopaging' => true
+						'nopaging' => true,
 					));
 					if ( $lessons->have_posts() ) :
 						echo '<ul class="topics row">';
@@ -133,11 +133,6 @@ $walletBalance = get_wallet_balance($post->ID);
 		
 		<?php } // MODULES ?>
 
-
-
-		<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', '_s' ), 'after' => '</div>' ) ); ?>
 	</div><!-- .entry-content -->
-
-	<?php bedrock_postcontentend(); ?>
 
 </article><!-- #post-<?php the_ID(); ?> -->

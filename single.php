@@ -10,12 +10,6 @@ get_header(); ?>
 
 		<div id="primary" class="content-area">
 			<div id="content" class="site-content" role="main">
-			
-			<?php bedrock_contentstart(); ?>
-
-			<?php bedrock_get_breadcrumbs(); ?>
-
-			<?php bedrock_abovepostcontent(); ?>
 
 			<?php
 				// UNIT PAGE CONTENT
@@ -81,9 +75,18 @@ get_header(); ?>
 				} // endif;
 			?>
 
-			<?php bedrock_belowpostcontent(); ?>
-
-			<?php bedrock_contentend(); ?>
+			<?php
+			/**
+			 * User Avatar
+			 */
+			$user = wp_get_current_user();
+			$user_id = $user->ID;
+			$gender = get_user_meta( $user_id, 'gender', true );
+			echo '<div class="avatars">';
+			echo 	'<div class="user-avatar '.$gender.' default"></div>';
+			echo 	'<div class="kukui-avatar aunty-aloha default"></div>';
+			echo '</div>';
+			?>
 
 			</div><!-- #content .site-content -->
 		</div><!-- #primary .content-area -->

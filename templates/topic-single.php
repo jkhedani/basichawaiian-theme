@@ -10,11 +10,16 @@ increment_object_value ( $post->ID, 'times_viewed' );
 $previousPageURL = get_permalink( get_connected_object_ID( $post->ID, 'topics_to_modules', 'modules_to_units') );
 $walletBalance = get_wallet_balance($post->ID);
 
+$parentModule = new WP_Query( array(
+	'connected_type' => 'topics_to_modules',
+	'connected_items' => $post->ID,
+	'post_type' => 'modules'
+));
+$parentModuleTitle = $parentModule->posts[0]->post_title;
+
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-
-	<?php bedrock_postcontentstart(); ?>
 
 	<header class="entry-header">
 		<div class="wallet-balance span4 pull-right">
@@ -22,8 +27,7 @@ $walletBalance = get_wallet_balance($post->ID);
 			<p class="pull-right">Flowers: <strong><?php echo !empty($walletBalance) ? $walletBalance : "0"; ?></strong></p>
 		</div>
 		<a class="btn btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left" style="padding-right:10px;"></i>Back to Module View</a>
-		<h1 class="entry-title"><?php the_title(); ?></h1>
-		<hr />
+		<h1 class="entry-title"><?php echo $parentModuleTitle; ?> / <?php the_title(); ?></h1>
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">
@@ -184,8 +188,6 @@ $walletBalance = get_wallet_balance($post->ID);
 
 	<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', '_s' ), 'after' => '</div>' ) ); ?>
 	</div><!-- .entry-content -->
-
-	<?php bedrock_postcontentend(); ?>
 
 </article><!-- #post-<?php the_ID(); ?> -->
 

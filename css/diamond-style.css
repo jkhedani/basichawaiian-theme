@@ -626,10 +626,20 @@ body .claim-kukui {
 body .inline-kukui.aunty-aloha {
   color: #71c3c5;
 }
-body .inline-user {
-  color: ;
+body .avatars {
+  *zoom: 1;
+}
+body .avatars:before,
+body .avatars:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+body .avatars:after {
+  clear: both;
 }
 body .user-avatar {
+  float: left;
   height: 286px;
   width: 150px;
 }
@@ -639,8 +649,26 @@ body .user-avatar.male {
 body .user-avatar.male.default {
   background-position: -558px 0;
 }
-body .user-avatar-male-wave {
+body .user-avatar.male.wave {
   background-position: -224px 0 !important;
+}
+body .user-avatar.female {
+  background: url('../images/female-avatar.png') no-repeat;
+}
+body .user-avatar.female.default {
+  background-position: -540px 0;
+}
+body .user-avatar.female.wave {
+  background-position: -207px 0 !important;
+  width: 157px;
+}
+body .kukui-avatar {
+  float: right;
+  height: 286px;
+  width: 175px;
+}
+body .kukui-avatar.aunty-aloha {
+  background: url('../images/aunty-aloha.png') no-repeat;
 }
 /**
  *	Mixins
@@ -708,6 +736,13 @@ body.not-logged-in footer#colophon .container-narrow {
 body.logged-in {
   background: url('../images/texture-one.png');
 }
+body.logged-in.aunty-aloha #page {
+  background: url('../images/aunty-aloha-bg.jpg') no-repeat;
+  -webkit-background-size: 100% auto;
+  -moz-background-size: 100% auto;
+  -o-background-size: 100% auto;
+  background-size: 100% auto;
+}
 /**
  *	Logged in: Home
  */
@@ -741,16 +776,6 @@ body.home.logged-in ul.units li.unit a.post204 {
   background: url('../images/aunty-aloha-icon.png') center center no-repeat rgba(113, 195, 197, 0.9);
 }
 /**
- *	Unit Pages
- */
-body.single-units.postid-204 #page {
-  background: url('../images/aunty-aloha-bg.jpg') no-repeat;
-  -webkit-background-size: 100% auto;
-  -moz-background-size: 100% auto;
-  -o-background-size: 100% auto;
-  background-size: 100% auto;
-}
-/**
  * General Lesson Styles
  */
 .lesson-header {
@@ -767,6 +792,10 @@ body.single-units.postid-204 #page {
 }
 .lesson-header .lesson-progress .bar.current {
   background: #339bb9;
+}
+.lesson-content {
+  width: 980px;
+  margin: 0 auto;
 }
 .lesson-content .lesson-feedback {
   display: none;
@@ -822,7 +851,8 @@ body.single-readings .readings-text.active {
  *  Post Single: Unit
  */
 body.single-units .entry-content #module-list {
-  min-height: 500px;
+  width: 980px;
+  margin: 0 auto;
 }
 body.single-units .entry-content #module-list ul.modules li.module ul.topics li.topic {
   list-style: none;
@@ -844,6 +874,10 @@ body.single-units .carousel .carousel-control.right {
 /**
  *  Post Single: Topic
  */
+body.single-topics ul.lessons {
+  width: 980px;
+  margin: 0 auto;
+}
 body.single-topics ul.lessons li.lesson {
   list-style: none;
 }

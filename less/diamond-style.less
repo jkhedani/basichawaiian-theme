@@ -58,18 +58,32 @@ body {
 	.inline-kukui {
 		&.aunty-aloha { color: @colorAuntyAloha; }
 	}
-	.inline-user {
-		color: ;
-	}
+	.inline-user { }
+	.avatars { .clearfix(); }
 	.user-avatar {
+		float: left;
 		height: 286px;
 		width: 150px;
 		&.male {
 			background: url('../images/male-avatar.png') no-repeat;
+			&.default { background-position: -558px 0; }
+			&.wave { background-position: -224px 0 !important; }
+		}
+		&.female {
+			background: url('../images/female-avatar.png') no-repeat;
+			&.default { background-position: -540px 0; }
+			&.wave { background-position: -207px 0 !important; width: 157px; }
 		}
 	}
-	.user-avatar.male.default { background-position: -558px 0; }
-	.user-avatar-male-wave { background-position: -224px 0 !important; }
+	.kukui-avatar {
+		float: right;
+		height: 286px;
+		width: 175px;
+		&.aunty-aloha {
+			background: url('../images/aunty-aloha.png') no-repeat;
+			&.default {  }
+		}
+	}
 }
 /**
  *	Mixins
@@ -113,6 +127,9 @@ body.not-logged-in {
  */
 body.logged-in {
 	background: url('../images/texture-one.png');
+	&.aunty-aloha {
+		#page { background: url( '../images/aunty-aloha-bg.jpg' ) no-repeat; .full-width-background-image; }
+	}
 }
 
 
@@ -151,15 +168,6 @@ body.home.logged-in {
 }
 
 /**
- *	Unit Pages
- */
-body.single-units {
-	// Aunty Aloha
-	&.postid-204 #page { background: url( '../images/aunty-aloha-bg.jpg' ) no-repeat; .full-width-background-image; }
-}
-
-
-/**
  * General Lesson Styles
  */
 .lesson-header {
@@ -169,6 +177,7 @@ body.single-units {
 	}
 }
 .lesson-content {
+	width: 980px; margin: 0 auto;
 	.lesson-feedback {
 		display: none;
 		.lesson-feedback-correct { display: none; }
@@ -222,7 +231,7 @@ body.single-readings {
 body.single-units {
  	.entry-content {
  		#module-list {
- 			min-height: 500px;
+ 			width: 980px; margin: 0 auto;
  			ul.modules { 
 				li.module {
 			 		ul.topics {
@@ -253,6 +262,7 @@ body.single-units {
  */
 body.single-topics {
 	ul.lessons {
+		width: 980px; margin: 0 auto;
 		li.lesson {
 			list-style: none;
 			a {
