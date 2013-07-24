@@ -74,10 +74,10 @@ function custom_body_classes( $classes ) {
     array(
       'instructional_lessons_to_topics',
       'listen_repeat_lessons_to_topics',
-      'reading_lessons_to_topics',
+      'readings_to_topics',
       'vocabulary_lessons_to_topics',
       'phrases_lessons_to_topics',
-      'pronouns_lessons_to_topics',
+      'pronoun_lessons_to_topics',
       'song_lessons_to_topics',
       'chants_lessons_to_topics',
     )

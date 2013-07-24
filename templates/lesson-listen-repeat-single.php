@@ -26,11 +26,8 @@ $lessonCardCount = $phrases->post_count;
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('lesson-container'); ?> data-lesson-id="<?php echo $post->ID; ?>" data-lesson-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>">
 
-	<?php bedrock_postcontentstart(); ?>
-
 	<header class="lesson-header">
 		<h1 class="lesson-title"><?php the_title(); ?></h1>
-		<h3 class="lesson-instructions">To complete this lecture, follow along with the entire video below.</h3>
 		<div class="lesson-progress progress span5">
 			<?php
 				$width = 100 / $lessonCardCount;
@@ -45,9 +42,8 @@ $lessonCardCount = $phrases->post_count;
 				}
 			?>
 		</div>
+		<h4 class="lesson-instructions">To complete this lecture, follow along with the entire video below.</h4>
 	</header><!-- .entry-header -->
-
-	<hr />
 
 	<div class="lesson-content">
 		<?php
@@ -59,13 +55,17 @@ $lessonCardCount = $phrases->post_count;
 				else :
 				echo '<div class="lesson-card learn-card" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 				endif;
-				echo get_the_title();
-				echo get_field('english_translation');
+
+				echo '<div class="lesson-card-content">';
+				echo '<h1 class="lesson-card-content-title">'.get_the_title().'</h1>';
+				echo '<h2 class="lesson-card-content-subtitle">'.get_field('english_translation').'</h2>';
 				if ( get_field('phrases_pronunciation') ) {
 					echo 	'<button class="btn btn-primary play-audio">Play Audio</button>';
 					echo 	'<button class="btn btn-primary pause-audio">Pause Audio</button>';
 					echo 	'<audio class="pronunciation" src="'.get_field('phrases_pronunciation').'"></audio>';	
 				}
+				echo '</div>';
+
 				$vocabularyTerm = new WP_Query( array(
 					'connected_type' => 'vocabulary_terms_to_phrases',
 				  'connected_items' => $post->ID,
@@ -76,14 +76,13 @@ $lessonCardCount = $phrases->post_count;
 					echo get_the_post_thumbnail();
 				endwhile;
 				wp_reset_postdata();
+				
 				echo '</div>';
 				$lessonCardCounter++;
 			endwhile;
 			wp_reset_postdata();
 		?>
 	</div><!-- .entry-content -->
-
-	<hr />
 
 	<footer class="lesson-footer">
 		<div class="lesson-controls">

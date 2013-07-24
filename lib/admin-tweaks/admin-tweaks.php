@@ -76,12 +76,22 @@ function add_useful_toolbar_menu() {
 	global $wp_admin_bar;
 	if ( current_user_can('edit_posts') ) {
 
+		if ( !current_user_can('manage_options') ) {
+			$location = get_home_url();
+		} else {
+			if ( is_admin() ) {
+				$location = get_home_url();
+			} else {
+				$location = get_admin_url();
+			}
+		}
+
 		// Course Name Menu
 		$wp_admin_bar->add_menu( array(
 			'id' => 'view-all',
 			'title' => 'View All',
 			'meta' => array(),
-			'href' => get_home_url(),
+			'href' => $location,
 		));
 		$postTypes = get_post_types( array( '_builtin' => false ), 'object' );
 		foreach ($postTypes as $postType) {

@@ -21,11 +21,9 @@ $currencyTypeID = get_connected_object_ID( $post->ID, 'readings_to_topics', 'top
 	<header class="lesson-header">
 		<?php bedrock_abovetitle(); ?>
 		<h1 class="lesson-title"><?php the_title(); ?></h1>
-		<h3 class="lesson-instructions">Letʻs listen to the voice of our ancestors. Here are ancient Hawaiian thoughts and stories printed in the Hawaiian language newspapers over one hundred years ago.</h3>
+		<h4 class="lesson-instructions">Letʻs listen to the voice of our ancestors. Here are ancient Hawaiian thoughts and stories printed in the Hawaiian language newspapers over one hundred years ago.</h4>
 		<?php bedrock_belowtitle(); ?>
 	</header><!-- .entry-header -->
-
-	<hr />
 
 	<div class="lesson-content">
 		
@@ -44,10 +42,8 @@ $currencyTypeID = get_connected_object_ID( $post->ID, 'readings_to_topics', 'top
 
 	</div><!-- .entry-content -->
 
-	<hr />
-
 	<footer class="lesson-footer">
-		<div id="lesson-controls">
+		<div class="lesson-controls">
 			<a class="btn btn-primary finish-lesson" href="javascript:void(0);" data-lesson-outcome="pass" data-currency-type-id="<?php echo $currencyTypeID; ?>" data-landing-id="<?php echo $landingPageID; ?>"><?php echo __('Pau!'); ?></a>
 		</div>
 	</footer>

@@ -25,14 +25,14 @@ $walletBalance = get_wallet_balance($post->ID);
 	<?php bedrock_postcontentstart(); ?>
 
 	<header class="entry-header">
+		<h1 class="entry-title"><?php the_title(); ?></h1>
+
+		<a class="btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left icon-white" style="padding-right:10px;"></i>Back to Unit View</a>
 
 		<div class="wallet-balance span4 pull-right">
 			<?php if ( $walletBalance > 1 ) { echo '<a class="btn btn-small pull-right claim-kukui" href="javascript:void(0);">Claim a kukui</a>'; } ?>
 			<p class="pull-right">Flowers: <strong><?php echo !empty($walletBalance) ? $walletBalance : "0"; ?></strong></p>
 		</div>
-		
-		<a class="btn btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left" style="padding-right:10px;"></i>Back to Unit View</a>
-		<h1 class="entry-title"><?php the_title(); ?></h1>
 	
 	</header><!-- .entry-header -->
 
@@ -72,7 +72,7 @@ $walletBalance = get_wallet_balance($post->ID);
 			$carouselID = 'module-list'; ?>
 
 			<div id="<?php echo $carouselID; ?>" class="carousel slide">
-				<ol class="carousel-indicators row">
+				<ol class="carousel-indicators">
 					<?php for ( $i = 0; $i < $moduleCount; $i++ ) { ?>
 						<?php if ( $i == 0 ) { ?>
 						<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="active"></li>
@@ -82,7 +82,7 @@ $walletBalance = get_wallet_balance($post->ID);
 	    		<?php } ?>
 	    	</ol>
 
-				<ul class="modules carousel-inner row">
+				<ul class="modules carousel-inner">
 			
 				<?php
 				$indexCount = 0;

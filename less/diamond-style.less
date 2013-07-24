@@ -35,7 +35,13 @@ body {
 		min-height: 0px;
 	}
 	#content {
-		header h1 { background-color: rgba(44,44,44,0.6); color: #FFF; margin: 0; padding: 28px; } // Instruction/Title text
+		header {
+			.clearfix();
+			background-color: rgba(44,44,44,0.6);
+			h1 { float: left; color: #FFF; margin: 28px; } // Instruction/Title text
+			.wallet-balance { margin: 28px 28px 0 28px; color: #FFF; }
+			.btn-back { margin: 39px 28px 0 10px; display: block; float: left; color: #FFF; }
+		}
 	}
 	footer#colophon {
 		background: none;
@@ -48,8 +54,6 @@ body {
 			&.btn-primary { color: #FFF; }
 		}
 	}
-	// Random elements
-	.btn-back { margin-bottom: 10px !important; }
 	// Styling for completed lessons, topics, modules and units
 	[data-complete^="1"] a h4, [data-complete*="1"] a h4 {
 		background-color: @green !important;
@@ -61,7 +65,9 @@ body {
 	.inline-user { }
 	.avatars { .clearfix(); }
 	.user-avatar {
-		float: left;
+		position: absolute;
+		left: 0;
+		bottom: 0;
 		height: 286px;
 		width: 150px;
 		&.male {
@@ -76,7 +82,9 @@ body {
 		}
 	}
 	.kukui-avatar {
-		float: right;
+		position: absolute;
+		right: 0;
+		bottom: 0;
 		height: 286px;
 		width: 175px;
 		&.aunty-aloha {
@@ -172,12 +180,20 @@ body.home.logged-in {
  */
 .lesson-header {
 	.clearfix();
+	.lesson-title { margin: 28px 28px 10px 28px; float: left; }
 	.lesson-progress {
+		float: right;
+		margin: 28px;
 		.bar.current{ background: #339bb9; }
 	}
+	.lesson-karma { float: right; margin: 28px; }
+	.lesson-instructions { margin: 0 28px 30px; color: #FFF; clear: both; font-weight: normal; }
 }
 .lesson-content {
-	width: 980px; margin: 0 auto;
+	padding: 28px;
+	min-height: 404px;
+	max-height: 404px;
+	background-color: rgba(255,255,255,0.4);
 	.lesson-feedback {
 		display: none;
 		.lesson-feedback-correct { display: none; }
@@ -191,12 +207,44 @@ body.home.logged-in {
 }
 
 .lesson-footer {
+	position: absolute;
+	width: 100%;
+	background-color: rgba(44,44,44,0.6);
 	.lesson-controls {
+		padding: 28px;
+		height: 21px;
 		.advance-lesson { display: none; }
 		.check-lesson { display: none; }
 		.finish-lesson { display: none; }
 	}
 }
+
+.lesson-results { 
+	width: 340px;
+	height: 245px;
+	padding: 50px;
+	margin: 150px auto;
+	background-color: rgba(44,44,44,0.6);
+	color: #FFF;
+	text-align: center;
+	.lesson-results-title { margin: 5px auto; font-size: 80px; line-height: 1.0; }
+	.lesson-results-blurb { margin: 5px auto; font-size: 28px; line-height: 1.0; }
+	.lesson-results-score { margin: 5px auto; }
+	.lesson-results-controls { width: 400px; margin: 20px auto; }
+}
+
+/**
+ *	Lesson Styles: Listen Repeat;
+ */
+body.single-listenrepeat_lessons {
+	.lesson-content {
+		img { float: left; margin: 0 28px 0 0; }
+		.lesson-card-content {
+			float: right;
+		}
+	}
+}
+
 
 /**
  * Lesson Styles: Readings
@@ -252,7 +300,8 @@ body.single-units {
 		.carousel-control {
 			bottom: 0;
 			top: auto;
-			&.right { right: 0; }
+			&.left { left: -60px; }
+			&.right { right: -80px; }
 		}
 	}
 }

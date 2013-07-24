@@ -100,12 +100,16 @@ function finish_lesson() {
 		}
 
 		// Return Lesson Result page
-		$html .= '<h1>' . __('Maika&#8216;i!') . '</h1>';
-		$html .= '<p>You completed this lesson!</p>';
+		$html .= '<div class="lesson-results success">';
+		$html .= '<h1 class="lesson-results-title">' . __('Maika&#8216;i!') . '</h1>';
+		$html .= '<p class="lesson-results-blurb">You completed this lesson!</p>';
 		if ( !empty( $lessonCardCorrectCount ) )
-		$html .= '<p>You got '.$lessonCardCorrectCount.' out of '.$lessonCardCount.' correct!</p>';
+		$html .= '<p class="lesson-results-score">You got '.$lessonCardCorrectCount.' out of '.$lessonCardCount.' correct!</p>';
+		$html .= '<div class="lesson-results-control">';
 		$html .= '<a href="'. get_permalink( $lessonID ) .'" class="replay-lesson btn">Replay Lesson</a>';
 		$html .= '<a href="'. get_permalink( $landingID ) .'" class="btn btn-primary">Continue</a>';
+		$html .= '</div>';
+		$html .= '</div>';
 
 	elseif ( $lessonOutcome == 'fail' ) :
 
@@ -113,10 +117,14 @@ function finish_lesson() {
 		increment_object_value ( $lessonID, 'times_wrong' );
 
 		// Return Lesson Result page
-		$html .= '<h1>' . __('Aue!') . '</h1>';
+		$html .= '<div class="lesson-results fail">';
+		$html .= '<h1 class="lesson-results-title">' . __('Aue!') . '</h1>';
 		$html .= '<p>Take a break and try again!</p>';
+		$html .= '<div class="lesson-results-control">';
 		$html .= '<a href="'. get_permalink( $lessonID ) .'" class="replay-lesson btn btn-primary">Replay Lesson</a>';
 		$html .= '<a href="'. get_permalink( $landingID ) .'" class="btn btn-primary">Continue</a>';
+		$html .= '</div>';
+		$html .= '</div>';
 
 	endif;
 

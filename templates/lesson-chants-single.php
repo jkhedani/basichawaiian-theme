@@ -28,9 +28,17 @@ $lessonCardCount = $chantLines->post_count;
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('lesson-container'); ?> data-lesson-id="<?php echo $post->ID; ?>">
 
-	<header class="lesson-header row">
+	<header class="lesson-header">
 		<h1 class="lesson-title"><?php the_title(); ?></h1>
-		<h4 class="lesson-instructions span12">Choose the English sentence that best represents the Hawaiian phrase below.</h4>
+		<div class="lesson-karma pull-right">
+			<?php
+				$karmaAllowance = 100 / $lessonCardCount;
+				$karmaAllowance = round( 60 / $karmaAllowance );
+				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
+					echo '<i class="karma-point icon-leaf icon-white pull-right"></i>';
+				}
+			?>
+		</div>
 		<div class="lesson-progress progress span5">
 			<?php
 				$width = 100 / $lessonCardCount;
@@ -45,18 +53,8 @@ $lessonCardCount = $chantLines->post_count;
 				}
 			?>
 		</div>
-		<div class="lesson-karma span5 pull-right">
-			<?php
-				$karmaAllowance = 100 / $lessonCardCount;
-				$karmaAllowance = round( 60 / $karmaAllowance );
-				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
-					echo '<i class="karma-point icon-leaf pull-right"></i>';
-				}
-			?>
-		</div>
+		<h4 class="lesson-instructions span12">Choose the English sentence that best represents the Hawaiian phrase below.</h4>
 	</header><!-- .entry-header -->
-
-	<hr />
 
 	<div class="lesson-content">
 		<div class="lesson-feedback alert">
@@ -104,8 +102,6 @@ $lessonCardCount = $chantLines->post_count;
 
 		?>
 	</div><!-- .entry-content -->
-
-	<hr />
 
 	<footer class="lesson-footer">
 		<div class="lesson-controls">

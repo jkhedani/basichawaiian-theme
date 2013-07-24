@@ -76,16 +76,18 @@ get_header(); ?>
 			?>
 
 			<?php
-			/**
-			 * User Avatar
-			 */
-			$user = wp_get_current_user();
-			$user_id = $user->ID;
-			$gender = get_user_meta( $user_id, 'gender', true );
-			echo '<div class="avatars">';
-			echo 	'<div class="user-avatar '.$gender.' default"></div>';
-			echo 	'<div class="kukui-avatar aunty-aloha default"></div>';
-			echo '</div>';
+			if ( get_post_type( $post->ID ) == 'topics' || get_post_type( $post->ID ) == 'units' ) :
+				/**
+				 * User Avatar
+				 */
+				$user = wp_get_current_user();
+				$user_id = $user->ID;
+				$gender = get_user_meta( $user_id, 'gender', true );
+				echo '<div class="avatars">';
+				echo 	'<div class="user-avatar '.$gender.' default"></div>';
+				echo 	'<div class="kukui-avatar aunty-aloha default"></div>';
+				echo '</div>';
+			endif;
 			?>
 
 			</div><!-- #content .site-content -->

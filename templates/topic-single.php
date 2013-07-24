@@ -22,12 +22,12 @@ $parentModuleTitle = $parentModule->posts[0]->post_title;
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 	<header class="entry-header">
+		<h1 class="entry-title"><?php echo $parentModuleTitle; ?> / <?php the_title(); ?></h1>
+		<a class="btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left icon-white" style="padding-right:10px;"></i>Back to Module View</a>
 		<div class="wallet-balance span4 pull-right">
 			<?php if ( $walletBalance > 1 ) { echo '<a class="btn btn-small pull-right claim-kukui" href="javascript:void(0);">Claim a kukui</a>'; } ?>
 			<p class="pull-right">Flowers: <strong><?php echo !empty($walletBalance) ? $walletBalance : "0"; ?></strong></p>
 		</div>
-		<a class="btn btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left" style="padding-right:10px;"></i>Back to Module View</a>
-		<h1 class="entry-title"><?php echo $parentModuleTitle; ?> / <?php the_title(); ?></h1>
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">

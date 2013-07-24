@@ -25,7 +25,6 @@ if ( get_field('instructional_slide') ) {
 
 	<header class="lesson-header">
 		<h1 class="lesson-title"><?php the_title(); ?></h1>
-		<h4 class="lesson-instructions">Progress through each slide until you reach the end.</h4>
 		<div class="lesson-progress progress span5">
 			<?php
 				$width = 100 / $lessonCardCount;
@@ -40,9 +39,8 @@ if ( get_field('instructional_slide') ) {
 				}
 			?>
 		</div>
+		<h4 class="lesson-instructions">Progress through each slide until you reach the end.</h4>
 	</header><!-- .entry-header -->
-
-	<hr />
 
 	<div class="lesson-content">
 		<?php
@@ -79,8 +77,6 @@ if ( get_field('instructional_slide') ) {
 			}
 		?>
 	</div><!-- .entry-content -->
-
-	<hr />
 
 	<footer class="lesson-footer">
 		<div class="lesson-controls">

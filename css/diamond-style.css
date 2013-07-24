@@ -592,11 +592,33 @@ body #page {
   margin: 0 auto;
   min-height: 0px;
 }
-body #content header h1 {
+body #content header {
+  *zoom: 1;
   background-color: rgba(44, 44, 44, 0.6);
+}
+body #content header:before,
+body #content header:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+body #content header:after {
+  clear: both;
+}
+body #content header h1 {
+  float: left;
   color: #FFF;
-  margin: 0;
-  padding: 28px;
+  margin: 28px;
+}
+body #content header .wallet-balance {
+  margin: 28px 28px 0 28px;
+  color: #FFF;
+}
+body #content header .btn-back {
+  margin: 39px 28px 0 10px;
+  display: block;
+  float: left;
+  color: #FFF;
 }
 body footer#colophon {
   background: none;
@@ -612,9 +634,6 @@ body a:visited.btn {
 }
 body a:visited.btn.btn-primary {
   color: #FFF;
-}
-body .btn-back {
-  margin-bottom: 10px !important;
 }
 body [data-complete^="1"] a h4,
 body [data-complete*="1"] a h4 {
@@ -639,7 +658,9 @@ body .avatars:after {
   clear: both;
 }
 body .user-avatar {
-  float: left;
+  position: absolute;
+  left: 0;
+  bottom: 0;
   height: 286px;
   width: 150px;
 }
@@ -663,7 +684,9 @@ body .user-avatar.female.wave {
   width: 157px;
 }
 body .kukui-avatar {
-  float: right;
+  position: absolute;
+  right: 0;
+  bottom: 0;
   height: 286px;
   width: 175px;
 }
@@ -790,12 +813,32 @@ body.home.logged-in ul.units li.unit a.post204 {
 .lesson-header:after {
   clear: both;
 }
+.lesson-header .lesson-title {
+  margin: 28px 28px 10px 28px;
+  float: left;
+}
+.lesson-header .lesson-progress {
+  float: right;
+  margin: 28px;
+}
 .lesson-header .lesson-progress .bar.current {
   background: #339bb9;
 }
+.lesson-header .lesson-karma {
+  float: right;
+  margin: 28px;
+}
+.lesson-header .lesson-instructions {
+  margin: 0 28px 30px;
+  color: #FFF;
+  clear: both;
+  font-weight: normal;
+}
 .lesson-content {
-  width: 980px;
-  margin: 0 auto;
+  padding: 28px;
+  min-height: 404px;
+  max-height: 404px;
+  background-color: rgba(255, 255, 255, 0.4);
 }
 .lesson-content .lesson-feedback {
   display: none;
@@ -815,6 +858,15 @@ body.home.logged-in ul.units li.unit a.post204 {
 .lesson-content .pause-audio {
   display: none;
 }
+.lesson-footer {
+  position: absolute;
+  width: 100%;
+  background-color: rgba(44, 44, 44, 0.6);
+}
+.lesson-footer .lesson-controls {
+  padding: 28px;
+  height: 21px;
+}
 .lesson-footer .lesson-controls .advance-lesson {
   display: none;
 }
@@ -823,6 +875,42 @@ body.home.logged-in ul.units li.unit a.post204 {
 }
 .lesson-footer .lesson-controls .finish-lesson {
   display: none;
+}
+.lesson-results {
+  width: 340px;
+  height: 245px;
+  padding: 50px;
+  margin: 150px auto;
+  background-color: rgba(44, 44, 44, 0.6);
+  color: #FFF;
+  text-align: center;
+}
+.lesson-results .lesson-results-title {
+  margin: 5px auto;
+  font-size: 80px;
+  line-height: 1.0;
+}
+.lesson-results .lesson-results-blurb {
+  margin: 5px auto;
+  font-size: 28px;
+  line-height: 1.0;
+}
+.lesson-results .lesson-results-score {
+  margin: 5px auto;
+}
+.lesson-results .lesson-results-controls {
+  width: 400px;
+  margin: 20px auto;
+}
+/**
+ *	Lesson Styles: Listen Repeat;
+ */
+body.single-listenrepeat_lessons .lesson-content img {
+  float: left;
+  margin: 0 28px 0 0;
+}
+body.single-listenrepeat_lessons .lesson-content .lesson-card-content {
+  float: right;
 }
 /**
  * Lesson Styles: Readings
@@ -868,8 +956,11 @@ body.single-units .carousel .carousel-control {
   bottom: 0;
   top: auto;
 }
+body.single-units .carousel .carousel-control.left {
+  left: -60px;
+}
 body.single-units .carousel .carousel-control.right {
-  right: 0;
+  right: -80px;
 }
 /**
  *  Post Single: Topic
