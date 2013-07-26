@@ -197,10 +197,10 @@ $parentModuleTitle = $parentModule->posts[0]->post_title;
     <h3>Start your lesson</h3>
   </div>
   <div class="modal-body">
-    <h2><?php echo __('M&#257;kakau?'); ?></h2>
+    <h2><?php echo __('M&#257;kaukau?'); ?></h2>
   </div>
   <div class="modal-footer">
-    <a class="btn btn-primary start-lesson" href="javascript:void(0);" data-lesson-type="lecture" data-connected-to-id="<?php echo $post->ID; ?>"><?php echo __('&#8216;Ai'); ?></a>
-		<a class="btn btn-primary abort-lesson" href="javascript:void(0);"><?php echo __('A&#8216;ole'); ?></a>
+    <a class="btn btn-primary start-lesson" href="javascript:void(0);" data-lesson-type="lecture" data-connected-to-id="<?php echo $post->ID; ?>"><?php echo __('&#8216;Ae'); ?></a>
+		<a class="btn btn-primary abort-lesson" href="javascript:void(0);"><?php echo __('&#8216;A&#8216;ole'); ?></a>
   </div>
 </div>

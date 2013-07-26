@@ -58,7 +58,7 @@ $pronounsCount = $pronouns->post_count;
 	<div class="lesson-content">
 		<div class="lesson-feedback alert">
 			<span class="lesson-feedback-correct">That's correct!</span>
-			<span class="lesson-feedback-incorrect">Whoops! The correct answer was <strong class="lesson-feedback-correct-option"></strong></span>
+			<span class="lesson-feedback-incorrect">Aue! The correct answer was <strong class="lesson-feedback-correct-option"></strong></span>
 		</div>
 		<?php
 

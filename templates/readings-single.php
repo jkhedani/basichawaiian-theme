@@ -26,20 +26,26 @@ $currencyTypeID = get_connected_object_ID( $post->ID, 'readings_to_topics', 'top
 	</header><!-- .entry-header -->
 
 	<div class="lesson-content">
-		
-		<button class="btn btn-primary play-pronunciation">Play Audio</button>
-		<audio class="pronunciation" src="<?php echo get_field('readings_audio_track'); ?>"></audio>
+		<div class="lesson-card learn-card current last" data-lesson-object-id="<?php echo $post->ID; ?>" data-lesson-object-result="-99">
+			<button class="btn btn-primary play-pronunciation">Play Audio</button>
+			<audio class="pronunciation" src="<?php echo get_field('readings_audio_track'); ?>"></audio>
 
-		<a class="btn btn-primary toggle-original-newspaper">Show Original Newspaper Clipping</a>
-		<a class="btn btn-primary toggle-typed-newspaper">Show Typed Newspaper Text</a>
-		<a class="btn btn-primary toggle-typed-newspaper-with-okinas-and-kahako">Show Typed Newspaper Text with 'Okinas & Kahakōs</a>
+			<?php if ( get_field('original_newspaper') ): ?>
+			<a class="btn btn-primary toggle-original-newspaper">Show Original Newspaper Clipping</a>
+			<?php endif; ?>
+			<?php if ( get_field('typed_newspaper') ): ?>
+			<a class="btn btn-primary toggle-typed-newspaper">Show Typed Newspaper Text</a>
+			<?php endif; ?>
+			<?php if ( get_field('typed_newspaper_with_okinas_and_kahako') ): ?>
+			<a class="btn btn-primary toggle-typed-newspaper-with-okinas-and-kahako">Show Typed Newspaper Text with 'Okinas & Kahakōs</a>
+			<?php endif; ?>
 
-		<div class="readings-texts">
-			<div class="active original-newspaper readings-text"><img src="<?php echo get_field('original_newspaper'); ?>" /></div>
-			<div class="typed-newspaper readings-text"><?php echo get_field('typed_newspaper'); ?></div>
-			<div class="typed-newspaper-with-okinas-and-kahako readings-text"><?php echo get_field('typed_newspaper_with_okinas_and_kahako'); ?></div>
+			<div class="readings-texts">
+				<div class="active original-newspaper readings-text"><img src="<?php echo get_field('original_newspaper'); ?>" /></div>
+				<div class="typed-newspaper readings-text"><?php echo get_field('typed_newspaper'); ?></div>
+				<div class="typed-newspaper-with-okinas-and-kahako readings-text"><?php echo get_field('typed_newspaper_with_okinas_and_kahako'); ?></div>
+			</div>
 		</div>
-
 	</div><!-- .entry-content -->
 
 	<footer class="lesson-footer">

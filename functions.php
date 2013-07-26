@@ -481,7 +481,7 @@ function BASICHWN_post_types() {
     array(
     'menu_position' => 11,
     'public' => true,
-    'supports' => array('title', 'editor', 'thumbnail'),
+    'supports' => array('title', 'editor'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'reading'),
     )
@@ -506,7 +506,7 @@ function BASICHWN_post_types() {
     array(
     'menu_position' => 16,
     'public' => true,
-    'supports' => array('title', 'editor', 'thumbnail'),
+    'supports' => array('title', 'editor'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'vocabulary'),
     'taxonomies' => array('vocabulary_categories'),
@@ -637,7 +637,7 @@ function BASICHWN_post_types() {
     array(
     'menu_position' => 25,
     'public' => true,
-    'supports' => array('title', 'thumbnail'),
+    'supports' => array('title'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'vocabulary-lesson'),
     )
@@ -679,7 +679,7 @@ function BASICHWN_post_types() {
     array(
     'menu_position' => 25,
     'public' => true,
-    'supports' => array('title', 'thumbnail'),
+    'supports' => array('title'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'pronoun-lesson'),
     )
@@ -756,50 +756,50 @@ function BASICHWN_taxonomies() {
   ));
 
   // Add new taxonomy, make it hierarchical (like categories)
-  $labels = array(
-    'name' => _x( 'Vocabulary Categories', 'taxonomy general name' ),
-    'singular_name' => _x( 'Vocabulary Category', 'taxonomy singular name' ),
-    'search_items' =>  __( 'Search Vocabulary Categories' ),
-    'all_items' => __( 'All Vocabulary Categories' ),
-    'parent_item' => __( 'Parent Vocabulary Category' ),
-    'parent_item_colon' => __( 'Parent Vocabulary Category:' ),
-    'edit_item' => __( 'Edit Vocabulary Category' ), 
-    'update_item' => __( 'Update Vocabulary Category' ),
-    'add_new_item' => __( 'Add New Vocabulary Category' ),
-    'new_item_name' => __( 'New Vocabulary Category Name' ),
-    'menu_name' => __( ' Edit Vocabulary Categories' ),
-  ); 	
+  // $labels = array(
+  //   'name' => _x( 'Vocabulary Categories', 'taxonomy general name' ),
+  //   'singular_name' => _x( 'Vocabulary Category', 'taxonomy singular name' ),
+  //   'search_items' =>  __( 'Search Vocabulary Categories' ),
+  //   'all_items' => __( 'All Vocabulary Categories' ),
+  //   'parent_item' => __( 'Parent Vocabulary Category' ),
+  //   'parent_item_colon' => __( 'Parent Vocabulary Category:' ),
+  //   'edit_item' => __( 'Edit Vocabulary Category' ), 
+  //   'update_item' => __( 'Update Vocabulary Category' ),
+  //   'add_new_item' => __( 'Add New Vocabulary Category' ),
+  //   'new_item_name' => __( 'New Vocabulary Category Name' ),
+  //   'menu_name' => __( ' Edit Vocabulary Categories' ),
+  // ); 	
 
-  register_taxonomy('vocabulary_categories',array('vocabulary_terms'), array(
-    'hierarchical' => true,
-    'labels' => $labels,
-    'show_ui' => true,
-    'query_var' => true,
-    'rewrite' => array( 'slug' => 'vocabulary-categories' ),
-  ));
+  // register_taxonomy('vocabulary_categories',array('vocabulary_terms'), array(
+  //   'hierarchical' => true,
+  //   'labels' => $labels,
+  //   'show_ui' => true,
+  //   'query_var' => true,
+  //   'rewrite' => array( 'slug' => 'vocabulary-categories' ),
+  // ));
 
-  // Add new taxonomy, make it hierarchical (like categories)
-  $labels = array(
-    'name' => _x( 'Difficulty Levels', 'taxonomy general name' ),
-    'singular_name' => _x( 'Difficulty Level', 'taxonomy singular name' ),
-    'search_items' =>  __( 'Search Difficulty Levels' ),
-    'all_items' => __( 'All Difficulty Levels' ),
-    'parent_item' => __( 'Parent Difficulty Level' ),
-    'parent_item_colon' => __( 'Parent Difficulty Level:' ),
-    'edit_item' => __( 'Edit Difficulty Level' ), 
-    'update_item' => __( 'Update Difficulty Level' ),
-    'add_new_item' => __( 'Add New Difficulty Level' ),
-    'new_item_name' => __( 'New Difficulty Level Name' ),
-    'menu_name' => __( 'Edit Difficulty Levels' ),
-  ); 	
+  // // Add new taxonomy, make it hierarchical (like categories)
+  // $labels = array(
+  //   'name' => _x( 'Difficulty Levels', 'taxonomy general name' ),
+  //   'singular_name' => _x( 'Difficulty Level', 'taxonomy singular name' ),
+  //   'search_items' =>  __( 'Search Difficulty Levels' ),
+  //   'all_items' => __( 'All Difficulty Levels' ),
+  //   'parent_item' => __( 'Parent Difficulty Level' ),
+  //   'parent_item_colon' => __( 'Parent Difficulty Level:' ),
+  //   'edit_item' => __( 'Edit Difficulty Level' ), 
+  //   'update_item' => __( 'Update Difficulty Level' ),
+  //   'add_new_item' => __( 'Add New Difficulty Level' ),
+  //   'new_item_name' => __( 'New Difficulty Level Name' ),
+  //   'menu_name' => __( 'Edit Difficulty Levels' ),
+  // ); 	
 
-  register_taxonomy('difficulty_level',array('vocabulary_terms','post'), array(
-    'hierarchical' => true,
-    'labels' => $labels,
-    'show_ui' => true,
-    'query_var' => true,
-    //'rewrite' => array( 'slug' => 'genre' ),
-  ));
+  // register_taxonomy('difficulty_level',array('vocabulary_terms','post'), array(
+  //   'hierarchical' => true,
+  //   'labels' => $labels,
+  //   'show_ui' => true,
+  //   'query_var' => true,
+  //   //'rewrite' => array( 'slug' => 'genre' ),
+  // ));
 }
 add_action( 'init', 'BASICHWN_taxonomies');
 
@@ -944,7 +944,7 @@ function BASICHWN_connections() {
     'from' => 'vocabulary_terms',
     'to' => 'phrases',
     'sortable' => 'any',
-    'cardinality' => 'many-to-one', // Many Phrases to One Lesson
+    'cardinality' => 'one-to-many', // Many Phrases to One Lesson
   ));
   // Connect Phrases to Listen Repeat Lessons
   p2p_register_connection_type(array(

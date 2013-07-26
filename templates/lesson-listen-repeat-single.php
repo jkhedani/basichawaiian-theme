@@ -58,7 +58,10 @@ $lessonCardCount = $phrases->post_count;
 
 				echo '<div class="lesson-card-content">';
 				echo '<h1 class="lesson-card-content-title">'.get_the_title().'</h1>';
-				echo '<h2 class="lesson-card-content-subtitle">'.get_field('english_translation').'</h2>';
+
+				echo  '<h3 class="translation english-translation hidden">'.get_field('english_translation').'</h3>';
+				echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
+				
 				if ( get_field('phrases_pronunciation') ) {
 					echo 	'<button class="btn btn-primary play-audio">Play Audio</button>';
 					echo 	'<button class="btn btn-primary pause-audio">Pause Audio</button>';

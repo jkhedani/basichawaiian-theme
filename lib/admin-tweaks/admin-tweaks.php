@@ -85,6 +85,13 @@ function add_useful_toolbar_menu() {
 				$location = get_admin_url();
 			}
 		}
+		// Course Name Menu
+		$wp_admin_bar->add_menu( array(
+			'id' => 'back-to-home',
+			'title' => get_bloginfo('name'),
+			'meta' => array(),
+			'href' => $location,
+		));
 
 		// Course Name Menu
 		$wp_admin_bar->add_menu( array(
