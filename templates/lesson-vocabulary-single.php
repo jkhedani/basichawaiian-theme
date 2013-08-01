@@ -153,6 +153,8 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 			'post__in' => $lessonCardsToTeach,
 			'orderby' => 'post__in',
 			'post_type' => 'vocabulary_terms',
+			'posts_per_page' => -1,
+			'posts_per_archive_page' => -1,
 		));
 		while ( $teachingCards->have_posts() ) : $teachingCards->the_post();
 
@@ -162,7 +164,7 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 			echo '<div class="lesson-card learn-card" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 			endif;
 			echo 	'<h3>'. get_the_title() .'</h3>';
-			echo 	'<div style="margin-bottom:15px;">'. get_the_post_thumbnail() . '</div>';
+			echo 	'<div style="margin-bottom:15px;">'. get_the_post_thumbnail($post->ID, 'medium') . '</div>';
 			
 			echo 	'<button class="btn btn-primary play-audio">Play Audio</button>';
 			echo 	'<button class="btn btn-primary pause-audio">Pause Audio</button>';

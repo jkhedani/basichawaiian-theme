@@ -31,19 +31,25 @@ $currencyTypeID = get_connected_object_ID( $post->ID, 'readings_to_topics', 'top
 			<audio class="pronunciation" src="<?php echo get_field('readings_audio_track'); ?>"></audio>
 
 			<?php if ( get_field('original_newspaper') ): ?>
-			<a class="btn btn-primary toggle-original-newspaper">Show Original Newspaper Clipping</a>
+			<a class="btn btn-primary toggle-original-newspaper">Show Original Clipping</a>
 			<?php endif; ?>
 			<?php if ( get_field('typed_newspaper') ): ?>
-			<a class="btn btn-primary toggle-typed-newspaper">Show Typed Newspaper Text</a>
+			<a class="btn btn-primary toggle-typed-newspaper">Show Typed Text</a>
 			<?php endif; ?>
 			<?php if ( get_field('typed_newspaper_with_okinas_and_kahako') ): ?>
-			<a class="btn btn-primary toggle-typed-newspaper-with-okinas-and-kahako">Show Typed Newspaper Text with 'Okinas & Kahakōs</a>
+			<a class="btn btn-primary toggle-typed-newspaper-with-okinas-and-kahako">Show Typed Text with 'Okinas & Kahakōs</a>
 			<?php endif; ?>
 
 			<div class="readings-texts">
-				<div class="active original-newspaper readings-text"><img src="<?php echo get_field('original_newspaper'); ?>" /></div>
+				<?php if ( get_field('original_newspaper') ): ?>
+				<div class="original-newspaper readings-text"><img src="<?php echo get_field('original_newspaper'); ?>" /></div>
+				<?php endif; ?>
+				<?php if ( get_field('typed_newspaper') ): ?>
 				<div class="typed-newspaper readings-text"><?php echo get_field('typed_newspaper'); ?></div>
+				<?php endif; ?>
+				<?php if ( get_field('typed_newspaper_with_okinas_and_kahako') ): ?>
 				<div class="typed-newspaper-with-okinas-and-kahako readings-text"><?php echo get_field('typed_newspaper_with_okinas_and_kahako'); ?></div>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div><!-- .entry-content -->

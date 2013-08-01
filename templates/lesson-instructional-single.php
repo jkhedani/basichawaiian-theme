@@ -65,11 +65,12 @@ if ( get_field('instructional_slide') ) {
 						echo 	'<div class="infromation-slide-audio">';
 						echo 		'<button class="btn btn-primary play-audio">Play Audio</button>';
 						echo 		'<button class="btn btn-primary pause-audio">Pause Audio</button>';
-						echo 		'<audio class="pronunciation" id="fuckhead" src="'.$instructionalSlide['instructional_slide_audio_ogg'].'"></audio>';
+						echo 		'<audio class="pronunciation" src="'.$instructionalSlide['instructional_slide_audio_ogg'].'"></audio>';
 						echo 	'</div>';
 					}
 					if ( $instructionalSlide['instructional_slide_translation'] )
-						echo 	'<div class="instructional-slide-translation">'.$instructionalSlide['instructional_slide_translation'].'</div>';
+						echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
+						echo 	'<div class="translation instructional-slide-translation hidden">'.$instructionalSlide['instructional_slide_translation'].'</div>';
 					$lessonCardCounter++;
 					echo '</div>'; // Instructional Slide
 				}

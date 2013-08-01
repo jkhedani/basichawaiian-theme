@@ -41,7 +41,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 
 			<header>
 				<?php if ( !is_unit_complete( 204 ) ) { // Checking if Aunty Aloha is done ?>
-				<h1><?php _e('Visit <span class="inline-kukui aunty-aloha">&#8216;Anake Aloha</span> in her Garden','hwn'); ?></h1>
+				<h1><?php _e('Visit <span class="inline-kukui aunty-aloha">&#8216;Anak&#275; Aloha</span> in her Garden','hwn'); ?></h1>
 				<?php } else { ?>
 				<h1><?php _e('Visit a kukui to further your knowledge.','hwn'); ?></h1>
 				<?php } ?>

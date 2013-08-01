@@ -89,7 +89,7 @@ function get_object_record( $postIDs ) {
 			WHERE user_id = %d
 				AND post_id IN (".$post_ids_safe.")
 			ORDER BY post_id DESC
-			LIMIT 0, 10
+			LIMIT 0, 50
 			"
 			, $affected_user_id
 		));
@@ -129,7 +129,7 @@ function create_object_record( $postIDs ) {
 			WHERE user_id = %d
 				AND post_id IN (".$post_ids_safe.")
 			ORDER BY post_id DESC
-			LIMIT 0, 10
+			LIMIT 0, 50
 			"
 			, $affected_user_id
 		));
@@ -160,7 +160,6 @@ function create_object_record( $postIDs ) {
 			} else {
 				$newObjectIDs[] = $postIDs;
 			}		
-
 		}
 
 		// Create new object records if new objects exist.
@@ -265,7 +264,7 @@ function is_object_complete ( $postID ) {
 			WHERE user_id = %d
 				AND post_id IN (".$post_ids_safe.")
 			ORDER BY post_id DESC
-			LIMIT 0, 10
+			LIMIT 0, 50
 			"
 			, $affected_user_id
 		));
