@@ -24,7 +24,9 @@ $vocabularyTerms = new WP_Query( array(
   'connected_items' => $post->ID,
   'nopaging' => true,
 	'post_type' => 'vocabulary_terms',
-	'orderby' => 'rand'
+	'orderby' => 'rand',
+	'posts_per_page' => -1,
+	'posts_per_archive_page' => -1,
 ));
 
 /**

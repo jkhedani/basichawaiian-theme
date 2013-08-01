@@ -506,7 +506,7 @@ function BASICHWN_post_types() {
     array(
     'menu_position' => 16,
     'public' => true,
-    'supports' => array('title', 'editor'),
+    'supports' => array('title', 'editor', 'thumbnail'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'vocabulary'),
     'taxonomies' => array('vocabulary_categories'),
