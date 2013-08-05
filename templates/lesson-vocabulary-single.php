@@ -232,9 +232,17 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 					}
 					
 					if ( $lessonAssessmentOption == $post->ID ) :
-						echo '<a class="lesson-card-assessment-option correct-option span4">'.get_the_post_thumbnail($lessonAssessmentOption, 'post-thumbnail', array( 'alt' => get_field('english_translation', $lessonAssessmentOption), )).' '.$englishTranslation.'</a>';
+						echo '<a class="lesson-card-assessment-option correct-option span4">';
+						echo '<div class="lesson-card-image-wrap">';
+						echo 	get_the_post_thumbnail($lessonAssessmentOption, 'post-thumbnail', array( 'alt' => get_field('english_translation', $lessonAssessmentOption), ));
+						echo '</div>';
+						echo $englishTranslation . '</a>';
 					else :
-						echo '<a class="lesson-card-assessment-option span4">'.get_the_post_thumbnail($lessonAssessmentOption, 'post-thumbnail', array( 'alt' => get_field('english_translation', $lessonAssessmentOption), )).' '.$englishTranslation.'</a>';
+						echo '<a class="lesson-card-assessment-option span4">';
+						echo '<div class="lesson-card-image-wrap">';
+						echo 	get_the_post_thumbnail($lessonAssessmentOption, 'post-thumbnail', array( 'alt' => get_field('english_translation', $lessonAssessmentOption), ));
+						echo '</div>';
+						echo $englishTranslation.'</a>';
 					endif;
 				}
 			echo '</div>';
