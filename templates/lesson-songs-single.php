@@ -53,7 +53,28 @@ $lessonCardCount = $songLines->post_count;
 				}
 			?>
 		</div>
-		<h4 class="lesson-instructions span12">Choose the English sentence that best represents the Hawaiian phrase below.</h4>
+		<?php
+			// Second loop to grab optional instructional text
+			$lessonCardCounter = 0;
+			while ( $songLines->have_posts() ) : $songLines->the_post();
+
+				if ( $lessonCardCounter == 0 ) {
+					echo '<h4 class="lesson-instructions current">';
+				} else {
+					echo '<h4 class="lesson-instructions">';
+				}
+
+				if ( get_field('song_optional_instructional_text') ) {
+					echo get_field('song_optional_instructional_text');
+				} else {
+					echo 'Choose the English sentence that best represents the Hawaiian phrase below.';
+				}
+				
+				$lessonCardCounter++;
+				echo '</h4>';
+			endwhile;
+			wp_reset_postdata();
+		?>
 	</header><!-- .entry-header -->
 
 	<div class="lesson-content">

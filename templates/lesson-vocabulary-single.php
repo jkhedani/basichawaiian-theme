@@ -130,8 +130,23 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 				}
 			?>
 		</div>
-		<h4 class="lesson-instructions learn-instructions hide span12">Learn the Hawaiian vocabulary term and its pronunciation below.</h4>
-		<h4 class="lesson-instructions test-instructions hide span12">Select the image the matches the hawaiian word below.</h4>
+
+		<?php
+		 // Learn Instructional Text
+		 if ( get_field('vocab_lesson_optional_learn_instructional_text') ) {
+		 	echo '<h4 class="lesson-instructions learn-instructions hide span12">'.get_field('vocab_lesson_optional_learn_instructional_text').'</h4>';
+		 } else {
+		 	echo '<h4 class="lesson-instructions learn-instructions hide span12">Learn the Hawaiian vocabulary term and its pronunciation below.</h4>';
+		 }
+
+		 // Test Instructional Text
+		 if ( get_field('vocab_lesson_optional_test_instructional_text') ) {
+		 	echo '<h4 class="lesson-instructions test-instructions hide span12">'.get_field('vocab_lesson_optional_test_instructional_text').'</h4>';
+		 } else {
+			echo '<h4 class="lesson-instructions test-instructions hide span12">Select the image the matches the hawaiian word below.</h4>'; 	
+		 }
+		
+		?>
 	</header><!-- .entry-header -->
 
 	<div class="lesson-content">
@@ -212,10 +227,14 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 			echo '<div class="lesson-card-assessment row">';
 			echo '<!-- You spent more cheating then you did learning. -->';
 				foreach ( $lessonAssessmentOptions as $lessonAssessmentOption ) {
+					if ( get_field('english_translation') ) {
+						$englishTranslation = get_field('english_translation' , $lessonAssessmentOption);	
+					}
+					
 					if ( $lessonAssessmentOption == $post->ID ) :
-						echo '<a class="lesson-card-assessment-option correct-option span4">'.get_the_post_thumbnail($lessonAssessmentOption, 'post-thumbnail', array( 'alt' => get_field('english_translation', $lessonAssessmentOption), )).'</a>';
+						echo '<a class="lesson-card-assessment-option correct-option span4">'.get_the_post_thumbnail($lessonAssessmentOption, 'post-thumbnail', array( 'alt' => get_field('english_translation', $lessonAssessmentOption), )).' '.$englishTranslation.'</a>';
 					else :
-						echo '<a class="lesson-card-assessment-option span4">'.get_the_post_thumbnail($lessonAssessmentOption, 'post-thumbnail', array( 'alt' => get_field('english_translation', $lessonAssessmentOption), )).'</a>';
+						echo '<a class="lesson-card-assessment-option span4">'.get_the_post_thumbnail($lessonAssessmentOption, 'post-thumbnail', array( 'alt' => get_field('english_translation', $lessonAssessmentOption), )).' '.$englishTranslation.'</a>';
 					endif;
 				}
 			echo '</div>';

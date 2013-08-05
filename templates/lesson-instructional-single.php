@@ -39,42 +39,64 @@ if ( get_field('instructional_slide') ) {
 				}
 			?>
 		</div>
-		<h4 class="lesson-instructions">Progress through each slide until you reach the end.</h4>
+
+		<?php
+			// Second loop here iterates through slides and displays appropriate instructional text
+			$lessonCardCounter = 0;
+			foreach ($instructionalSlides as $instructionalSlide ) {
+
+				if ( $lessonCardCounter == 0 ) {
+					echo '<h4 class="lesson-instructions current">';
+				} else {
+					echo '<h4 class="lesson-instructions">';
+				}
+
+				if ( $instructionalSlide['instructional_slide_optional_instructions'] ) {
+					echo $instructionalSlide['instructional_slide_optional_instructions'];
+				}	else { 
+					echo 'Progress through each slide until you reach the end.';
+				}
+
+				echo '</h4>';
+				$lessonCardCounter++;
+
+			}
+		?>
+	
 	</header><!-- .entry-header -->
 
 	<div class="lesson-content">
 		<?php
-
 			if ( get_field('instructional_slide') ) {
-			echo '<div class="instructional-slides lesson-cards">';
-				$lessonCardCounter = 0;
-				foreach ($instructionalSlides as $instructionalSlide ) {
-					// Construct the slide
-					if ( $lessonCardCounter == 0 ) :
-						echo '<div class="instructional-slide lesson-card current">';
-					elseif ( $lessonCardCounter == $lessonCardCount - 1 ):
-						echo '<div class="instructional-slide lesson-card last">';
-					else:
-						echo '<div class="instructional-slide lesson-card">';
-					endif;
-					// Slide Content
-					if ( $instructionalSlide['instructional_slide_content'] )
-						echo 	'<div class="instructional-slide-content">'.$instructionalSlide['instructional_slide_content'].'</div>';
-					// Slide Audio
-					if ( $instructionalSlide['instructional_slide_audio_ogg'] ) {
-						echo 	'<div class="infromation-slide-audio">';
-						echo 		'<button class="btn btn-primary play-audio">Play Audio</button>';
-						echo 		'<button class="btn btn-primary pause-audio">Pause Audio</button>';
-						echo 		'<audio class="pronunciation" src="'.$instructionalSlide['instructional_slide_audio_ogg'].'"></audio>';
-						echo 	'</div>';
+				echo '<div class="instructional-slides lesson-cards">';
+					$lessonCardCounter = 0;
+					foreach ($instructionalSlides as $instructionalSlide ) {
+						// Construct the slide
+						if ( $lessonCardCounter == 0 ) :
+							echo '<div class="instructional-slide lesson-card current">';
+						elseif ( $lessonCardCounter == $lessonCardCount - 1 ):
+							echo '<div class="instructional-slide lesson-card last">';
+						else:
+							echo '<div class="instructional-slide lesson-card">';
+						endif;
+						// Slide Content
+						if ( $instructionalSlide['instructional_slide_content'] )
+							echo 	'<div class="instructional-slide-content">'.$instructionalSlide['instructional_slide_content'].'</div>';
+						// Slide Audio
+						if ( $instructionalSlide['instructional_slide_audio_ogg'] ) {
+							echo 	'<div class="infromation-slide-audio">';
+							echo 		'<button class="btn btn-primary play-audio">Play Audio</button>';
+							echo 		'<button class="btn btn-primary pause-audio">Pause Audio</button>';
+							echo 		'<audio class="pronunciation" src="'.$instructionalSlide['instructional_slide_audio_ogg'].'"></audio>';
+							echo 	'</div>';
+						}
+						if ( $instructionalSlide['instructional_slide_translation'] )
+							echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
+							echo 	'<div class="translation instructional-slide-translation hidden">'.$instructionalSlide['instructional_slide_translation'].'</div>';
+						$lessonCardCounter++;
+						echo '</div>'; // Instructional Slide
 					}
-					if ( $instructionalSlide['instructional_slide_translation'] )
-						echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
-						echo 	'<div class="translation instructional-slide-translation hidden">'.$instructionalSlide['instructional_slide_translation'].'</div>';
-					$lessonCardCounter++;
-					echo '</div>'; // Instructional Slide
-				}
-			echo '</div>'; // Instructional Slides
+				echo '</div>'; // Instructional Slides
 			}
 		?>
 	</div><!-- .entry-content -->

@@ -52,7 +52,28 @@ $pronounsCount = $pronouns->post_count;
 				}
 			?>
 		</div>
-		<h4 class="lesson-instructions">Choose the sentence below that answers the question using the proper pronoun.</h4>
+		<?php
+			// Second loop to grab optional instructional text
+			$lessonCardCounter = 0;
+			while ( $pronouns->have_posts() ) : $pronouns->the_post();
+
+				if ( $lessonCardCounter == 0 ) {
+					echo '<h4 class="lesson-instructions current">';
+				} else {
+					echo '<h4 class="lesson-instructions">';
+				}
+
+				if ( get_field('pronoun_optional_instructional_text') ) {
+					echo get_field('pronoun_optional_instructional_text');
+				} else {
+					echo 'Choose the sentence below that answers the question using the proper pronoun.';
+				}
+				
+				$lessonCardCounter++;
+				echo '</h4>';
+			endwhile;
+			wp_reset_postdata();
+		?>
 	</header><!-- .entry-header -->
 
 	<div class="lesson-content">

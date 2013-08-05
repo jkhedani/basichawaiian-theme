@@ -833,6 +833,10 @@ body.home.logged-in ul.units li.unit a.post204 {
   color: #FFF;
   clear: both;
   font-weight: normal;
+  display: none;
+}
+.lesson-header .lesson-instructions.current {
+  display: block;
 }
 .lesson-content {
   padding: 28px;
@@ -919,6 +923,12 @@ body.single-listenrepeat_lessons .lesson-content .lesson-card-content {
 }
 body.single-readings .readings-text.active {
   display: block;
+}
+/**
+ *	Lesson Styles: Vocabulary Terms;
+ */
+body.single-vocabulary_lessons .lesson-content .lesson-card img {
+  max-height: 320px;
 }
 /**
  *	Scene Modals
