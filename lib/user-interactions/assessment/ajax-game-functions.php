@@ -1,5 +1,47 @@
 <?php
 
+// REMOVE AFTER TESTING!!!!!!!!!!!
+// VOCABULARY GAME: Step Two: Finish Game and Publish Results
+function reset_scores() {
+	global $wpdb;
+
+	// Nonce check
+	$nonce = $_REQUEST['nonce'];
+	if (!wp_verify_nonce($nonce, 'ajax_scripts_nonce')) die(__('Busted.'));
+	
+	$html = "";
+	$success = false;
+	
+	if(is_user_logged_in()) {
+	 	$current_user = wp_get_current_user();
+	 	$user_ID = $current_user->ID;
+	 	
+	 	$wpdb->query($wpdb->prepare("
+	 		DELETE FROM wp_user_interactions
+	 		WHERE user_id = %d
+	 	", $user_ID));
+	} // is_user_logged_in
+
+
+	// Build the response...
+	$success = true;
+	$response = json_encode(array(
+		'success' => $success,
+		'html' => $html
+	));
+	
+	// Construct and send the response
+	header("content-type: application/json");
+	echo $response;
+	exit;
+}
+add_action('wp_ajax_nopriv_reset_scores', 'reset_scores');
+add_action('wp_ajax_reset_scores', 'reset_scores');
+// REMOVE AFTER TESTING!!!!!!!!!!!
+
+
+
+
 function get_wallet_balance( $postID ) {
 	global $post;
 	$current_user = wp_get_current_user();
@@ -146,7 +188,7 @@ add_action('wp_ajax_finish_lesson', 'finish_lesson');
 // Run Ajax calls even if user is logged in
 // MAYBE NOT RELEVANT: Not sure what we were using this for but it is interfering with our p2p ajax connection calls...
 // Attempting specificity in this request to maybe prevent conflicts with other requests
-if ( isset($_REQUEST['action']) && ( $_REQUEST['action'] == 'finish_lesson' ) ):
+if ( ( isset($_REQUEST['action']) && ( $_REQUEST['action'] == 'finish_lesson' ) ) || ( isset($_REQUEST['action']) && ( $_REQUEST['action'] == 'reset_scores' ) ) ):
 	do_action( 'wp_ajax_' . $_REQUEST['action'] );
   do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] );
 endif;

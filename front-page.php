@@ -54,6 +54,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 				<?php } else { ?>
 				<h1><?php _e('Visit a kukui to further your knowledge.','hwn'); ?></h1>
 				<?php } ?>
+				<a href="#" class="reset-scores btn btn-danger pull-right" style="margin:30px;">Reset Score</a> 
 			</header>
 
 			<!-- Content Navigation -->
