@@ -112,6 +112,29 @@ function add_useful_toolbar_menu() {
 			));	
 		}
 		
+		// Modify "Howdy in Menu Bar"
+		$user_id      = get_current_user_id();
+    $current_user = wp_get_current_user();
+    $my_url       = 'http://www.google.com';
+
+    if ( ! $user_id )
+        return;
+
+    $avatar = get_avatar( $user_id, 16 );
+    $howdy  = sprintf( __('Aloha e %1$s'), $current_user->display_name );
+    $class  = empty( $avatar ) ? '' : 'with-avatar';
+
+    $wp_admin_bar->add_menu( array(
+        'id'        => 'my-account',
+        'parent'    => 'top-secondary',
+        'title'     => $howdy . $avatar,
+        'href'      => $my_url,
+        'meta'      => array(
+            'class'     => $class,
+            'title'     => __('My Account'),
+        ),
+    ) );
+
 		// // Table of Contents
 		// $wp_admin_bar->add_menu( array(
 		// 	'parent' => 'course-name',
