@@ -13,15 +13,57 @@
 @colorKukui: rgb(243,178,88);
 @colorAuntyAloha: rgb(113,195,197);
 
+@colorLightBlue: rgb(130,205,211);
+@colorOrange: rgb(255,134,31);
+@colorLightOrange: rgb(239,178,69);
+@colorYellow: rgb(242,212,0);
+@colorBeige: #dfe0da;
+@colorBrown: rgb(82,66,65);
+
+@fontDisplay: 'Raleway', sans-serif;
+@fontSans: 'Open Sans', sans-serif;
+
+/**
+ *	Mixins
+ */
+.roundCorners(@radius) {
+	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
+	border-radius: @radius;
+}
+.full-width-background-image {
+	// http://css-tricks.com/perfect-full-page-background-image/
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
 /**
  * General Styles
  */
 body {
+	// Typography and Interface
+	.btn-primary {
+		border: none;
+		border-radius: 0;
+		text-shadow: none;
+		background: @colorOrange;
+		&:hover { background: darken(@colorOrange,10%); }
+	}
+
 	// Layout
 	header#navbar {
-		margin: 0 auto;
-		.navbar-inner {
-			border-radius: 0;
+		background-color: #000;
+		.navbar {
+			color: #FFF;
+			margin: 0 auto;
+			.navbar-inner {
+				background: #000;
+				border: none;
+				a.site-title { color: #EEE; font-family: @fontDisplay; font-weight: 600; }
+				border-radius: 0;
+			}
 		}
 	}
 	#main {
@@ -39,12 +81,14 @@ body {
 			.clearfix();
 			background-color: rgba(44,44,44,0.6);
 			h1 { float: left; color: #FFF; margin: 28px; } // Instruction/Title text
-			.wallet-balance { margin: 28px 28px 0 28px; color: #FFF; }
 			.btn-back { margin: 39px 28px 0 10px; display: block; float: left; color: #FFF; }
 		}
 	}
 	footer#colophon {
+		color: #FFF;
+		text-align: center;
 		background: none;
+		.container-narrow { padding-top: 20px; }
 		.site-info { text-align: center; }
 	}
 	// Typography
@@ -63,7 +107,17 @@ body {
 		&.aunty-aloha { color: @colorAuntyAloha; }
 	}
 	.inline-user { }
-	.avatars { .clearfix(); }
+	.avatars {
+		width: 400px;
+		position: absolute;
+		bottom: 40px;
+		left: 50%;
+		.avatar-wrapper {
+			// http://stackoverflow.com/questions/1776915/how-to-center-absolute-element-in-div
+			position: relative; left: -50%;
+		}
+		.clearfix();
+	}
 	.user-avatar {
 		position: absolute;
 		left: 0;
@@ -93,40 +147,46 @@ body {
 		}
 	}
 }
-/**
- *	Mixins
- */ 
-.full-width-background-image {
-	-webkit-background-size: 100% auto;
-  -moz-background-size: 100% auto;
-  -o-background-size: 100% auto;
-  background-size: 100% auto;
-}
 
 /**
  *  Public General
  */
 body.not-logged-in {
+	background: url( '../images/dashboard-bg.jpg' ) no-repeat;
+	.full-width-background-image();
 	.nav { margin-top: 15px; }
 	.container-narrow { max-width: 700px; margin: 0 auto; }
-	header#navbar-basic { max-width: 700px; margin: 0 auto 15px; overflow: hidden; }
+	header#navbar-basic {
+		max-width: 700px;
+		margin: 0 auto 15px;
+		overflow: hidden;
+		h2 { color: #FFF; font-size: 25px; }
+		a { margin-top: 12px; }
+	}
 	#page {
 		max-width: 700px;
 		#navbar-basic { .clearfix(); }
 		#main {
-			padding: 40px 0;
-			border-top: 1px solid #CBCBCB;
+			padding: 80px 0 0;
 			width: 100%;
-			#content {
-				text-align: center;
-				h1 { font-size: 72px; line-height: 1.0; }
-				hr { margin: 35px 0 20px 0; }
+			#primary {
+				min-height: 0px;
+				max-width: 700px;
+				#content {
+					padding: 50px;
+					color: #FFF;
+					background: @colorLightBlue;
+					text-align: center;
+					.decoration.taro-leaves { width: 375px; height: 213px; background: url('../images/taro-leaves.png') no-repeat; margin: -135px auto 0; }
+					h1, h2 { font-family: @fontDisplay; }
+					h1 { font-size: 72px; line-height: 1.0; }
+					hr { margin: 35px 0 20px 0; }
+				}
 			}
 		}
 	}
 	footer#colophon {
 		background: none;
-		.container-narrow { padding-top: 20px; border-top: 1px solid #CBCBCB; }
 	}
 }
 
@@ -136,10 +196,16 @@ body.not-logged-in {
 body.logged-in {
 	background: url('../images/texture-one.png');
 	&.aunty-aloha {
-		#page { background: url( '../images/aunty-aloha-bg.jpg' ) no-repeat; .full-width-background-image; }
+		background: url( '../images/aunty-aloha-bg.jpg' ) no-repeat; .full-width-background-image;
+	}
+	.popover {
+		.popover-content {
+			h1 { font-size: 35px; color: @colorAuntyAloha; }
+			i { display: block; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #CCC; }
+			a { width: 220px; }
+		}
 	}
 }
-
 
 /**
  *	Logged in: Home
@@ -170,6 +236,43 @@ body.home.logged-in {
 					left: 360px;
 					background: url('../images/aunty-aloha-icon.png') center center no-repeat rgba(113,195,197,0.9);
 				}
+			}
+		}
+	}
+}
+
+/**
+ *	Logged In
+ */
+body.logged-in {
+	.wallet-balance {
+		position: absolute;
+		right: 60px;
+		bottom: 40px;
+		.currency-type {
+			position: relative;
+			float: right;
+			margin-left: 40px;
+			.currency-icon {
+				width: 82px;
+				height: 82px;			
+				.roundCorners(90px);	
+				&.kukui { background: url('../images/kukui-nut.png') center center no-repeat @colorYellow; border: 10px solid @colorLightOrange; }
+				&.flower { background: url('../images/flower.png') center center no-repeat @colorAuntyAloha; border: 10px solid @colorLightBlue; }
+			}
+			.currency-balance {
+				color: @colorBrown;
+				font-weight: 600;
+				text-align: center;
+				padding: 10px;
+				width: 22px;
+				height: 22px;
+				position: absolute;
+				right: -20px;
+				top: 60px;			
+				.roundCorners(50px);
+				&.kukui { background: @colorYellow; border: 5px solid @colorLightOrange; }
+				&.flower { background: @colorAuntyAloha; border: 5px solid @colorLightBlue; }
 			}
 		}
 	}
@@ -284,15 +387,58 @@ body.single-vocabulary_lessons {
 /**
  *	Scene Modals
  */
-.modal {
-	background: rgb(223,224,218);
-	background: rgba(223,224,218,1.0);
+
+ #sceneModal.modal {
+ 	width: 645px;
+	background: none;
+	color: #FFF;
+	border: none;
+	box-shadow: none;
+	.modal-count {
+		margin: -25px 0 0 0;
+		text-align: center;
+		.modal-count-wrap {
+			margin: 0 auto;
+	    display: inline-block;
+	    overflow: hidden;
+			.modal-counter {
+				.roundCorners(10px);
+				width: 10px;
+				height: 10px;
+				margin-right: 5px;
+				background-color: #FFF;
+				float: left;
+				display: block;
+			}	
+		}
+	}
 	.modal-slide {
+		padding: 0;
 		display: none;
 		&.current-modal-slide { display: block; }
 	}
 	.modal-body {
-		min-height: 300px;
+		max-height: none;
+		padding: 0;
+		.clearfix();
+		.scene-content {
+			min-height: 375px;
+			background: @colorBeige;
+			padding: 20px;
+			color: @colorBrown;
+			font-family: @fontDisplay;
+			font-size: 27px;
+			font-weight: 600;
+			line-height: 1.3;
+			p img { margin: 0 0 -10px 0; }
+		}
+	}
+	.modal-footer {
+		border: none;
+		box-shadow: none;
+		background: none;
+		padding: 14px 0 0 0; 
+		.scene-caption { float: left; }
 	}
 }
 

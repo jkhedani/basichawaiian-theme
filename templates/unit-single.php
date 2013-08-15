@@ -11,7 +11,6 @@
 increment_object_value ( $post->ID, 'times_viewed' );
 
 $previousPageURL = get_home_URL();
-$walletBalance = get_wallet_balance($post->ID);
 
 ?>
 
@@ -26,14 +25,7 @@ $walletBalance = get_wallet_balance($post->ID);
 
 	<header class="entry-header">
 		<h1 class="entry-title"><?php the_title(); ?></h1>
-
 		<a class="btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left icon-white" style="padding-right:10px;"></i>Back to Unit View</a>
-
-		<div class="wallet-balance span4 pull-right">
-			<?php if ( $walletBalance > 1 ) { echo '<a class="btn btn-small pull-right claim-kukui" href="javascript:void(0);">Claim a kukui</a>'; } ?>
-			<p class="pull-right">Flowers: <strong><?php echo !empty($walletBalance) ? $walletBalance : "0"; ?></strong></p>
-		</div>
-	
 	</header><!-- .entry-header -->
 
 	<div class="entry-content row">

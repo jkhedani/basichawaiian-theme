@@ -78,17 +78,17 @@ function scene_viewed( $postID ) {
  *		b) The user wishes to re-watch a particular scene
  */
 
-function split_the_content_before_filter() {
-  global $more;
-  $more = true;
-  $content = preg_split('/<span id="more-\d+"><\/span>|<!--more-->/i', get_the_content());
-  error_log(print_r($content,true));
-  for($c = 0, $csize = count($content); $c < $csize; $c++) {
-    $content[$c] = apply_filters('the_content', $content[$c]);
-    $content[$c] = filter_links_rel_external( $content[$c] );
-  }
-  return $content;
-}
+// function split_the_content_before_filter() {
+//   global $more;
+//   $more = true;
+//   $content = preg_split('/<span id="more-\d+"><\/span>|<!--more-->/i', get_the_content());
+//   error_log(print_r($content,true));
+//   for($c = 0, $csize = count($content); $c < $csize; $c++) {
+//     $content[$c] = apply_filters('the_content', $content[$c]);
+//     $content[$c] = filter_links_rel_external( $content[$c] );
+//   }
+//   return $content;
+// }
 
 function display_scene() {
 
@@ -106,19 +106,33 @@ function display_scene() {
 		$html = "";
 		$success = false;
 
-			error_log( 'sure!');
 
 		// Return proper modal to display
 		$sceneSlides = new WP_Query( array( 'post_type' => 'scenes', 'p' => $sceneID, ));
 		while( $sceneSlides->have_posts() ) : $sceneSlides->the_post();
-			
-			$splitContent = split_the_content_before_filter();
-			$slideCount = count($splitContent);
+
+			do_action('init');
+			global $post;
+
+			$sceneSlideObject = get_field('scene_slide');
+			$slideCount = count($sceneSlideObject);
 
 			$html .= '<div id="sceneModal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">';
 
+			$html .= '<div class="modal-count">';
+			$html .= '<div class="modal-count-wrap">';
+			  foreach ($sceneSlideObject as $token) {
+			  	$html .= '<span class="modal-counter"></span>';
+			  }
+		  $html .= '</div>';
+		  $html .= '</div>';
+	  	//$html .= '		<div class="modal-count">'.($i+1).' of '.$slideCount.'</div>';
+
 			// All other slides
 			for($i = 0; $i < $slideCount; $i++) {
+
+				$slide = $sceneSlideObject[$i];
+
 				// Select the first "modal slide as the initial slide to show"
 				$html .= '<div id="modal-slide-'.$i.'" ';
 				if ( $i == 0 ) {
@@ -130,12 +144,14 @@ function display_scene() {
 
 			  // Modal Slide Content
 			  $html .= '	<div class="modal-body">';
-		  	$html .= '		<div class="modal-count">'.($i+1).' of '.$slideCount.'</div>';
-		  	$html .= 			$splitContent[$i];
+			  $html .= '		<h1>'.$slide['scene_title'].'</h1>';
+		  	$html .= '		<div class="scene-content">'.$slide['scene_content'].'</div>';
 			  $html .= ' 	</div>'; // .modal-body
 			  
 			  // Modal Slide Footer
 			  $html .= '	<div class="modal-footer">';
+			 	$html .= '   <div class="scene-caption">'.$slide['scene_caption'].'</div>';
+
 			  // Last slide
 			  if ($i == $slideCount - 1) { 
 			  $html .= '		<a href="javascript:void(0);" class="btn prev">Prev</a>';

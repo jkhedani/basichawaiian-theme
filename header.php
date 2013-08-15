@@ -62,21 +62,20 @@
 <body <?php body_class(); ?>>
 
   <?php if ( is_user_logged_in() ) {  ?>
-  <header id="navbar" class="navbar navbar-inverse container">
-    <div class="navbar-inner">
-      <a class="brand site-title" href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
-      <ul class="nav pull-right">
-        <li><a href="<?php echo site_url(); ?>/progress">Progress</a></li>
-        <li><a href="<?php echo wp_logout_url(); ?>" title="Logout">Logout</a></li>
-      </ul>
-    </div><!-- .navbar-inner -->
+  <header id="navbar">
+    <div class="navbar navbar-inverse container">
+      <div class="navbar-inner">
+        <a class="brand site-title" href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
+        <ul class="nav pull-right">
+          <li><a href="<?php echo wp_logout_url(); ?>" title="Logout">Logout</a></li>
+        </ul>
+      </div><!-- .navbar-inner -->
+    </div>
   </header>
   <?php } else { // user is not logged in ?>
   <header id="navbar-basic">
     <h2 class="pull-left"><?php bloginfo('name'); ?></h2>
-    <ul class="nav nav-pills pull-right">
-      <li class="active"><a href="wp/wp-admin">Sign-In</a></li>
-    </ul>
+    <a class="btn btn-primary pull-right" href="<?php echo get_home_url(); ?>/wp-login.php" title="Sign into your account here.">Sign In</a>
   </header>
   <?php } // user not logged in ?>
 

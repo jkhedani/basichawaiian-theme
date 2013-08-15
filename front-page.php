@@ -20,20 +20,13 @@ increment_object_value ( $post->ID, 'times_viewed' );
 
 	<?php
 		if ( ! is_user_logged_in() ) {
-		echo '<div id="primary" class="content-area row">';
-		echo '<div id="content" class="site-content" role="main">';
+		echo '<div id="primary" class="content-area">';
+		echo 	'<div id="content" class="site-content" role="main">';
+		echo  	'<div class="decoration taro-leaves"></div>';
 			while ( have_posts() ) : the_post();
 			echo get_the_content();
 			endwhile; // end of the loop.
 			echo '<a class="btn btn-large btn-success" href="'.site_url().'/registration">Sign up today</a>';
-		
-
-			$client = new IXR_Client('http://basichawaiian.com/xmlrpc.php');
-			var_dump($client);
-			$client->query('wp.getPost');
-			echo $client->getResponse();
-			echo 'asdf';
-
 
 		} else {
 	?>
@@ -54,7 +47,11 @@ increment_object_value ( $post->ID, 'times_viewed' );
 				<?php } else { ?>
 				<h1><?php _e('Visit a kukui to further your knowledge.','hwn'); ?></h1>
 				<?php } ?>
-				<a href="#" class="reset-scores btn btn-danger pull-right" style="margin:30px;">Reset Score</a> 
+				<?php
+					// Reset only for those who can edit the site
+					if ( current_user_can('edit_posts') ) 
+						echo '<a href="#" class="reset-scores btn btn-danger pull-right" style="margin:30px;">Reset Score</a>'; 
+				?>
 			</header>
 
 			<!-- Content Navigation -->
@@ -96,7 +93,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 					$unitID = $post->ID;
 					$unitLink = get_permalink();
 					$unitTitle = get_the_title();
-					$popoverContent = "Topics in this module: <ul><li>Introductions</li><li>Greetings</li><li>Family</li><li>Gardening</li><li>Food</li></ul><a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>";
+					$popoverContent = "<h1>&#8216;Anak&#275; Aloha</h1><i>Topics in this module: </i><ul><li>Introductions</li><li>Greetings</li><li>Family</li><li>Gardening</li><li>Food</li></ul><a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>";
 					echo '<li class="unit pull-left">';
 						echo 	'<a class="dashboard-selection post'.$post->ID.'" href="javascript:void(0);" data-title="'.get_the_title().'" data-content="'.$popoverContent.'" data-complete="'.$unitsCompleted[$unitCount].'">';
 						echo 		'<div class="dashboard-selection-info"><h4>'.get_the_title().'</h4></div>';
@@ -114,6 +111,16 @@ increment_object_value ( $post->ID, 'times_viewed' );
     		$user_id = $user->ID;
 				$gender = get_user_meta( $user_id, 'gender', true );
 				echo '<div class="user-avatar '.$gender.' default"></div>';
+
+				/**
+				 *	User Wallet
+				 */
+				echo '<div class="wallet-balance">';
+				echo 	'<div class="currency-type kukui">';
+				echo  	'<div class="currency-icon kukui"></div>';
+				echo  	'<div class="currency-balance kukui">1</div>';
+				echo 	'</div>';
+				echo '</div>';
 
 			} // End Dashboard ?>
 

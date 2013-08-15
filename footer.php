@@ -14,6 +14,42 @@
 	</div><!-- #main .site-main -->
 	</div><!-- #page .hfeed .site -->
 
+	<?php
+	if ( get_post_type( $post->ID ) == 'topics' || get_post_type( $post->ID ) == 'units' ) :
+		if ( is_user_logged_in() ) {
+			/**
+			 * User Avatar
+			 */
+			$user = wp_get_current_user();
+			$user_id = $user->ID;
+			$gender = get_user_meta( $user_id, 'gender', true );
+			echo '<div class="avatars">';
+			echo 	'<div class="avatar-wrapper">';
+			echo 		'<div class="user-avatar '.$gender.' default"></div>';
+			echo 		'<div class="kukui-avatar aunty-aloha default"></div>';
+			echo  '</div>';
+			echo '</div>';
+
+			/**
+			 *	User Currency
+			 */
+			$walletBalance = get_wallet_balance($post->ID); ?>
+			<div class="wallet-balance span4 pull-right">
+				<div class="currency-type flower">
+					<div class="currency-icon flower"></div>
+					<div class="currency-balance flower"><?php echo !empty($walletBalance) ? $walletBalance : "0"; ?></div>
+				</div>
+
+				<div class="currency-type kukui">
+					<div class="currency-icon kukui"></div>
+					<div class="currency-balance kukui">1</div>
+					<?php if ( $walletBalance > 1 ) { echo '<a class="btn btn-small pull-right claim-kukui" href="javascript:void(0);">Claim a kukui</a>'; } ?>
+				</div>
+			</div>
+		<?php }
+	endif;
+	?>
+
 	<?php if ( is_user_logged_in() ) { // Is logged in ?>
 		<footer id="colophon" class="site-footer container" role="contentinfo">
 			<div class="site-info">

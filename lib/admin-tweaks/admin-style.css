@@ -10,3 +10,9 @@ body.wp-admin.not-admin #wpfooter {
 }
 
 body.wp-admin.not-admin #wpcontent .wrap { margin: 40px 0 20px; }
+
+body.login div#login h1 a {
+    background-size: auto;
+    background-image: url('../../images/login-logo.png');
+    padding-bottom: 40px;
+}

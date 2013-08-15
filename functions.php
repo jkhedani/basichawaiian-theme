@@ -271,6 +271,8 @@ function diamond_scripts() {
 	$protocol='http:'; // discover the correct protocol to use
  	if(!empty($_SERVER['HTTPS'])) $protocol='https:';
 
+  wp_enqueue_style('open-sans-google-fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700', array(), false, 'all');
+  wp_enqueue_style('raleway-google-fonts', 'http://fonts.googleapis.com/css?family=Raleway:700', array(), false, 'all');
   wp_enqueue_style( 'diamond-style', get_stylesheet_directory_uri().'/css/diamond-style.css' );
   wp_enqueue_style( 'diamond-style-responsive', get_stylesheet_directory_uri().'/css/diamond-style-responsive.css', array('diamond-style','resets','bootstrap-base-styles','bootstrap-parent-style'));
 	wp_enqueue_script('bootstrap-modal', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-modal.js', array('jquery'), false, true);
