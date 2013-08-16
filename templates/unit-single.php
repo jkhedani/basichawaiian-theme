@@ -24,8 +24,8 @@ $previousPageURL = get_home_URL();
 	<?php bedrock_postcontentstart(); ?>
 
 	<header class="entry-header">
-		<h1 class="entry-title"><?php the_title(); ?></h1>
-		<a class="btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left icon-white" style="padding-right:10px;"></i>Back to Unit View</a>
+		<h1 class="entry-title"><?php echo get_the_title(); ?></h1>
+		<a class="btn btn-inverse btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left icon-white" style="padding-right:10px;"></i>Back to Unit View</a>
 	</header><!-- .entry-header -->
 
 	<div class="entry-content row">
@@ -84,7 +84,7 @@ $previousPageURL = get_home_URL();
 				?>
 
 				<li class="module item <?php if ( $indexCount == 0 ) echo 'active'; ?>" data-complete="<?php echo is_object_complete( $moduleID ) ? "1" : "0"; ?>">
-					<h3 class="module-title"><?php the_title(); ?></h3>
+					<h2 class="module-title"><?php the_title(); ?></h2>
 
 				<?php
 					// Connected Modules
@@ -111,6 +111,9 @@ $previousPageURL = get_home_URL();
 						endwhile;
 						wp_reset_postdata();
 						echo '</ul>'; // .topics
+					else:
+						// If there are no topics in a module
+						echo '<h3 class="no-content">Content Coming Soon</h3>';
 					endif;
 				?>
 				</li>

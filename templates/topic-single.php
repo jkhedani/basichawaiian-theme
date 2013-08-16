@@ -15,14 +15,16 @@ $parentModule = new WP_Query( array(
 	'post_type' => 'modules'
 ));
 $parentModuleTitle = $parentModule->posts[0]->post_title;
+$grandparentUnitID = get_connected_object_ID( $post->ID, 'topics_to_modules', 'modules_to_units');
 
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 	<header class="entry-header">
-		<h1 class="entry-title"><?php echo $parentModuleTitle; ?> / <?php the_title(); ?></h1>
-		<a class="btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left icon-white" style="padding-right:10px;"></i>Back to Module View</a>
+		<h1 class="entry-title"><?php echo get_the_title($grandparentUnitID); ?></h1>
+		<h2 class="entry-super-title"><?php echo $parentModuleTitle; ?> / <?php the_title(); ?></h2>
+		<a class="btn btn-inverse btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left icon-white" style="padding-right:10px;"></i>Back to Module View</a>
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">

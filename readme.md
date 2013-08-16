@@ -15,3 +15,10 @@
 	• Custom Registration Screen Needed
 	• 
 
+--
+
+
+Transfer Log 08152013 Details
+
+• Add scene custom fields
+• change "instructional slide translations" to use WYSIWYG

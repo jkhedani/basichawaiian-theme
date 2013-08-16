@@ -44,7 +44,14 @@
  */
 body {
 	// Typography and Interface
+	.btn {
+		border: none;
+		border-radius: 0;
+		text-shadow: none;
+		padding: 10px 15px;
+	}
 	.btn-primary {
+		margin-right: 15px;
 		border: none;
 		border-radius: 0;
 		text-shadow: none;
@@ -61,6 +68,7 @@ body {
 			.navbar-inner {
 				background: #000;
 				border: none;
+				a { padding: 10px 0; }
 				a.site-title { color: #EEE; font-family: @fontDisplay; font-weight: 600; }
 				border-radius: 0;
 			}
@@ -79,9 +87,9 @@ body {
 	#content {
 		header {
 			.clearfix();
-			background-color: rgba(44,44,44,0.6);
-			h1 { float: left; color: #FFF; margin: 28px; } // Instruction/Title text
-			.btn-back { margin: 39px 28px 0 10px; display: block; float: left; color: #FFF; }
+			h2 { color: #FFF; text-align: center; font-family: @fontDisplay; font-size: 23px; }
+			h1 { color: #FFF; margin: 48px auto 28px; text-align: center; font-family: @fontDisplay; font-size: 67px; } // Instruction/Title text
+			.btn-back { margin: -65px 0 0 0 ; display: block; float: left; color: #FFF; }
 		}
 	}
 	footer#colophon {
@@ -126,8 +134,10 @@ body {
 		width: 150px;
 		&.male {
 			background: url('../images/male-avatar.png') no-repeat;
-			&.default { background-position: -558px 0; }
+			&.waveuser { background-position: -10px 0; }
 			&.wave { background-position: -224px 0 !important; }
+			&.default { background-position: -558px 0; }
+			&.backturn { background-position: -380px 0; }
 		}
 		&.female {
 			background: url('../images/female-avatar.png') no-repeat;
@@ -143,7 +153,8 @@ body {
 		width: 175px;
 		&.aunty-aloha {
 			background: url('../images/aunty-aloha.png') no-repeat;
-			&.default {  }
+			&.default { background-position: -240px 0; }
+			&.backturn { width: 220px; background-position: -1478px 0; }
 		}
 	}
 }
@@ -220,6 +231,10 @@ body.home.logged-in {
 		}
 	}
 	#page { background: url( '../images/dashboard-bg.jpg' ) no-repeat; .full-width-background-image; }
+	#content {
+		background-color: rgba( 44, 44, 44, 0.6 );
+		h1 { font-size: 38px; text-align: left; margin: 28px; }
+	}
 	ul.units {
 		li.unit {
 			list-style: none;
@@ -279,38 +294,87 @@ body.logged-in {
 }
 
 /**
+ *	Logged In: Unit Page (list of modules and topics)
+ */
+body.single-units {
+	#content {
+		#module-list {
+			text-align: center;
+			ul.modules {
+				li.module {
+					h2.module-title { color: #FFF; font-family: @fontDisplay; text-align: center; font-size: 23px; margin: -25px 0 35px 0; }
+					h3.no-content { color: #FFF; font-family: @fontDisplay; text-align: center; font-size: 23px; }
+				}
+			}
+		}
+	}
+}
+
+/**
+ *	Logged In: Module Page (list of modules and topics)
+ */
+body.single-topics {
+	#content {
+		header {
+			.btn-back { margin: -115px 0 0 0 ; }
+		}
+		.lessons {
+			text-align: center;
+		}
+	}
+}
+
+
+/**
  * General Lesson Styles
  */
 .lesson-header {
 	.clearfix();
-	.lesson-title { margin: 28px 28px 10px 28px; float: left; }
+	.lesson-title { margin: 35px 0 28px !important; float: left; font-size: 48px !important; }
 	.lesson-progress {
 		float: right;
-		margin: 28px;
+		margin: 35px 0;
 		.bar.current{ background: #339bb9; }
 	}
 	.lesson-karma { float: right; margin: 28px; }
 	.lesson-instructions {
-		margin: 0 28px 30px;
+		margin: 0 0 30px;
 		color: #FFF;
 		clear: both;
+		font-size: 23px;
 		font-weight: normal;
+		font-style: italic;
 		display: none;
 		&.current { display: block; }
 	}
 }
 .lesson-content {
-	padding: 28px;
 	min-height: 404px;
-	max-height: 404px;
-	background-color: rgba(255,255,255,0.4);
+	background-color: rgba( 255,255,255,0.85 );
+	font-size: 23px;
+	line-height: 1.5;
+	overflow: hidden;
+	.translation {
+		font-style: italic;
+		font-size: 17px;
+		background-color: @colorLightBlue;
+		color: #FFF;
+		margin: 10px 0;
+		padding: 20px;
+	}
 	.lesson-feedback {
 		display: none;
 		.lesson-feedback-correct { display: none; }
 		.lesson-feedback-incorrect { display: none; }
 	}
+	.lesson-cards {
+		max-width: 600px;
+		margin: 28px;
+	}
 	.lesson-card {
+		max-width: 600px;
 		display: none;
+		margin: 28px;
 		&.current { display: block; }
 	}
 	.pause-audio { display: none; }
@@ -330,18 +394,42 @@ body.logged-in {
 }
 
 .lesson-results { 
-	width: 340px;
-	height: 245px;
-	padding: 50px;
+	width: 645px;
+	height: 415px;
 	margin: 150px auto;
 	background-color: rgba(44,44,44,0.6);
 	color: #FFF;
 	text-align: center;
-	.lesson-results-title { margin: 5px auto; font-size: 80px; line-height: 1.0; }
-	.lesson-results-blurb { margin: 5px auto; font-size: 28px; line-height: 1.0; }
+	overflow: hidden;
+	.lesson-results-title { margin: 30px auto 5px; font-size: 80px; line-height: 1.0; }
+	.lesson-results-blurb { margin: 5px auto 20px; font-size: 28px; line-height: 1.0; }
 	.lesson-results-score { margin: 5px auto; }
-	.lesson-results-controls { width: 400px; margin: 20px auto; }
+	.lesson-results-control {
+		margin-top: 200px;
+		a { margin-right: 10px; }
+	}
+	&.success {
+		&.male { background: url('../images/hooray-boy.jpg') no-repeat; }
+		&.female { background: url('../images/hooray-girl.jpg') no-repeat; }
+	}
+	&.fail {
+		&.male { background: url('../images/auwe-boy.jpg') no-repeat; }
+		&.female { background: url('../images/auwe-girl.jpg') no-repeat; }
+	}
 }
+
+/**
+ *	Lesson Styles: Instructional Lesson;
+ */
+body.single-listenrepeat_lessons {
+	.lesson-content {
+		img { float: left; margin: 0 28px 0 0; }
+		.lesson-card-content {
+			float: right;
+		}
+	}
+}
+
 
 /**
  *	Lesson Styles: Listen Repeat;
@@ -450,6 +538,7 @@ body.single-units {
  	.entry-content {
  		#module-list {
  			width: 980px; margin: 0 auto;
+ 			min-height: 420px;
  			ul.modules { 
 				li.module {
 			 		ul.topics {
@@ -457,7 +546,7 @@ body.single-units {
 				 			list-style: none;
 				 			a {
 								color: #FFF;
-								h4 { padding: 25px; background-color: @grayDark; }
+								h4 { padding: 25px; background-color: @grayDark; height: 45px; }
 				 			}
 				 		}
 			 		}
@@ -467,9 +556,15 @@ body.single-units {
 	}
 	// Specific Carousel Styles
 	.carousel {
+		.carousel-indicators {
+			top: 44px;
+			right: 420px;
+		}
+		.carousel-inner {
+			overflow: visible;
+		}
 		.carousel-control {
-			bottom: 0;
-			top: auto;
+			top: 50%;
 			&.left { left: -60px; }
 			&.right { right: -80px; }
 		}

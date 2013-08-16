@@ -25,8 +25,13 @@
 			$gender = get_user_meta( $user_id, 'gender', true );
 			echo '<div class="avatars">';
 			echo 	'<div class="avatar-wrapper">';
-			echo 		'<div class="user-avatar '.$gender.' default"></div>';
-			echo 		'<div class="kukui-avatar aunty-aloha default"></div>';
+			if ( get_post_type( $post->ID ) == 'units' ) {
+				echo 		'<div class="user-avatar '.$gender.' backturn"></div>';
+				echo 		'<div class="kukui-avatar aunty-aloha backturn"></div>';	
+			} else {
+				echo 		'<div class="user-avatar '.$gender.' default"></div>';
+				echo 		'<div class="kukui-avatar aunty-aloha default"></div>';	
+			}
 			echo  '</div>';
 			echo '</div>';
 
@@ -51,13 +56,15 @@
 	?>
 
 	<?php if ( is_user_logged_in() ) { // Is logged in ?>
-		<footer id="colophon" class="site-footer container" role="contentinfo">
+<!-- 		<footer id="colophon" class="site-footer container" role="contentinfo">
 			<div class="site-info">
 				<div class="container-narrow">
-					<p>&copy; Basic Hawaiian <?php echo date('Y'); ?></p>
+					<p>&copy; Basic Hawaiian -->
+						<?php // echo date('Y'); ?>
+					<!-- </p>
 				</div>	
-			</div><!-- .site-info -->
-		</footer><!-- #colophon .site-footer -->
+			</div> --><!-- .site-info -->
+		<!-- </footer> --><!-- #colophon .site-footer -->
 	<?php } else { // Not logged in ?>
 		<footer id="colophon">
 			<div class="container-narrow">

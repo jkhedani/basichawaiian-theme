@@ -141,8 +141,13 @@ function finish_lesson() {
 			updateWallet( $currencyTypeID );
 		}
 
+		// Determine user gender
+		$user = wp_get_current_user();
+		$user_id = $user->ID;
+		$gender = get_user_meta( $user_id, 'gender', true );
+
 		// Return Lesson Result page
-		$html .= '<div class="lesson-results success">';
+		$html .= '<div class="lesson-results success '.$gender.'">';
 		$html .= '<h1 class="lesson-results-title">' . __('Maika&#8216;i!') . '</h1>';
 		$html .= '<p class="lesson-results-blurb">You completed this lesson!</p>';
 		if ( !empty( $lessonCardCorrectCount ) )

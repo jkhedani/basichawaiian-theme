@@ -585,14 +585,7 @@
 /**
  * General Styles
  */
-body .btn {
-  border: none;
-  border-radius: 0;
-  text-shadow: none;
-  padding: 10px 15px;
-}
 body .btn-primary {
-  margin-right: 15px;
   border: none;
   border-radius: 0;
   text-shadow: none;
@@ -612,9 +605,6 @@ body header#navbar .navbar .navbar-inner {
   background: #000;
   border: none;
   border-radius: 0;
-}
-body header#navbar .navbar .navbar-inner a {
-  padding: 10px 0;
 }
 body header#navbar .navbar .navbar-inner a.site-title {
   color: #EEE;
@@ -657,7 +647,7 @@ body #content header h1 {
   font-size: 67px;
 }
 body #content header .btn-back {
-  margin: -65px 0 0 0;
+  margin: -60px 28px 0 10px;
   display: block;
   float: left;
   color: #FFF;
@@ -722,17 +712,11 @@ body .user-avatar {
 body .user-avatar.male {
   background: url('../images/male-avatar.png') no-repeat;
 }
-body .user-avatar.male.waveuser {
-  background-position: -10px 0;
-}
-body .user-avatar.male.wave {
-  background-position: -224px 0 !important;
-}
 body .user-avatar.male.default {
   background-position: -558px 0;
 }
-body .user-avatar.male.backturn {
-  background-position: -380px 0;
+body .user-avatar.male.wave {
+  background-position: -224px 0 !important;
 }
 body .user-avatar.female {
   background: url('../images/female-avatar.png') no-repeat;
@@ -753,13 +737,6 @@ body .kukui-avatar {
 }
 body .kukui-avatar.aunty-aloha {
   background: url('../images/aunty-aloha.png') no-repeat;
-}
-body .kukui-avatar.aunty-aloha.default {
-  background-position: -240px 0;
-}
-body .kukui-avatar.aunty-aloha.backturn {
-  width: 220px;
-  background-position: -1478px 0;
 }
 /**
  *  Public General
@@ -880,14 +857,6 @@ body.home.logged-in #page {
   -o-background-size: cover;
   background-size: cover;
 }
-body.home.logged-in #content {
-  background-color: rgba(44, 44, 44, 0.6);
-}
-body.home.logged-in #content h1 {
-  font-size: 38px;
-  text-align: left;
-  margin: 28px;
-}
 body.home.logged-in ul.units li.unit {
   list-style: none;
 }
@@ -961,12 +930,10 @@ body.logged-in .wallet-balance .currency-type .currency-balance.flower {
 body.single-units #content #module-list {
   text-align: center;
 }
-body.single-units #content #module-list ul.modules li.module h2.module-title {
+body.single-units #content #module-list ul.modules li.module h3.module-title {
   color: #FFF;
   font-family: 'Raleway', sans-serif;
   text-align: center;
-  font-size: 23px;
-  margin: -25px 0 35px 0;
 }
 body.single-units #content #module-list ul.modules li.module h3.no-content {
   color: #FFF;
@@ -977,9 +944,6 @@ body.single-units #content #module-list ul.modules li.module h3.no-content {
 /**
  *	Logged In: Module Page (list of modules and topics)
  */
-body.single-topics #content header .btn-back {
-  margin: -115px 0 0 0;
-}
 body.single-topics #content .lessons {
   text-align: center;
 }
@@ -999,13 +963,12 @@ body.single-topics #content .lessons {
   clear: both;
 }
 .lesson-header .lesson-title {
-  margin: 35px 0 28px !important;
+  margin: 28px 28px 10px 28px;
   float: left;
-  font-size: 48px !important;
 }
 .lesson-header .lesson-progress {
   float: right;
-  margin: 35px 0;
+  margin: 28px;
 }
 .lesson-header .lesson-progress .bar.current {
   background: #339bb9;
@@ -1015,31 +978,20 @@ body.single-topics #content .lessons {
   margin: 28px;
 }
 .lesson-header .lesson-instructions {
-  margin: 0 0 30px;
+  margin: 0 28px 30px;
   color: #FFF;
   clear: both;
-  font-size: 23px;
   font-weight: normal;
-  font-style: italic;
   display: none;
 }
 .lesson-header .lesson-instructions.current {
   display: block;
 }
 .lesson-content {
+  padding: 28px;
   min-height: 404px;
-  background-color: rgba(255, 255, 255, 0.85);
-  font-size: 23px;
-  line-height: 1.5;
-  overflow: hidden;
-}
-.lesson-content .translation {
-  font-style: italic;
-  font-size: 17px;
-  background-color: #82cdd3;
-  color: #FFF;
-  margin: 10px 0;
-  padding: 20px;
+  max-height: 404px;
+  background-color: rgba(255, 255, 255, 0.4);
 }
 .lesson-content .lesson-feedback {
   display: none;
@@ -1050,14 +1002,8 @@ body.single-topics #content .lessons {
 .lesson-content .lesson-feedback .lesson-feedback-incorrect {
   display: none;
 }
-.lesson-content .lesson-cards {
-  max-width: 600px;
-  margin: 28px;
-}
 .lesson-content .lesson-card {
-  max-width: 600px;
   display: none;
-  margin: 28px;
 }
 .lesson-content .lesson-card.current {
   display: block;
@@ -1084,54 +1030,30 @@ body.single-topics #content .lessons {
   display: none;
 }
 .lesson-results {
-  width: 645px;
-  height: 415px;
+  width: 340px;
+  height: 245px;
+  padding: 50px;
   margin: 150px auto;
   background-color: rgba(44, 44, 44, 0.6);
   color: #FFF;
   text-align: center;
-  overflow: hidden;
 }
 .lesson-results .lesson-results-title {
-  margin: 30px auto 5px;
+  margin: 5px auto;
   font-size: 80px;
   line-height: 1.0;
 }
 .lesson-results .lesson-results-blurb {
-  margin: 5px auto 20px;
+  margin: 5px auto;
   font-size: 28px;
   line-height: 1.0;
 }
 .lesson-results .lesson-results-score {
   margin: 5px auto;
 }
-.lesson-results .lesson-results-control {
-  margin-top: 200px;
-}
-.lesson-results .lesson-results-control a {
-  margin-right: 10px;
-}
-.lesson-results.success.male {
-  background: url('../images/hooray-boy.jpg') no-repeat;
-}
-.lesson-results.success.female {
-  background: url('../images/hooray-girl.jpg') no-repeat;
-}
-.lesson-results.fail.male {
-  background: url('../images/auwe-boy.jpg') no-repeat;
-}
-.lesson-results.fail.female {
-  background: url('../images/auwe-girl.jpg') no-repeat;
-}
-/**
- *	Lesson Styles: Instructional Lesson;
- */
-body.single-listenrepeat_lessons .lesson-content img {
-  float: left;
-  margin: 0 28px 0 0;
-}
-body.single-listenrepeat_lessons .lesson-content .lesson-card-content {
-  float: right;
+.lesson-results .lesson-results-controls {
+  width: 400px;
+  margin: 20px auto;
 }
 /**
  *	Lesson Styles: Listen Repeat;
@@ -1240,7 +1162,6 @@ body.single-vocabulary_lessons .lesson-content .lesson-card .lesson-card-assessm
 body.single-units .entry-content #module-list {
   width: 980px;
   margin: 0 auto;
-  min-height: 420px;
 }
 body.single-units .entry-content #module-list ul.modules li.module ul.topics li.topic {
   list-style: none;
@@ -1251,17 +1172,10 @@ body.single-units .entry-content #module-list ul.modules li.module ul.topics li.
 body.single-units .entry-content #module-list ul.modules li.module ul.topics li.topic a h4 {
   padding: 25px;
   background-color: #333333;
-  height: 45px;
-}
-body.single-units .carousel .carousel-indicators {
-  top: 44px;
-  right: 420px;
-}
-body.single-units .carousel .carousel-inner {
-  overflow: visible;
 }
 body.single-units .carousel .carousel-control {
-  top: 50%;
+  bottom: 0;
+  top: auto;
 }
 body.single-units .carousel .carousel-control.left {
   left: -60px;
