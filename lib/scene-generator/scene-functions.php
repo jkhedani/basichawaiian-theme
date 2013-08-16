@@ -14,10 +14,17 @@ function check_scene_progress( $queriedPostID ) {
 	if ( is_user_logged_in() ) {
 
 		$selectScene = 0;
+		$user = wp_get_current_user();
+		$user_id = $user->ID;
+		$gender = get_user_meta( $user_id, 'gender', true );
 
 		// #1 INTRO SCENE (First Time logging in)
     if ( $queriedPostID ==  2 ):
-    	$selectScene = 259;
+    	if ( $gender == 'male' ) {
+				$selectScene = 259;    		
+    	}	else {
+    		$selectScene = 875;
+    	}
     endif;
 
     /**
