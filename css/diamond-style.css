@@ -747,6 +747,9 @@ body .user-avatar.female.wave {
   background-position: -207px 0 !important;
   width: 157px;
 }
+body .user-avatar.female.backturn {
+  background-position: -378px 0;
+}
 body .kukui-avatar {
   position: absolute;
   right: 0;
@@ -1281,6 +1284,10 @@ body.single-vocabulary_lessons .lesson-content .lesson-card.test-card .lesson-ca
   color: #FFF;
   border: none;
   box-shadow: none;
+}
+#sceneModal.modal ul li,
+#sceneModal.modal ol li {
+  margin: 10px 0;
 }
 #sceneModal.modal .modal-count {
   margin: -25px 0 0 0;
