@@ -1352,6 +1352,8 @@ body.single-vocabulary_lessons .lesson-content .lesson-card.test-card .lesson-ca
 }
 #sceneModal.modal .modal-footer .scene-caption {
   float: left;
+  max-width: 450px;
+  text-align: left;
 }
 /**
  *  Post Single: Unit
