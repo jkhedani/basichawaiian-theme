@@ -118,7 +118,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 				echo '<div class="wallet-balance">';
 				echo 	'<div class="currency-type kukui">';
 				echo  	'<div class="currency-icon kukui"></div>';
-				echo  	'<div class="currency-balance kukui">1</div>';
+				echo  	'<div class="currency-balance kukui">0</div>';
 				echo 	'</div>';
 				echo '</div>';
 
