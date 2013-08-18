@@ -1333,8 +1333,8 @@ body.single-vocabulary_lessons .lesson-content .lesson-card.test-card .lesson-ca
   clear: both;
 }
 #sceneModal.modal .modal-body .scene-content {
-  height: 375px;
-  overflow: scroll;
+  height: 390px;
+  overflow: auto;
   background: url('../images/texture-one.png');
   padding: 20px;
   color: #524241;
