@@ -567,7 +567,7 @@ body.single-vocabulary_lessons {
 	color: #FFF;
 	border: none;
 	box-shadow: none;
-	ul li, ol li { margin: 10px 0; }
+	ul li, ol li { margin: 10px 0; line-height: 1.3; }
 	.modal-count {
 		margin: -25px 0 0 0;
 		text-align: center;
@@ -596,7 +596,8 @@ body.single-vocabulary_lessons {
 		padding: 0;
 		.clearfix();
 		.scene-content {
-			min-height: 375px;
+			height: 375px;
+			overflow: scroll;
 			background: url('../images/texture-one.png');
 			padding: 20px;
 			color: @colorBrown;
