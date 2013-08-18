@@ -16,9 +16,19 @@
 	• 
 
 --
-
-
 Transfer Log 08152013 Details
-
 • Add scene custom fields
 • change "instructional slide translations" to use WYSIWYG
+• 
+--
+
+Final Things to do
+• Add spinner and black overlay to modal box introductions
+• Advance dots on modal pop-ups
+• Prevent logged-in users from seeing content when re-accessing content whilst not logged in
+
+--
+
+Things that we should do for the next iteration
+• work on UI (lot's of text, poor iteration of tutorials)
+• improve gamification (inclusion of ways to use currency)

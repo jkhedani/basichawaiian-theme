@@ -47,8 +47,8 @@
 
 				<div class="currency-type kukui">
 					<div class="currency-icon kukui"></div>
-					<div class="currency-balance kukui">1</div>
-					<?php if ( $walletBalance > 1 ) { echo '<a class="btn btn-small pull-right claim-kukui" href="javascript:void(0);">Claim a kukui</a>'; } ?>
+					<div class="currency-balance kukui">0</div>
+					<?php //if ( $walletBalance > 1 ) { echo '<a class="btn btn-small pull-right claim-kukui" href="javascript:void(0);">Claim a kukui</a>'; } ?>
 				</div>
 			</div>
 		<?php }

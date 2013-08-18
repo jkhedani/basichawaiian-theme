@@ -107,15 +107,7 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 
 	<header class="lesson-header">
 		<h1 class="lesson-title"><?php the_title(); ?></h1>
-		<div class="lesson-karma pull-right">
-			<?php
-				$karmaAllowance = 100 / count($vocabularyObjectIDs); // Vocab karma allowance based on total amount of testable cards.
-				$karmaAllowance = round( 60 / $karmaAllowance );
-				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
-					echo '<i class="karma-point icon-leaf icon-white pull-right"></i>';
-				}
-			?>
-		</div>
+
 		<div class="lesson-progress progress span5">
 			<?php
 				$width = 100 / $totalLessonCards;
@@ -127,6 +119,20 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 					else :
 						echo '<div class="bar bar-info" style="width: '.$width.'%;"></div>';
 					endif;
+				}
+			?>
+		</div>
+
+		<hr class="clear" />
+
+		<div class="lesson-karma pull-right">
+			<?php
+				$percentToPass = 0.90;
+				$karmaAllowance = count($vocabularyObjectIDs) * $percentToPass; // Vocab karma allowance based on total amount of testable cards.
+				$karmaAllowance = round( count($vocabularyObjectIDs) - $karmaAllowance );
+
+				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
+					echo '<i class="karma-point icon-leaf icon-white pull-right"></i>';
 				}
 			?>
 		</div>
@@ -208,13 +214,6 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 			echo '<div class="lesson-card test-card" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 			endif;
 			echo 	'<h3>'. get_the_title() .'</h3>';
-			
-			echo 	'<button class="btn btn-primary play-audio">Play Audio</button>';
-			echo 	'<button class="btn btn-primary pause-audio">Pause Audio</button>';
-			echo 	'<audio class="pronunciation" src="'.get_field('audio_track').'"></audio>';
-
-			echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
-			echo  '<div class="translation english-translation hidden">'.get_field('english_translation').'</div>';
 
 			// Randomize output by storing options in array, shuffling then displaying content
 			$lessonAssessmentOptions =  array();
@@ -224,7 +223,7 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 			$lessonAssessmentOptions[] = $vocabularyObjectIDs[$lessonAssessmentFalseOptions[1]];
 		
 			shuffle($lessonAssessmentOptions);
-			echo '<div class="lesson-card-assessment row">';
+			echo '<div class="lesson-card-assessment">';
 			echo '<!-- You spent more cheating then you did learning. -->';
 				foreach ( $lessonAssessmentOptions as $lessonAssessmentOption ) {
 					if ( get_field('english_translation') ) {
@@ -232,13 +231,13 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 					}
 					
 					if ( $lessonAssessmentOption == $post->ID ) :
-						echo '<a class="lesson-card-assessment-option correct-option span4">';
+						echo '<a class="lesson-card-assessment-option correct-option">';
 						echo '<div class="lesson-card-image-wrap">';
 						echo 	get_the_post_thumbnail($lessonAssessmentOption, 'post-thumbnail', array( 'alt' => get_field('english_translation', $lessonAssessmentOption), ));
 						echo '</div>';
 						echo $englishTranslation . '</a>';
 					else :
-						echo '<a class="lesson-card-assessment-option span4">';
+						echo '<a class="lesson-card-assessment-option">';
 						echo '<div class="lesson-card-image-wrap">';
 						echo 	get_the_post_thumbnail($lessonAssessmentOption, 'post-thumbnail', array( 'alt' => get_field('english_translation', $lessonAssessmentOption), ));
 						echo '</div>';
@@ -247,6 +246,12 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 				}
 			echo '</div>';
 
+			echo 	'<button class="btn btn-primary play-audio">Play Audio</button>';
+			echo 	'<button class="btn btn-primary pause-audio">Pause Audio</button>';
+			echo 	'<audio class="pronunciation" src="'.get_field('audio_track').'"></audio>';
+
+			echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
+			echo  '<div class="translation english-translation hidden">'.get_field('english_translation').'</div>';
 
 
 			echo '</div>'; // .lesson-card

@@ -28,7 +28,7 @@ $previousPageURL = get_home_URL();
 		<a class="btn btn-inverse btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left icon-white" style="padding-right:10px;"></i>Back to Unit View</a>
 	</header><!-- .entry-header -->
 
-	<div class="entry-content row">
+	<div class="entry-content">
 		<?php
 
 		the_content();
@@ -67,7 +67,9 @@ $previousPageURL = get_home_URL();
 				<ol class="carousel-indicators">
 					<?php for ( $i = 0; $i < $moduleCount; $i++ ) { ?>
 						<?php if ( $i == 0 ) { ?>
-						<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="active"></li>
+						<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="first active"></li>
+	    			<?php } elseif ( $i == $moduleCount - 1 ) { ?>
+	    			<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="last"></li>
 	    			<?php } else { ?>
 	    			<li data-target="#<?php echo $carouselID; ?>" data-slide-to="1"></li>
 	    			<?php } ?>

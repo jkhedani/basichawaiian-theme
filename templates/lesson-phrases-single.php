@@ -30,15 +30,7 @@ $lessonCardCount = $phrases->post_count;
 
 	<header class="lesson-header">
 		<h1 class="lesson-title"><?php the_title(); ?></h1>
-		<div class="lesson-karma pull-right">
-			<?php
-				$karmaAllowance = 100 / $lessonCardCount;
-				$karmaAllowance = round( 60 / $karmaAllowance );
-				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
-					echo '<i class="karma-point icon-leaf icon-white pull-right"></i>';
-				}
-			?>
-		</div>
+
 		<div class="lesson-progress progress span5">
 			<?php
 				$width = 100 / $lessonCardCount;
@@ -50,6 +42,16 @@ $lessonCardCount = $phrases->post_count;
 					else :
 						echo '<div class="bar bar-info" style="width: '.$width.'%;"></div>';
 					endif;
+				}
+			?>
+		</div>
+
+		<div class="lesson-karma pull-right">
+			<?php
+				$karmaAllowance = 100 / $lessonCardCount;
+				$karmaAllowance = round( 60 / $karmaAllowance );
+				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
+					echo '<i class="karma-point icon-leaf icon-white pull-right"></i>';
 				}
 			?>
 		</div>

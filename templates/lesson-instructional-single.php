@@ -40,6 +40,8 @@ if ( get_field('instructional_slide') ) {
 			?>
 		</div>
 
+		<hr class="clear" />
+
 		<?php
 			// Second loop here iterates through slides and displays appropriate instructional text
 			$lessonCardCounter = 0;
@@ -70,9 +72,11 @@ if ( get_field('instructional_slide') ) {
 			if ( get_field('instructional_slide') ) {
 				echo '<div class="instructional-slides lesson-cards">';
 					$lessonCardCounter = 0;
-					foreach ($instructionalSlides as $instructionalSlide ) {
+					foreach ( $instructionalSlides as $instructionalSlide ) {
 						// Construct the slide
-						if ( $lessonCardCounter == 0 ) :
+						if ( ($lessonCardCounter == $lessonCardCount - 1) && ($lessonCardCounter == 0) ):
+							echo '<div class="instructional-slide lesson-card current last">';
+						elseif ( $lessonCardCounter == 0 ) :
 							echo '<div class="instructional-slide lesson-card current">';
 						elseif ( $lessonCardCounter == $lessonCardCount - 1 ):
 							echo '<div class="instructional-slide lesson-card last">';
@@ -81,10 +85,10 @@ if ( get_field('instructional_slide') ) {
 						endif;
 						// Slide Content
 						if ( $instructionalSlide['instructional_slide_content'] )
-							echo 	'<div class="instructional-slide-content">'.$instructionalSlide['instructional_slide_content'].'</div>';
+							echo 	'<div class="instructional-slide-content slide-content">'.$instructionalSlide['instructional_slide_content'].'</div>';
 						// Slide Audio
 						if ( $instructionalSlide['instructional_slide_audio_ogg'] ) {
-							echo 	'<div class="infromation-slide-audio">';
+							echo 	'<div class="infromation-slide-audio audio-player">';
 							echo 		'<button class="btn btn-primary play-audio">Play Audio</button>';
 							echo 		'<button class="btn btn-primary pause-audio">Pause Audio</button>';
 							echo 		'<audio class="pronunciation" src="'.$instructionalSlide['instructional_slide_audio_ogg'].'"></audio>';

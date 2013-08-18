@@ -126,6 +126,11 @@ function finish_lesson() {
 			}
 		}
 	}
+	
+	// Determine user gender
+	$user = wp_get_current_user();
+	$user_id = $user->ID;
+	$gender = get_user_meta( $user_id, 'gender', true );
 
 	// Display appropriate outcome screen
 	if ( $lessonOutcome == 'pass' ) :
@@ -140,11 +145,6 @@ function finish_lesson() {
 		if ( $lessonRecord[0]->times_completed <= 1 ) {
 			updateWallet( $currencyTypeID );
 		}
-
-		// Determine user gender
-		$user = wp_get_current_user();
-		$user_id = $user->ID;
-		$gender = get_user_meta( $user_id, 'gender', true );
 
 		// Return Lesson Result page
 		$html .= '<div class="lesson-results success '.$gender.'">';
@@ -164,7 +164,7 @@ function finish_lesson() {
 		increment_object_value ( $lessonID, 'times_wrong' );
 
 		// Return Lesson Result page
-		$html .= '<div class="lesson-results fail">';
+		$html .= '<div class="lesson-results fail '.$gender.'">';
 		$html .= '<h1 class="lesson-results-title">' . __('Aue!') . '</h1>';
 		$html .= '<p>Take a break and try again!</p>';
 		$html .= '<div class="lesson-results-control">';

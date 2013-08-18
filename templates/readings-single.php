@@ -45,7 +45,7 @@ $currencyTypeID = get_connected_object_ID( $post->ID, 'readings_to_topics', 'top
 			<a class="btn btn-primary toggle-typed-newspaper">Show Typed Text</a>
 			<?php endif; ?>
 			<?php if ( get_field('typed_newspaper_with_okinas_and_kahako') ): ?>
-			<a class="btn btn-primary toggle-typed-newspaper-with-okinas-and-kahako">Show Typed Text with 'Okinas & Kahakōs</a>
+			<a class="btn btn-primary toggle-typed-newspaper-with-okinas-and-kahako">Show with 'Okina & Kahakō</a>
 			<?php endif; ?>
 
 			<div class="readings-texts">

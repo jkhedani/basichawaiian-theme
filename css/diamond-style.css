@@ -576,12 +576,6 @@
 /**
  *	Mixins
  */
-.full-width-background-image {
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
 /**
  * General Styles
  */
@@ -589,7 +583,7 @@ body .btn {
   border: none;
   border-radius: 0;
   text-shadow: none;
-  padding: 10px 15px;
+  padding: 8px 10px;
 }
 body .btn-primary {
   margin-right: 15px;
@@ -599,7 +593,15 @@ body .btn-primary {
   background: #ff861f;
 }
 body .btn-primary:hover {
-  background: #eb6c00;
+  background: #ffa252;
+  border: none;
+  box-shadow: none;
+}
+body hr.clear {
+  clear: both;
+  background: none;
+  border: none;
+  margin: 0;
 }
 body header#navbar {
   background-color: #000;
@@ -697,6 +699,7 @@ body .avatars {
   position: absolute;
   bottom: 40px;
   left: 50%;
+  z-index: -99;
   *zoom: 1;
 }
 body .avatars .avatar-wrapper {
@@ -765,7 +768,7 @@ body .kukui-avatar.aunty-aloha.backturn {
  *  Public General
  */
 body.not-logged-in {
-  background: url('../images/dashboard-bg.jpg') no-repeat;
+  background: url('../images/dashboard-bg.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -816,7 +819,7 @@ body.not-logged-in #page #main #primary {
 body.not-logged-in #page #main #primary #content {
   padding: 50px;
   color: #FFF;
-  background: #82cdd3;
+  background: #22b1c4;
   text-align: center;
 }
 body.not-logged-in #page #main #primary #content .decoration.taro-leaves {
@@ -846,15 +849,17 @@ body.logged-in {
   background: url('../images/texture-one.png');
 }
 body.logged-in.aunty-aloha {
-  background: url('../images/aunty-aloha-bg.jpg') no-repeat;
+  background: url('../images/aunty-aloha-bg.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
 }
+body.logged-in .popover .popover-title {
+  display: none;
+}
 body.logged-in .popover .popover-content h1 {
   font-size: 35px;
-  color: #71c3c5;
 }
 body.logged-in .popover .popover-content i {
   display: block;
@@ -873,8 +878,11 @@ body.home.logged-in .user-avatar {
   bottom: 0;
   left: 120px;
 }
+body.home.logged-in #primary {
+  min-height: 720px;
+}
 body.home.logged-in #page {
-  background: url('../images/dashboard-bg.jpg') no-repeat;
+  background: url('../images/dashboard-bg.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -931,7 +939,7 @@ body.logged-in .wallet-balance .currency-type .currency-icon.kukui {
 }
 body.logged-in .wallet-balance .currency-type .currency-icon.flower {
   background: url('../images/flower.png') center center no-repeat #71c3c5;
-  border: 10px solid #82cdd3;
+  border: 10px solid #22b1c4;
 }
 body.logged-in .wallet-balance .currency-type .currency-balance {
   color: #524241;
@@ -953,7 +961,19 @@ body.logged-in .wallet-balance .currency-type .currency-balance.kukui {
 }
 body.logged-in .wallet-balance .currency-type .currency-balance.flower {
   background: #71c3c5;
-  border: 5px solid #82cdd3;
+  border: 5px solid #22b1c4;
+}
+/**
+ *	Logged In & Single
+ */
+body.single.logged-in .lesson-content ul,
+body.single.logged-in .lesson-content ol {
+  padding: 0 10px;
+  margin-bottom: 20px;
+}
+body.single.logged-in .lesson-content ul li,
+body.single.logged-in .lesson-content ol li {
+  margin: 0 0 10px 0;
 }
 /**
  *	Logged In: Unit Page (list of modules and topics)
@@ -973,6 +993,7 @@ body.single-units #content #module-list ul.modules li.module h3.no-content {
   font-family: 'Raleway', sans-serif;
   text-align: center;
   font-size: 23px;
+  margin: 150px auto 0;
 }
 /**
  *	Logged In: Module Page (list of modules and topics)
@@ -986,6 +1007,27 @@ body.single-topics #content .lessons {
 /**
  * General Lesson Styles
  */
+#lesson-start-modal {
+  background: url('../images/texture-one.png');
+  text-align: center;
+}
+#lesson-start-modal .modal-body {
+  font-family: 'Raleway', sans-serif;
+  padding: 100px;
+}
+#lesson-start-modal .modal-body h2 {
+  font-size: 60px;
+}
+#lesson-start-modal .modal-footer {
+  text-align: center;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+#lesson-start-modal .modal-footer a {
+  width: 80px;
+  margin: 0 0 0 15px;
+}
 .lesson-header {
   *zoom: 1;
 }
@@ -999,26 +1041,32 @@ body.single-topics #content .lessons {
   clear: both;
 }
 .lesson-header .lesson-title {
-  margin: 35px 0 28px !important;
+  margin: 32px 0 28px !important;
   float: left;
   font-size: 48px !important;
+  max-width: 630px;
+  text-align: left;
 }
 .lesson-header .lesson-progress {
   float: right;
-  margin: 35px 0;
+  margin: 42px 0 20px;
+  width: 286px;
 }
 .lesson-header .lesson-progress .bar.current {
   background: #339bb9;
 }
 .lesson-header .lesson-karma {
   float: right;
-  margin: 28px;
+  min-width: 200px;
+  margin: 10px 0 0 0;
 }
 .lesson-header .lesson-instructions {
+  float: left;
   margin: 0 0 30px;
   color: #FFF;
-  clear: both;
-  font-size: 23px;
+  max-width: 630px;
+  line-height: 1.4;
+  font-size: 18px;
   font-weight: normal;
   font-style: italic;
   display: none;
@@ -1036,12 +1084,14 @@ body.single-topics #content .lessons {
 .lesson-content .translation {
   font-style: italic;
   font-size: 17px;
-  background-color: #82cdd3;
+  background-color: #22b1c4;
   color: #FFF;
   margin: 10px 0;
   padding: 20px;
 }
 .lesson-content .lesson-feedback {
+  font-size: 14px;
+  padding: 15px;
   display: none;
 }
 .lesson-content .lesson-feedback .lesson-feedback-correct {
@@ -1057,16 +1107,25 @@ body.single-topics #content .lessons {
 .lesson-content .lesson-card {
   max-width: 600px;
   display: none;
-  margin: 28px;
 }
 .lesson-content .lesson-card.current {
   display: block;
+}
+.lesson-content .test-card {
+  margin: 28px;
+}
+.lesson-content .btn-primary {
+  min-width: 150px;
+  margin-bottom: 10px;
+}
+.lesson-content .audio-player {
+  float: left;
+  margin: 0 0 20px 0;
 }
 .lesson-content .pause-audio {
   display: none;
 }
 .lesson-footer {
-  position: absolute;
   width: 100%;
   background-color: rgba(44, 44, 44, 0.6);
 }
@@ -1126,12 +1185,16 @@ body.single-topics #content .lessons {
 /**
  *	Lesson Styles: Instructional Lesson;
  */
-body.single-listenrepeat_lessons .lesson-content img {
+body.single-instruction_lessons .lesson-header .lesson-title {
+  text-align: left !important;
+}
+body.single-instruction_lessons .lesson-content img {
   float: left;
   margin: 0 28px 0 0;
 }
-body.single-listenrepeat_lessons .lesson-content .lesson-card-content {
-  float: right;
+body.single-instruction_lessons .lesson-content .instructional-slide-content {
+  border-bottom: 1px solid #CCC;
+  margin: 0 0 15px 0;
 }
 /**
  *	Lesson Styles: Listen Repeat;
@@ -1145,21 +1208,69 @@ body.single-listenrepeat_lessons .lesson-content .lesson-card-content {
 }
 /**
  * Lesson Styles: Readings
- */body.single-readings .readings-text {
+ */body.single-readings .lesson-content .lesson-card {
+  margin: 28px;
+}
+body.single-readings .lesson-content .lesson-card .readings-texts {
+  border-top: 1px solid #CCC;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+body.single-readings .lesson-content .lesson-card .readings-texts .readings-text {
   display: none;
 }
-body.single-readings .readings-text.active {
+body.single-readings .lesson-content .lesson-card .readings-texts .readings-text.active {
   display: block;
 }
 /**
- *	Lesson Styles: Vocabulary Terms;
+ *	Lesson Styles: Three choice assessments ( phrases, songs, proverbs )
  */
+body.single-phrases_lessons .lesson-card-assessment-option,
+body.single-song_lessons .lesson-card-assessment-option {
+  border: 1px solid #DDD;
+  margin: 0 15px 0 0;
+}
+/**
+ *	Lesson Styles: Vocabulary Lessons
+ */
+body.single-vocabulary_lessons .lesson-content .lesson-card {
+  margin: 28px;
+}
 body.single-vocabulary_lessons .lesson-content .lesson-card img {
+  width: 315px;
   max-height: 320px;
 }
-body.single-vocabulary_lessons .lesson-content .lesson-card .lesson-card-assessment-option .lesson-card-image-wrap {
-  max-height: 252px;
+body.single-vocabulary_lessons .lesson-content .lesson-card.test-card {
+  max-width: 100%;
+}
+body.single-vocabulary_lessons .lesson-content .lesson-card.test-card .lesson-card-assessment {
+  border-bottom: 1px solid #CCC;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  *zoom: 1;
+}
+body.single-vocabulary_lessons .lesson-content .lesson-card.test-card .lesson-card-assessment:before,
+body.single-vocabulary_lessons .lesson-content .lesson-card.test-card .lesson-card-assessment:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+body.single-vocabulary_lessons .lesson-content .lesson-card.test-card .lesson-card-assessment:after {
+  clear: both;
+}
+body.single-vocabulary_lessons .lesson-content .lesson-card.test-card .lesson-card-assessment .lesson-card-assessment-option {
+  font-size: 14px;
+  float: left;
+  width: 30%;
+  margin-right: 3%;
+  text-align: center;
+  cursor: pointer;
+  color: #444;
+}
+body.single-vocabulary_lessons .lesson-content .lesson-card.test-card .lesson-card-assessment .lesson-card-assessment-option .lesson-card-image-wrap {
+  max-height: 177px;
   overflow: hidden;
+  margin-bottom: 5px;
 }
 /**
  *	Scene Modals
@@ -1214,7 +1325,7 @@ body.single-vocabulary_lessons .lesson-content .lesson-card .lesson-card-assessm
 }
 #sceneModal.modal .modal-body .scene-content {
   min-height: 375px;
-  background: #dfe0da;
+  background: url('../images/texture-one.png');
   padding: 20px;
   color: #524241;
   font-family: 'Raleway', sans-serif;
@@ -1238,7 +1349,6 @@ body.single-vocabulary_lessons .lesson-content .lesson-card .lesson-card-assessm
  *  Post Single: Unit
  */
 body.single-units .entry-content #module-list {
-  width: 980px;
   margin: 0 auto;
   min-height: 420px;
 }
@@ -1258,16 +1368,17 @@ body.single-units .carousel .carousel-indicators {
   right: 420px;
 }
 body.single-units .carousel .carousel-inner {
+  margin: 0;
   overflow: visible;
 }
 body.single-units .carousel .carousel-control {
   top: 50%;
 }
 body.single-units .carousel .carousel-control.left {
-  left: -60px;
+  left: -75px;
 }
 body.single-units .carousel .carousel-control.right {
-  right: -80px;
+  right: -75px;
 }
 /**
  *  Post Single: Topic
@@ -1285,6 +1396,7 @@ body.single-topics ul.lessons li.lesson a {
 body.single-topics ul.lessons li.lesson a h4 {
   padding: 25px;
   background-color: #333333;
+  height: 45px;
 }
 /*
  * Scoresheet
@@ -1317,149 +1429,46 @@ ul.scoresheet li.record ul.scores li {
 /**
  *	Media Queries
  */
-@media (min-width: 1380px) {
-  body .navbar .container {
-    width: 1380px;
-  }
-  body .container {
-    width: 1380px;
-  }
-  body #primary {
-    min-height: 776px;
-  }
-}
-@media (max-width: 1380px) {
-  body .navbar .container {
-    width: 1200px;
-  }
-  body .container {
-    width: 1200px;
-  }
-  body #primary {
-    min-height: 662px;
+@media (min-width: 1200px) {
+  body.home .container {
+    width: 1200px !important;
   }
 }
 @media (max-width: 1200px) {
   
 }
+@media (max-width: 1024px) {
+  body.home #page {
+    margin: 0;
+    width: 100%;
+  }
+  body.home #page #primary {
+    min-height: 600px;
+  }
+  body.single-units .carousel .carousel-control {
+    top: 10px;
+  }
+  body.single-units .carousel .carousel-control.left {
+    left: 15px;
+  }
+  body.single-units .carousel .carousel-control.right {
+    right: 0px;
+  }
+  body.single-units .avatars {
+    display: none;
+  }
+}
 @media (max-width: 979px) {
   
 }
 @media (max-width: 767px) {
-  body {
-    padding-left: 0;
-    padding-right: 0;
+  body.single header#navbar {
+    margin: 0 -20px;
+  }
+  .lesson-header .lesson-title {
+    margin: 35px 0 0 0 !important;
   }
 }
 @media (max-width: 479px) {
   
-}
-/*
- * General Styles
- */
-ul.breadcrumb {
-  background: #eeeeee;
-}
-.cover {
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  z-index: -9999999;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=image-path("bg.jpg"), sizingMethod='scale');
-  -ms-filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src=' image-path("bg.jpg") ', sizingMethod="scale")';
-}
-.gameProgress {
-  height: 40px;
-  width: 100%;
-}
-.gameProgress .gameProgressPoint {
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  background-color: #ffffff;
-  margin-right: 10px;
-  float: left;
-}
-.gameProgress .gameProgressPoint.current {
-  background-color: #333333;
-}
-.gameProgress .miniGame {
-  background: url('../images/game-icons.png') 0 -40px no-repeat #999999;
-}
-.gameProgress .finish {
-  background: url('../images/game-icons.png') 0 -80px no-repeat #999999;
-}
-.gameBoard .btn {
-  margin-top: 10px;
-}
-.gameBoard .gameCard {
-  display: none;
-}
-.gameBoard .gameCard.current {
-  display: block;
-  cursor: pointer;
-}
-.gameBoard .gameCard .gameCardControls {
-  *zoom: 1;
-  margin: 0 0 10px 0;
-}
-.gameBoard .gameCard .gameCardControls:before,
-.gameBoard .gameCard .gameCardControls:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.gameBoard .gameCard .gameCardControls:after {
-  clear: both;
-}
-.gameBoard .gameCard .gameCardControls a.pronunciationPlay {
-  width: 40px;
-  height: 40px;
-  background: url('../images/game-icons.png') 0 0 no-repeat #999999;
-  display: block;
-  cursor: pointer;
-  float: left;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-}
-.gameBoard .gameCard .gameCardControls .translationWrapper {
-  float: left;
-  margin: 0 0 0 15px;
-}
-.gameBoard .gameCard .gameCardControls .translationWrapper a.toggleHwnTranslation,
-.gameBoard .gameCard .gameCardControls .translationWrapper a.toggleEngTranslation {
-  display: block;
-  cursor: pointer;
-  float: left;
-  clear: left;
-}
-.gameBoard .gameCard.miniGame .gameChoices {
-  position: relative;
-  *zoom: 1;
-  padding-top: 60px;
-}
-.gameBoard .gameCard.miniGame .gameChoices:before,
-.gameBoard .gameCard.miniGame .gameChoices:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.gameBoard .gameCard.miniGame .gameChoices:after {
-  clear: both;
-}
-.gameBoard .gameCard.miniGame .gameChoices .gameChoice {
-  float: left;
-}
-.gameBoard .gameCard.miniGame .gameChoices .gameChoice .gameCardControls {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.gameBoard .gameCard.miniGame .gameChoices .gameChoice a.choiceSelect.selected img {
-  border: 5px solid green;
 }

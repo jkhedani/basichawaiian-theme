@@ -30,16 +30,8 @@ $lessonCardCount = $songLines->post_count;
 
 	<header class="lesson-header">
 		<h1 class="lesson-title"><?php the_title(); ?></h1>
-		<div class="lesson-karma pull-right">
-			<?php
-				$karmaAllowance = 100 / $lessonCardCount;
-				$karmaAllowance = round( 60 / $karmaAllowance );
-				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
-					echo '<i class="karma-point icon-leaf icon-white pull-right"></i>';
-				}
-			?>
-		</div>
-		<div class="lesson-progress progress span5">
+
+		<div class="lesson-progress progress">
 			<?php
 				$width = 100 / $lessonCardCount;
 				for ( $i = 0; $i < $lessonCardCount; $i++ ) {
@@ -53,6 +45,18 @@ $lessonCardCount = $songLines->post_count;
 				}
 			?>
 		</div>
+		<hr class="clear" />
+
+		<div class="lesson-karma pull-right">
+			<?php
+				$karmaAllowance = 100 / $lessonCardCount;
+				$karmaAllowance = round( 60 / $karmaAllowance );
+				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
+					echo '<i class="karma-point icon-leaf icon-white pull-right"></i>';
+				}
+			?>
+		</div>
+
 		<?php
 			// Second loop to grab optional instructional text
 			$lessonCardCounter = 0;
