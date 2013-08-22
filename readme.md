@@ -32,3 +32,5 @@ Final Things to do
 Things that we should do for the next iteration
 • work on UI (lot's of text, poor iteration of tutorials)
 • improve gamification (inclusion of ways to use currency)
+• build sign-up page and have Ku and/or Iini manage it
+• support expectations / user management

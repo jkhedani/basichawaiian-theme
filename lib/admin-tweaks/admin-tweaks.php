@@ -165,4 +165,49 @@ function redirect_instructors_upon_login( $redirect_to, $request, $user ) {
 }
 add_filter( 'login_redirect', 'redirect_instructors_upon_login', 10, 3 );
 
+
+/**
+ *	New User Registration Email Change
+ *  http://codex.wordpress.org/Function_Reference/wp_new_user_notification
+ */
+
+// Redefine user notification function
+
+function new_welcome_user_msg_filter( $text ) {
+
+	if ( !$text ) {
+
+		return __( 'Dear User,
+
+
+
+Your new account is set up.
+
+
+
+You can log in with the following information:
+
+Username: USERNAME
+
+Password: PASSWORD
+
+LOGINLINK
+
+
+
+Thanks!
+
+
+
+--The Team @ SITE_NAME' );
+
+	}
+
+	return $text;
+
+}
+
+add_filter( 'new_user_email_content', 'new_welcome_user_msg_filter' );
+
+
 ?>

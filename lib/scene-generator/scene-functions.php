@@ -46,9 +46,9 @@ function check_scene_progress( $queriedPostID ) {
      */
 
     // Completing BASIC II shows CARDIO I
-    if ( $queriedPostID ==  238 ):
-    	$selectScene = 262;
-    endif;
+    // if ( $queriedPostID ==  238 ):
+    // 	$selectScene = 262;
+    // endif;
 
     // Completing LAU LAU MAKING shows CARDIO II
     //if ( $queriedPostID ==  239 ):
