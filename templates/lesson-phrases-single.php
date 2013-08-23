@@ -90,6 +90,23 @@ $lessonCardCount = $phrases->post_count;
 		$gameObjectIDs = array();
 		$lessonCardCounter = 0;
 		while ( $phrases->have_posts() ) : $phrases->the_post();
+			// Retrieve "correct" answers
+			$correctAnswer = get_field('english_translation');
+
+			// Randomize output by storing options in array, shuffling then displaying content
+			$lessonAssessmentOptions =  array();
+			$lessonAssessmentOptions[] = get_field('english_translation');
+			$lessonAssessmentOptions[] = get_field('assessment_option_one');
+			$lessonAssessmentOptions[] = get_field('assessment_option_two');
+			shuffle($lessonAssessmentOptions);
+
+			// Attempt to retrieve connected vocabulary terms
+			$connectedVocabulary = new WP_Query( array(
+				'connected_type' => 'vocabulary_terms_to_phrases',
+				'connected_items' => $post->ID,
+				'nopaging' => true,
+			));
+			
 			if ( $lessonCardCounter === 0 ) :
 				echo '<div class="lesson-card test-card current" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 			elseif ( $lessonCardCounter == $lessonCardCount - 1 ) :
@@ -100,16 +117,27 @@ $lessonCardCount = $phrases->post_count;
 
 			echo '<h3>'. get_the_title() .'</h3>';
 
-			// Randomize output by storing options in array, shuffling then displaying content
-			$lessonAssessmentOptions =  array();
-			$lessonAssessmentOptions[] = get_field('english_translation');
-			$lessonAssessmentOptions[] = get_field('assessment_option_one');
-			$lessonAssessmentOptions[] = get_field('assessment_option_two');
-			shuffle($lessonAssessmentOptions);
+			echo '<div class="lesson-image-container">';
+			// If there are connected vocabulary terms, retrieve those images
+			if ( $connectedVocabulary->have_posts() ) {
+				if ( $connectedVocabulary->have_posts() ) :
+					while( $connectedVocabulary->have_posts() ) : $connectedVocabulary->the_post();
+						echo get_the_post_thumbnail();
+					endwhile;
+					wp_reset_postdata();
+				endif;
+			// If not, get the post thumbnail 
+			} else {
+				if ( get_the_post_thumbnail() ) {
+					echo get_the_post_thumbnail();
+				}
+			}
+			echo '</div>';
+
 			echo '<div class="lesson-card-assessment">';
 			echo '<!-- You spent more cheating then you did learning. -->';
 				foreach ( $lessonAssessmentOptions as $lessonAssessmentOption ) {
-					if ( $lessonAssessmentOption == get_field('english_translation') ) :
+					if ( $lessonAssessmentOption === $correctAnswer ) :
 						echo '<a class="btn lesson-card-assessment-option correct-option">'.$lessonAssessmentOption.'</a>';
 					else :
 						echo '<a class="btn lesson-card-assessment-option">'.$lessonAssessmentOption.'</a>';

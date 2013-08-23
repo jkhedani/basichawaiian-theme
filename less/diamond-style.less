@@ -507,14 +507,26 @@ body.single-readings {
 				margin-top: 20px;
 			}
 		}
-	}
-	
+	}	
 }
+
+/**
+ *	Lesson Styles: Phrases;
+ */
+body.single-phrases_lessons {
+	.lesson-image-container {
+		max-width: 300px;
+		max-height: 300px;
+		img { margin-bottom: 20px; }
+	}
+}
+
 
 /**
  *	Lesson Styles: Three choice assessments ( phrases, songs, proverbs )
  */
 body.single-phrases_lessons, body.single-song_lessons {
+	.lesson-card { max-width: none; }
 	.lesson-card-assessment-option {
 		border: 1px solid #DDD;
 		margin: 0 15px 0 0;

@@ -1227,8 +1227,22 @@ body.single-readings .lesson-content .lesson-card .readings-texts .readings-text
   display: block;
 }
 /**
+ *	Lesson Styles: Phrases;
+ */
+body.single-phrases_lessons .lesson-image-container {
+  max-width: 300px;
+  max-height: 300px;
+}
+body.single-phrases_lessons .lesson-image-container img {
+  margin-bottom: 20px;
+}
+/**
  *	Lesson Styles: Three choice assessments ( phrases, songs, proverbs )
  */
+body.single-phrases_lessons .lesson-card,
+body.single-song_lessons .lesson-card {
+  max-width: none;
+}
 body.single-phrases_lessons .lesson-card-assessment-option,
 body.single-song_lessons .lesson-card-assessment-option {
   border: 1px solid #DDD;
