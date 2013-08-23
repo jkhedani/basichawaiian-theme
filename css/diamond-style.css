@@ -1232,6 +1232,7 @@ body.single-readings .lesson-content .lesson-card .readings-texts .readings-text
 body.single-phrases_lessons .lesson-image-container {
   max-width: 300px;
   max-height: 300px;
+  overflow: hidden;
 }
 body.single-phrases_lessons .lesson-image-container img {
   margin-bottom: 20px;
