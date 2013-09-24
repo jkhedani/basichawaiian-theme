@@ -69,6 +69,7 @@
 		<footer id="colophon">
 			<div class="container-narrow">
 				<p>&copy; Basic Hawaiian <?php echo get_the_date('Y'); ?></p>
+				<?php  wp_nav_menu( array('menu' => 'Project Nav' )); ?>
 			</div>
 		</footer>
 	<?php } // not logged in ?>

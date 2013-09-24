@@ -24,7 +24,7 @@ $grandparentUnitID = get_connected_object_ID( $post->ID, 'topics_to_modules', 'm
 	<header class="entry-header">
 		<h1 class="entry-title"><?php echo get_the_title($grandparentUnitID); ?></h1>
 		<h2 class="entry-super-title"><?php echo $parentModuleTitle; ?> / <?php the_title(); ?></h2>
-		<a class="btn btn-inverse btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left icon-white" style="padding-right:10px;"></i>Back to Module View</a>
+		<a class="btn btn-inverse btn-back" href="<?php echo $previousPageURL; ?>?module=<?php echo $_GET["module"]; ?>"><i class="icon-arrow-left icon-white" style="padding-right:10px;"></i>Back to Module View</a>
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">

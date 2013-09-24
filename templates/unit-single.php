@@ -108,7 +108,7 @@ $previousPageURL = get_home_URL();
 								data-exercise-complete="<?php echo scene_viewed( $topicID ) ? "1" : "0"; ?>"
 							>
 							<?php
-							echo 	'<a href="'.get_permalink($topicID).'"><h4>' . get_the_title($topicID) . '</h4></a>';
+							echo 	'<a href="'.get_permalink($topicID).'?module='.$indexCount.'"><h4>' . get_the_title($topicID) . '</h4></a>';
 							echo '</li>';
 						endwhile;
 						wp_reset_postdata();

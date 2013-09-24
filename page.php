@@ -13,28 +13,26 @@
 
 get_header(); ?>
 
-	<div class="row"><!-- Bootstrap: REQUIRED! -->
-		<div id="primary" class="content-area span8">
-			<div id="content" class="site-content" role="main">
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
 
-			<?php bedrock_get_breadcrumbs(); ?>
-				
-			<?php
-				while ( have_posts() ) : the_post();
-					/*
-					 * NOTE: Ensure we move these calls to a setting somewhere.
-					 */
-					if ( $post->ID == 276 ) {
-						get_template_part( 'templates/progress', 'page' );
-					} else {
-						get_template_part( 'templates/content', 'page' );
-					}
-				endwhile; // end of the loop.
-			?>
+		<?php bedrock_get_breadcrumbs(); ?>
+			
+		<?php
+			while ( have_posts() ) : the_post();
+				/*
+				 * NOTE: Ensure we move these calls to a setting somewhere.
+				 */
+				if ( $post->ID == 276 ) {
+					get_template_part( 'templates/progress', 'page' );
+				} else {
+					get_template_part( 'templates/content', 'page' );
+				}
+			endwhile; // end of the loop.
+		?>
 
-			</div><!-- #content .site-content -->
-		</div><!-- #primary .content-area -->
-		<?php //get_sidebar(); ?>
-	</div><!-- .row-fluid -->
+		</div><!-- #content .site-content -->
+	</div><!-- #primary .content-area -->
+	<?php //get_sidebar(); ?>
 
 <?php get_footer(); ?>

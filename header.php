@@ -74,7 +74,7 @@
   </header>
   <?php } else { // user is not logged in ?>
   <header id="navbar-basic">
-    <h2 class="pull-left"><?php bloginfo('name'); ?></h2>
+    <h2 class="pull-left"><a href="<?php echo get_site_url(); ?>"><?php bloginfo('name'); ?></a></h2>
     <a class="btn btn-primary pull-right" href="<?php echo get_home_url(); ?>/wp-login.php" title="Sign into your account here.">Sign In</a>
   </header>
   <?php } // user not logged in ?>

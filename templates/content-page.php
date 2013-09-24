@@ -12,25 +12,7 @@
 	</header><!-- .page-header -->
 
 	<div class="page-content">
-
-		<?php
-			$splitContent = split_the_content( get_the_content('more') );
-			$splitTranslation = split_the_content( get_field( 'hawaiian_translation' ) );
-
-			// Proper translation check (checks if there are the same amount of more tag breaks)
-			if ( count($splitContent) != count($splitTranslation) ) {
-				echo '<p>Check your translation. It appears something is missing.</p>';
-			} else {
-				// Return the content
-				$slideCount = count($splitContent);
-				for($i = 0; $i < $slideCount; $i++) {
-			  	echo $splitContent[$i];
-			  	echo $splitTranslation[$i];
-					echo '<hr />';
-				}
-			}
-
-		?>
+		<?php the_content(); ?>
 	</div><!-- .page-content -->
 
 	<footer class="page-footer">
