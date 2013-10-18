@@ -271,15 +271,16 @@ function diamond_scripts() {
 	$protocol='http:'; // discover the correct protocol to use
  	if(!empty($_SERVER['HTTPS'])) $protocol='https:';
 
-  wp_enqueue_style('open-sans-google-fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700', array(), false, 'all');
-  wp_enqueue_style('raleway-google-fonts', 'http://fonts.googleapis.com/css?family=Raleway:700', array(), false, 'all');
+  wp_enqueue_style( 'open-sans-google-fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700', array(), false, 'all');
+  wp_enqueue_style( 'raleway-google-fonts', 'http://fonts.googleapis.com/css?family=Raleway:700', array(), false, 'all');
   wp_enqueue_style( 'diamond-style', get_stylesheet_directory_uri().'/css/diamond-style.css' );
   wp_enqueue_style( 'diamond-style-responsive', get_stylesheet_directory_uri().'/css/diamond-style-responsive.css', array('diamond-style','resets','bootstrap-base-styles','bootstrap-parent-style'));
-	wp_enqueue_script('bootstrap-modal', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-modal.js', array('jquery'), false, true);
-  wp_enqueue_script('bootstrap-carousel', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-carousel.js', array('jquery'), false, true);
-  wp_enqueue_script('bootstrap-tooltip', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-tooltip.js', array('jquery'), false, true);
-  wp_enqueue_script('bootstrap-popover', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-popover.js', array('jquery', 'bootstrap-tooltip'), false, true);
-  wp_enqueue_script('diamond-custom-script', get_stylesheet_directory_uri().'/js/scripts.js', array('jquery'), false, true);
+	wp_enqueue_script( 'bootstrap-modal', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-modal.js', array('jquery'), false, true);
+  wp_enqueue_script( 'bootstrap-carousel', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-carousel.js', array('jquery'), false, true);
+  wp_enqueue_script( 'bootstrap-tooltip', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-tooltip.js', array('jquery'), false, true);
+  wp_enqueue_script( 'bootstrap-popover', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-popover.js', array('jquery', 'bootstrap-tooltip'), false, true);
+  wp_enqueue_script( 'chart-script', get_stylesheet_directory_uri().'/js/chart/Chart.min.js', array(), false, true);
+  wp_enqueue_script( 'diamond-custom-script', get_stylesheet_directory_uri().'/js/scripts.js', array('jquery'), false, true);
 
 	// AJAX Calls
   wp_enqueue_script('ajax_scripts', "$stylesheetDir/lib/user-interactions/assessment/ajax-game-scripts.js", array('jquery','json2'), true);
