@@ -6,7 +6,9 @@ jQuery(document).ready(function($){
 	 *	https://code.google.com/p/explorercanvas/
 	 */
 
-	 // Testing chart data... 
+	 // Only run on statistics page...
+	 if ( $('body').hasClass('page-template-statistics-php') ) {
+	 	// Testing chart data... 
 		var myFirstChartData = [
 			{ value : activeStudents, color: "#4D5360" },
 			{ value : studentsNotParticipating, color: "#F7464A" },
@@ -18,6 +20,7 @@ jQuery(document).ready(function($){
 		];
 		var ctx = $("#canvas-chart").get(0).getContext("2d");
 		var myFirstChart 		 = new Chart(ctx).Doughnut( myFirstChartData );
+	}
 
 		
 });

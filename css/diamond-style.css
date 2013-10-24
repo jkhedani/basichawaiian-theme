@@ -603,6 +603,9 @@ body hr.clear {
   border: none;
   margin: 0;
 }
+body pre {
+  font-size: 14px;
+}
 body header#navbar {
   background-color: #000;
 }
@@ -1469,6 +1472,20 @@ ul.scoresheet li.record ul.scores li {
   float: left;
   border-top: none;
   text-align: center;
+}
+/**
+ *	Page Template: Statistics
+ */
+body.page-template-statistics-php #content {
+  padding: 20px 30px;
+  background: rgba(255, 255, 255, 0.7);
+}
+body.page-template-statistics-php #content ul.user-statistics {
+  margin: 0;
+  padding: 0;
+}
+body.page-template-statistics-php #content ul.user-statistics li {
+  list-style: none;
 }
 /**
  *	Media Queries
