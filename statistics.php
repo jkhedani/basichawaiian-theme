@@ -31,13 +31,13 @@ global $wpdb;
 							'fields'	=> 'ID'
 						));
 						// Retrieve data regarding users who have interacted with the site
-						$userInteractionIDs = $wpdb->get_col( $wpdb->prepare(
+						$userInteractionIDs = $wpdb->get_col(
 							"
 							SELECT user_id
 							FROM wp_user_interactions
 							GROUP BY user_id
 							"
-						));
+						);
 
 						/**
 						 *	Display Statistics
@@ -60,12 +60,11 @@ global $wpdb;
 						 */
 						$studentsNotParticipating = $student_query->total_users - count($userInteractionIDs); // Total # of active students subtracted from total # of students
 						echo '<li style="color:#F7464A;">';
-						echo 'Total number of users not participating: ' . $studentsNotParticipating;
+						echo '<h2>Total number of users not participating: ' . $studentsNotParticipating . '</h2>';
 						echo '</li>';
 
 						/**
 						 *	Question 2: How many users completed _All Sections of Module One_?
-						 *  Find all modules associated with a given unit
 						 */
 						$auntyAlohaID = 204;
 						$query = new WP_Query( array(
@@ -79,10 +78,10 @@ global $wpdb;
 						endwhile;
 						wp_reset_postdata();
 
-						// Find topics connected to unit one module one
+						// A. Find topics connected to unit one module one
 						$moduleOne = $connectedModuleIDs[0];
 
-						// Within each module, find associated topics
+						// B. Within module one, find connected topics
 						$query = new WP_Query( array(
 							'connected_type' => 'topics_to_modules',
 							'connected_items' => $moduleOne,
@@ -93,21 +92,56 @@ global $wpdb;
 						endwhile;
 						wp_reset_postdata();
 
-						// Find all user IDs that have times_completed >= 1 for each of the topics in Module One
-						$ids = join(',',$connectedTopicIDs); 
-						echo $ids;
-						$usersCompletedModuleOne = $wpdb->get_results(
+						// C. Process topic IDs to find connected lessons
+						$topicIDs = join(',',$connectedTopicIDs);
+						$lessonConnectionTypes = 	'"instructional_lessons_to_topics","readings_to_topics","vocabulary_lessons_to_topics","phrases_lessons_to_topics","pronoun_lessons_to_topics","song_lessons_to_topics","chants_lessons_to_topics"';
+
+						// D. Find all topics connected to module one
+						$connectedTopics = $wpdb->get_results(
 							"
-							SELECT user_id
-							FROM wp_user_interactions
-							WHERE post_id IN ($ids)
-							AND times_completed >= 1
+							SELECT p2p_from
+							FROM wp_p2p
+							WHERE p2p_to IN ($topicIDs)
+							AND p2p_type IN ($lessonConnectionTypes)
+							ORDER BY p2p_from ASC
 							LIMIT 9999
 							"
 						);
-						echo '<pre>';
-						var_dump($usersCompletedModuleOne);
-						echo '</pre>';
+
+						// Filter out any posts that are not published and/or trashed
+						foreach ($connectedTopics as $lessonID) {
+							if ( get_post_status( $lessonID->p2p_from ) == 'publish' ) {
+								$publishedConnectedTopics[] = $lessonID->p2p_from;
+							}
+						} 
+
+						// E. Find all user IDs that have times_completed >= 1 for each of the lessons in Module One
+						$lessonIDs = join(',',$publishedConnectedTopics);
+						$usersProgressModuleOne = $wpdb->get_results(
+							"
+							SELECT *,
+							GROUP_CONCAT(post_id ORDER BY post_id ASC) posts_completed
+							FROM wp_user_interactions
+							WHERE post_id IN ($lessonIDs)
+							AND times_completed >= 1
+							GROUP BY user_id
+							LIMIT 9999
+							"
+						);
+
+						// F. Compare string of connected modules
+						foreach ($usersProgressModuleOne as $userRecord) {
+							if ( $userRecord->posts_completed == $lessonIDs ) {
+								$usersCompletedModuleOne[] = $userRecord->user_id;
+							}
+						}
+
+						// G. Show Students who have completed module one
+						$studentsCompletedModuleOne = count($usersCompletedModuleOne);
+						echo '<li style="color:#949FB1;">';
+						echo '<h2>Total number of users who completed Module One: ' . $studentsCompletedModuleOne . '</h2>';
+						echo '</li>';
+
 						/**
 						 *	Most Difficult Piece of content
 						 */
@@ -137,6 +171,7 @@ global $wpdb;
 					<script>
 					  var activeStudents = <?php echo json_encode($activeStudents); ?>;
 					  var studentsNotParticipating = <?php echo json_encode($studentsNotParticipating); ?>;
+					  var studentsCompletedModuleOne = <?php echo json_encode($studentsCompletedModuleOne); ?>;
 					</script>
 
 					<!-- Chart One: Number of users over time -->

@@ -10,11 +10,13 @@ jQuery(document).ready(function($){
 	 if ( $('body').hasClass('page-template-statistics-php') ) {
 	 	// Testing chart data... 
 		var myFirstChartData = [
+			{ value : studentsCompletedModuleOne, color: "#949FB1" },
 			{ value : activeStudents, color: "#4D5360" },
 			{ value : studentsNotParticipating, color: "#F7464A" },
+			
 			{ value : 20, color: "#E2EAE9" },
 			{ value : 50, color: "#D4CCC5" },
-			{ value : 90, color: "#949FB1" },
+			
 			
 
 		];
