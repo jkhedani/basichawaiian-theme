@@ -196,6 +196,39 @@ global $wpdb;
 						echo '<h3>Total number of users who completed Module Eight: ' . $studentsCompletedModuleSix . '</h3>';
 						echo '</li>';
 
+						echo '</ul>'; // user-statistics
+						?>
+
+						<script>
+						  var activeStudents = <?php echo json_encode($activeStudents); ?>;
+						  var studentsNotParticipating = <?php echo json_encode($studentsNotParticipating); ?>;
+						  var studentsCompletedModuleOne = <?php echo json_encode($studentsCompletedModuleOne); ?>;
+						  var studentsCompletedModuleThree = <?php echo json_encode($studentsCompletedModuleThree); ?>;
+						  var studentsCompletedModuleSix = <?php echo json_encode($studentsCompletedModuleSix); ?>;
+						  var studentsCompletedModuleEight = <?php echo json_encode($studentsCompletedModuleEight); ?>;
+						</script>
+
+						<!-- Chart One: Number of users over time -->
+						<canvas id="canvas-chart" class="home" data-chart="" height="450" width="600"></canvas>
+						<!-- Total number of users registered -->
+
+
+						<?php
+						
+						echo '<h1>Other User Data</h1>';
+						echo '<h3>Active user emails:</h3>';
+						/**
+						 *	Retrieve active student emails
+						 */
+						$active_students_query = new WP_User_Query( array(
+							'role' => 'student',
+							'include' => $userInteractionIDs,
+						));
+						foreach ( $active_students_query->results as $active_student_record ) {
+							echo $active_student_record->user_email . ', <br/>';
+						}
+
+
 						/**
 						 *	Most Difficult Piece of content
 						 */
@@ -207,33 +240,7 @@ global $wpdb;
 						// 	"
 						// ));
 						// var_dump($mostDifficultPiecesOfContent);
-
-						/**
-						 *	Retrieve active student emails
-						 */
-						// $active_students_query = new WP_User_Query( array(
-						// 	'role' => 'student',
-						// 	'include' => $userInteractionIDs,
-						// ));
-						// echo '<li>';
-						// echo 'Active user emails:';
-						// foreach ( $active_students_query->results as $active_student_record ) {
-						// 	echo $active_student_record->user_email . ', <br/>';
-						// }
-						// echo '</li>';
 					?>
-					<script>
-					  var activeStudents = <?php echo json_encode($activeStudents); ?>;
-					  var studentsNotParticipating = <?php echo json_encode($studentsNotParticipating); ?>;
-					  var studentsCompletedModuleOne = <?php echo json_encode($studentsCompletedModuleOne); ?>;
-					  var studentsCompletedModuleThree = <?php echo json_encode($studentsCompletedModuleThree); ?>;
-					  var studentsCompletedModuleSix = <?php echo json_encode($studentsCompletedModuleSix); ?>;
-					  var studentsCompletedModuleEight = <?php echo json_encode($studentsCompletedModuleEight); ?>;
-					</script>
-
-					<!-- Chart One: Number of users over time -->
-					<canvas id="canvas-chart" class="home" data-chart="" height="450" width="600"></canvas>
-					<!-- Total number of users registered -->
 
 				<?php
 				// If user is not an admin, display useful feedback.
