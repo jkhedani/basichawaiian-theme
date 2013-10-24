@@ -11,11 +11,14 @@ jQuery(document).ready(function($){
 	 	// Testing chart data... 
 		var myFirstChartData = [
 			{ value : studentsCompletedModuleOne, color: "#949FB1" },
+			{ value : studentsCompletedModuleThree, color: "#749FB1" },
+			{ value : studentsCompletedModuleSix, color: "#947FC1" },
+			{ value : studentsCompletedModuleEight, color: "#545FC1" },
 			{ value : activeStudents, color: "#4D5360" },
 			{ value : studentsNotParticipating, color: "#F7464A" },
 			
-			{ value : 20, color: "#E2EAE9" },
-			{ value : 50, color: "#D4CCC5" },
+			// { value : 20, color: "#E2EAE9" },
+			// { value : 50, color: "#D4CCC5" },
 			
 			
 
