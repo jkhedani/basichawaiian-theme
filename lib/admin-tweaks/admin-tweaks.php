@@ -108,8 +108,9 @@ function add_useful_toolbar_menu() {
 			'meta' => array(),
 			'href' => $location,
 		));
-		$postTypes = get_post_types( array( '_builtin' => false ), 'object' );
+		$postTypes = get_post_types( array(), 'object' );
 		foreach ($postTypes as $postType) {
+			if ( ($postType->name != 'attachment') || ($postType->name != 'revision') || ($postType->name != 'nav_menu_item') ) :
 			// Post Type Menu
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'view-all',
@@ -117,7 +118,8 @@ function add_useful_toolbar_menu() {
 				'meta' => array(),
 				'title' => $postType->label,
 				'href' => get_admin_url() . 'edit.php?post_type="' .$postType->name. '"',
-			));	
+			));
+			endif;
 		}
 		
 		// Modify "Howdy in Menu Bar"

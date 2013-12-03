@@ -1064,47 +1064,57 @@ body.not-logged-in footer#colophon .footer-content ul.menu {
   margin: 0 40px 0 0;
 }
 body.not-logged-in footer#colophon .footer-content ul.menu li.menu-item {
+  float: left;
+  margin-left: 10px;
   list-style: none;
 }
 body.not-logged-in footer#colophon .footer-content ul.menu li.menu-item a {
   color: #FFF;
 }
 body.single-post .development-screenshots,
-body.archive.date .development-screenshots {
+body.archive.date .development-screenshots,
+body.not-logged-in.page .development-screenshots {
   margin-bottom: 10px;
 }
 body.single-post .development-screenshots h2,
-body.archive.date .development-screenshots h2 {
+body.archive.date .development-screenshots h2,
+body.not-logged-in.page .development-screenshots h2 {
   float: left;
 }
 body.single-post .development-screenshots ul.three-up,
-body.archive.date .development-screenshots ul.three-up {
+body.archive.date .development-screenshots ul.three-up,
+body.not-logged-in.page .development-screenshots ul.three-up {
   border-top: 1px solid #DDD;
   padding-top: 18px;
 }
 body.single-post .development-screenshots ul.three-up li a.wrapper,
-body.archive.date .development-screenshots ul.three-up li a.wrapper {
+body.archive.date .development-screenshots ul.three-up li a.wrapper,
+body.not-logged-in.page .development-screenshots ul.three-up li a.wrapper {
   height: 150px;
   overflow: hidden;
 }
 body.single-post #content article,
-body.archive.date #content article {
+body.archive.date #content article,
+body.not-logged-in.page #content article {
   width: 700px;
   margin: 40px auto;
 }
 body.single-post #content article h1,
-body.archive.date #content article h1 {
+body.archive.date #content article h1,
+body.not-logged-in.page #content article h1 {
   color: #4d4461;
   margin: 0 0 10px 0;
 }
 body.single-post #content article .post-date,
-body.archive.date #content article .post-date {
+body.archive.date #content article .post-date,
+body.not-logged-in.page #content article .post-date {
   display: block;
   text-align: center;
   font-size: 14px;
 }
 body.single-post #content article .post-author,
-body.archive.date #content article .post-author {
+body.archive.date #content article .post-author,
+body.not-logged-in.page #content article .post-author {
   text-align: center;
   display: block;
 }
