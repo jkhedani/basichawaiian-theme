@@ -44,6 +44,14 @@ function admin_class_names($classes) {
 }
 add_filter('admin_body_class','admin_class_names');
 
+// For users that can't edit posts ( students, instructors ), hide admin bar.
+function low_level_user_hide_admin_bar() {
+  if ( ! current_user_can('edit_posts') ) {
+    add_filter('show_admin_bar', '__return_false'); 
+  }
+}
+add_action( 'after_setup_theme', 'low_level_user_hide_admin_bar' );
+
 /**
  *	Toolbar Tweaks
  *	http://codex.wordpress.org/Class_Reference/WP_Admin_Bar
@@ -156,15 +164,30 @@ add_action( 'admin_bar_menu', 'add_useful_toolbar_menu', 25 );
 // Redirect logged in student users to the home page instead of the profiles page
 // More info: http://codex.wordpress.org/Plugin_API/Filter_Reference/login_redirect
 function redirect_instructors_upon_login( $redirect_to, $request, $user ) {
-
-	if( property_exists($user, 'roles') && (in_array( 'course_instructor', $user->roles ) || in_array( 'instructional_designer', $user->roles )) ) {
-		return home_url();
-	} else {
-		return $redirect_to;
-	}
+	//is there a user to check?
+  global $user;
+  if( isset( $user->roles ) && is_array( $user->roles ) ) {
+    //check for admins
+    if( in_array( "administrator", $user->roles ) ) {
+        // redirect them to the default place
+        return $redirect_to;
+    } else {
+        return home_url();
+    }
+  }
+  else {
+    return $redirect_to;
+  }
 }
 add_filter( 'login_redirect', 'redirect_instructors_upon_login', 10, 3 );
 
+function low_level_user_redirect_admin() {
+  if ( ! current_user_can('edit_posts') ) {
+    wp_redirect( site_url() );
+    exit;
+  }
+}
+add_action( 'admin_init', 'low_level_user_redirect_admin' );
 
 /**
  *	New User Registration Email Change

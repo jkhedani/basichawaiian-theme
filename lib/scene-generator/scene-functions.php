@@ -21,7 +21,7 @@ function check_scene_progress( $queriedPostID ) {
 		// #1 INTRO SCENE (First Time logging in)
     if ( $queriedPostID ==  2 ):
     	if ( $gender == 'male' ) {
-				$selectScene = 259;    		
+				$selectScene = 259;	
     	}	else {
     		$selectScene = 875;
     	}
@@ -104,7 +104,9 @@ function display_scene() {
 	if ( !wp_verify_nonce( $nonce, 'scene_scripts_nonce' ) ) die( __( 'Busted.' ) );
 
 	// Determine what scene to display
-	$postID = $_REQUEST['postID'];
+	if ( isset($_REQUEST['postID']) ) {
+		$postID = $_REQUEST['postID'];	
+	}
 	$sceneID = check_scene_progress( $postID );
 
 	// Ensure a scene is available to be presented

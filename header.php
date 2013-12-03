@@ -74,8 +74,10 @@
   </header>
   <?php } else { // user is not logged in ?>
   <header id="navbar-basic">
-    <h2 class="pull-left"><a href="<?php echo get_site_url(); ?>"><?php bloginfo('name'); ?></a></h2>
-    <a class="btn btn-primary pull-right" href="<?php echo get_home_url(); ?>/wp-login.php" title="Sign into your account here.">Sign In</a>
+    <div class="container">
+      <h2 class="site-title"><a href="<?php echo get_site_url(); ?>"><?php bloginfo('name'); ?></a></h2>
+      <a class="btn btn-primary log-in" href="<?php echo get_home_url(); ?>/wp-login.php" title="Sign into your account here.">Log In</a>
+    </div>
   </header>
   <?php } // user not logged in ?>
 
