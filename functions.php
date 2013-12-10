@@ -1084,6 +1084,17 @@ add_action('user_edit_form_tag', 'make_form_accept_uploads');
 */ 
 
 
+/**
+ * Add JSON API Controllers for Exporter
+ * @source http://wordpress.org/plugins/json-api/other_notes/#5.1.-Plugin-hooks
+ */
+function add_exporter_controller($controllers) {
+  $controllers[] = 'exporter';
+  return $controllers;
+}
+add_filter('json_api_controllers', 'add_exporter_controller');
 
-
-?>
+function set_exporter_controller_path() {
+  return get_stylesheet_directory() . "/lib/json-api-controllers/exporter.php";
+}
+add_filter('json_api_exporter_controller_path', 'set_exporter_controller_path');
