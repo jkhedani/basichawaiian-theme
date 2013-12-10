@@ -22,7 +22,7 @@ class JSON_API_Exporter_Controller {
 	// Get list of all post IDs of a single post type.
 	public function get_post_ids_with_type() {
 		global $json_api;
-		extract( $json_api->query->get( array( 'type', 'post_type' ) ) );
+		extract( $json_api->query->get( array( 'type', 'post_type', 'verbose' ) ) );
 		if ( $type || $post_type ) {
 			if ( ! $type ) {
 				$type = $post_type;
@@ -40,13 +40,26 @@ class JSON_API_Exporter_Controller {
 		);
 
 		if ( $posts ) {
-			$post_ids = array_map(
-				function($post) { return array( 'ID' => $post->ID ); },
-				$posts
-			);
-			$response = array(
-				'posts' => $post_ids,
-			);
+			if ( ! $verbose ) {
+				$post_ids = array_map(
+					function($post) { return array( 'ID' => $post->ID ); },
+					$posts
+				);
+				$response = array(
+					'posts' => $post_ids,
+				);
+			} else {
+				$verbose_posts = array();
+				foreach ( $posts as $post ) {
+					$verbose_post = get_post( $post->ID );
+					if ( $verbose_post ) {
+						$verbose_posts[] = new JSON_API_Post( $verbose_post );
+					}
+				}
+				$response = array(
+					'posts' => $verbose_posts,
+				);
+			}
 			return $response;
 		} else {
 			$json_api->error( "Not found." );
