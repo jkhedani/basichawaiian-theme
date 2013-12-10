@@ -76,7 +76,6 @@
 	<?php } // not logged in ?>
 
 <?php wp_footer(); ?>
-<?php bedrock_after(); ?>
 
 <!-- Google Analytics Tracking Code -->
 <script>

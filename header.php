@@ -83,8 +83,4 @@
 
   <div id="page" class="hfeed site container">
 
-    <?php bedrock_belowheader();?>
-
   	<div id="main" role="main" class="site-main">
-
-      <?php bedrock_mainstart(); ?>
