@@ -67,8 +67,9 @@
 		<!-- </footer> --><!-- #colophon .site-footer -->
 	<?php } else { // Not logged in ?>
 		<footer id="colophon">
-			<div class="container-narrow">
-				<p>&copy; Basic Hawaiian <?php echo get_the_date('Y'); ?></p>
+			<div class="footer-art container"></div>
+			<div class="footer-content container">
+				<span class="copyright">&copy; Basic Hawaiian <?php echo get_the_date('Y'); ?></span>
 				<?php  wp_nav_menu( array('menu' => 'Project Nav' )); ?>
 			</div>
 		</footer>

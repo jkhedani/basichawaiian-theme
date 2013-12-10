@@ -22,6 +22,26 @@ function split_the_content( $unfilteredcontent ) {
   return $content;
 }
 
+// http://codex.wordpress.org/Function_Reference/get_the_excerpt
+function the_excerpt_max_charlength ( $charlength ) {
+  $excerpt = get_the_excerpt();
+  $charlength++;
+
+  if ( mb_strlen( $excerpt ) > $charlength ) {
+    $subex = mb_substr( $excerpt, 0, $charlength - 5 );
+    $exwords = explode( ' ', $subex );
+    $excut = - ( mb_strlen( $exwords[ count( $exwords ) - 1 ] ) );
+    if ( $excut < 0 ) {
+      echo mb_substr( $subex, 0, $excut );
+    } else {
+      echo $subex;
+    }
+    echo '...';
+  } else {
+    echo $excerpt;
+  }
+}
+
 /*
  * Filter external links and append rel="external"
  */
@@ -49,15 +69,10 @@ require( 'lib/user-interactions/user-interactions-functions.php' );
  */
 require( 'lib/user-interactions/profile/user-profile-functions.php' );
 
-/**
- * Load Scene Generator Functions
- */
-require( 'lib/scene-generator/scene-functions.php' );
 
 /**
  * Custom Body Classes
  */
-
 function custom_body_classes( $classes ) {
   // Adds a class of group-blog to blogs with more than 1 published author
   if ( ! is_user_logged_in() ) {
@@ -95,25 +110,6 @@ function custom_body_classes( $classes ) {
 }
 add_filter( 'body_class', 'custom_body_classes' );
 
-/**
- * User Herding
- */
-
-// For users that can't edit posts ( students, instructors )
-function low_level_user_hide_admin_bar() {
-  if ( ! current_user_can('edit_posts') ) {
-    add_filter('show_admin_bar', '__return_false'); 
-  }
-}
-add_action( 'after_setup_theme', 'low_level_user_hide_admin_bar' );
-
-function low_level_user_redirect_admin() {
-  if ( ! current_user_can('edit_posts') ) {
-    wp_redirect( site_url() );
-    exit;
-  }
-}
-add_action( 'admin_init', 'low_level_user_redirect_admin' );
 
 // On theme activation, do the following...
 function course_theme_activate_enable_roles($old_name, $old_theme = false) {
@@ -274,7 +270,7 @@ function diamond_scripts() {
   wp_enqueue_style( 'open-sans-google-fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700', array(), false, 'all');
   wp_enqueue_style( 'raleway-google-fonts', 'http://fonts.googleapis.com/css?family=Raleway:700', array(), false, 'all');
   wp_enqueue_style( 'diamond-style', get_stylesheet_directory_uri().'/css/diamond-style.css' );
-  wp_enqueue_style( 'diamond-style-responsive', get_stylesheet_directory_uri().'/css/diamond-style-responsive.css', array('diamond-style','resets','bootstrap-base-styles','bootstrap-parent-style'));
+  //wp_enqueue_style( 'diamond-style-responsive', get_stylesheet_directory_uri().'/css/diamond-style-responsive.css', array('diamond-style','resets','bootstrap-base-styles','bootstrap-parent-style'));
 	wp_enqueue_script( 'bootstrap-modal', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-modal.js', array('jquery'), false, true);
   wp_enqueue_script( 'bootstrap-carousel', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-carousel.js', array('jquery'), false, true);
   wp_enqueue_script( 'bootstrap-tooltip', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-tooltip.js', array('jquery'), false, true);
@@ -318,7 +314,7 @@ add_filter( 'locale', 'my_theme_localized' );
 // Remove unncessary admin menu items
 function remove_admin_menu_items() {
   global $userdata;
-  remove_menu_page('edit.php'); // "Posts"
+  //remove_menu_page('edit.php'); // "Posts"
   remove_menu_page('link-manager.php'); // "Links"
   remove_menu_page('upload.php'); // "Media"
 
@@ -963,6 +959,11 @@ add_action( 'p2p_init', 'BASICHWN_connections' );
 // Load Ajax Game Functions
 // IMPORTANT: needs to be loaded after taxonomies if using taxonomies
 require( 'lib/user-interactions/assessment/ajax-game-functions.php' );
+
+/**
+ * Load Scene Generator Functions
+ */
+require( 'lib/scene-generator/scene-functions.php' );
 
 /**
  * Custom Hook Functions

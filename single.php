@@ -64,6 +64,11 @@ get_header(); ?>
 				} elseif ( get_post_type( $post->ID ) == 'activities' ) {
 					get_template_part( 'templates/activities', 'single' );
 
+				// POST CONTENT
+				} elseif ( get_post_type( $post->ID ) == 'post' ) {
+					while ( have_posts() ) : the_post();
+					get_template_part( 'templates/post', 'single' );
+					endwhile;
 				// DEFAULT SINGLE LOOP
 				} else {
 					while ( have_posts() ) : the_post();
