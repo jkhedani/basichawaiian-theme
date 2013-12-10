@@ -21,8 +21,6 @@ $previousPageURL = get_home_URL();
 	data-viewed="<?php echo is_first_object_visit( $post->ID ); ?>"
 	data-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>">
 
-	<?php bedrock_postcontentstart(); ?>
-
 	<header class="entry-header">
 		<h1 class="entry-title"><?php echo get_the_title(); ?></h1>
 		<a class="btn btn-inverse btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left icon-white" style="padding-right:10px;"></i>Back to Unit View</a>

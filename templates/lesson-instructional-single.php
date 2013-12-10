@@ -21,8 +21,6 @@ if ( get_field('instructional_slide') ) {
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('lesson-container'); ?> data-lesson-id="<?php echo $post->ID; ?>" data-lesson-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>">
 
-	<?php bedrock_postcontentstart(); ?>
-
 	<header class="lesson-header">
 		<h1 class="lesson-title"><?php the_title(); ?></h1>
 		<div class="lesson-progress progress span5">
@@ -112,7 +110,5 @@ if ( get_field('instructional_slide') ) {
 			<a class="btn btn-primary finish-lesson" href="javascript:void(0);" data-lesson-outcome="pass" data-currency-type-id="<?php echo $currencyTypeID; ?>" data-landing-id="<?php echo $landingPageID; ?>"><?php echo __('Pau!'); ?></a>
 		</div>
 	</footer>
-
-	<?php bedrock_postcontentend(); ?>
 
 </article><!-- #post-<?php the_ID(); ?> -->

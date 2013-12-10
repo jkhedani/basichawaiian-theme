@@ -279,7 +279,7 @@ function diamond_scripts() {
   wp_enqueue_script( 'diamond-custom-script', get_stylesheet_directory_uri().'/js/scripts.js', array('jquery'), false, true);
 
 	// AJAX Calls
-  wp_enqueue_script('ajax_scripts', "$stylesheetDir/lib/user-interactions/assessment/ajax-game-scripts.js", array('jquery','json2'), true);
+  wp_enqueue_script('ajax_scripts', "$stylesheetDir/lib/user-interactions/assessment/ajax-game-scripts.js", array('jquery','json2','bootstrap-popover'), true);
 	wp_localize_script('ajax_scripts', 'ajax_scripts', array(
 		'ajaxurl' => admin_url('admin-ajax.php',$protocol),
 		'nonce' => wp_create_nonce('ajax_scripts_nonce')

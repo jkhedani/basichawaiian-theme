@@ -8,8 +8,6 @@
  * @since _s 1.0
  */
 ?>
-	
-	<?php bedrock_mainend(); ?>
 
 	</div><!-- #main .site-main -->
 	</div><!-- #page .hfeed .site -->

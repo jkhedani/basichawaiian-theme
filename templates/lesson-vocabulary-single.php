@@ -272,6 +272,4 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 		</div>
 	</footer>
 
-	<?php bedrock_postcontentend(); ?>
-
 </article><!-- #post-<?php the_ID(); ?> -->

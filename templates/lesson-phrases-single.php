@@ -162,6 +162,4 @@ $lessonCardCount = $phrases->post_count;
 		</div>
 	</footer>
 
-	<?php bedrock_postcontentend(); ?>
-
 </article><!-- #post-<?php the_ID(); ?> -->
