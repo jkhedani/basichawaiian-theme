@@ -22,13 +22,13 @@ class JSON_API_Exporter_Controller {
 	// Get list of all post IDs of a single post type.
 	public function get_post_ids_with_type() {
 		global $json_api;
-		extract( $json_api->query->get( array( 'type', 'post_type', 'verbose' ) ) );
+		extract( $json_api->query->get( array( 'type', 'post_type', 'verbose', 'very_verbose' ) ) );
 		if ( $type || $post_type ) {
 			if ( ! $type ) {
 				$type = $post_type;
 			}
 		} else {
-			$json_api->error( "Include 'type' or 'post_type' var in your request." );
+			$json_api->error( "Include 'type' or 'post_type' var in your request. Include 'verbose' for extra post info, and 'very_verbose' for full post objects." );
 		}
 
 		$posts = get_posts(
@@ -40,15 +40,7 @@ class JSON_API_Exporter_Controller {
 		);
 
 		if ( $posts ) {
-			if ( ! $verbose ) {
-				$post_ids = array_map(
-					function($post) { return array( 'ID' => $post->ID ); },
-					$posts
-				);
-				$response = array(
-					'posts' => $post_ids,
-				);
-			} else {
+			if ( $very_verbose ) {
 				$verbose_posts = array();
 				foreach ( $posts as $post ) {
 					$verbose_post = get_post( $post->ID );
@@ -58,6 +50,18 @@ class JSON_API_Exporter_Controller {
 				}
 				$response = array(
 					'posts' => $verbose_posts,
+				);
+			} else if ( $verbose ) {
+				$response = array(
+					'posts' => $posts,
+				);
+			} else {
+				$post_ids = array_map(
+					function($post) { return array( 'ID' => $post->ID ); },
+					$posts
+				);
+				$response = array(
+					'posts' => $post_ids,
 				);
 			}
 			return $response;
