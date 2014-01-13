@@ -54,15 +54,7 @@
 	?>
 
 	<?php if ( is_user_logged_in() ) { // Is logged in ?>
-<!-- 		<footer id="colophon" class="site-footer container" role="contentinfo">
-			<div class="site-info">
-				<div class="container-narrow">
-					<p>&copy; Basic Hawaiian -->
-						<?php // echo date('Y'); ?>
-					<!-- </p>
-				</div>	
-			</div> --><!-- .site-info -->
-		<!-- </footer> --><!-- #colophon .site-footer -->
+		
 	<?php } else { // Not logged in ?>
 		<footer id="colophon">
 			<div class="footer-art container"></div>

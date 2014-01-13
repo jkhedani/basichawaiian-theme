@@ -38,7 +38,6 @@ increment_object_value ( $post->ID, 'times_viewed' );
 						?>
 					</div>
 				</div><!-- .hero -->
-				
 				<!-- Development Screenshots -->
 				<div class="development-screenshots span12">
 					<div class="padded">
@@ -101,26 +100,25 @@ increment_object_value ( $post->ID, 'times_viewed' );
 	<?php } else { ?>
 
 	<!-- Learner's Dashboard -->
-			
+
+	<?php $sceneID = check_scene_progress( $post->ID ); ?>
+
 	<div id="primary" class="content-area">
 		<div id="content" class="site-content" role="main"
 			data-post-id="<?php echo $post->ID; ?>" 
 			data-viewed="<?php echo is_first_object_visit( $post->ID ); ?>"
-			data-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>">
-			
-			<!-- User Metadata -->
+			data-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>"
+			data-assoc-scene="<?php echo $sceneID; ?>"
+			data-scene-viewed="<?php echo scene_viewed( $sceneID ); ?>">
 
+
+			<!-- User Metadata -->
 			<header>
 				<?php if ( !is_unit_complete( 204 ) ) { // Checking if Aunty Aloha is done ?>
 				<h1><?php _e('Visit <span class="inline-kukui aunty-aloha">&#8216;Anak&#275; Aloha</span> in her Garden','hwn'); ?></h1>
 				<?php } else { ?>
 				<h1><?php _e('Visit a kukui to further your knowledge.','hwn'); ?></h1>
 				<?php } ?>
-				<?php
-					// Reset only for those who can edit the site
-					if ( current_user_can('edit_posts') ) 
-						echo '<a href="#" class="reset-scores btn btn-danger pull-right" style="margin:30px;">Reset Score</a>'; 
-				?>
 			</header>
 
 			<!-- Content Navigation -->
@@ -151,6 +149,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 						$unitsCompleted[] = 0;
 					}
 				}
+
 
 				// Create fresh object records if they do not have any for this page.
 				create_object_record( $unitIDs );

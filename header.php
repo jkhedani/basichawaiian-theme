@@ -66,9 +66,16 @@
     <div class="navbar navbar-inverse container">
       <div class="navbar-inner">
         <a class="brand site-title" href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
-        <ul class="nav pull-right">
-          <li><a href="<?php echo wp_logout_url(); ?>" title="Logout">Logout</a></li>
-        </ul>
+
+        <div class="settings-panel dropdown">
+          <a data-toggle="dropdown" href="#"><i class="icon-cogwheel"><img src="<?php echo get_stylesheet_directory_uri(); ?>/images/cogwheel.png" /></i></a>
+          <ul class="dropdown-menu">
+          <?php if ( current_user_can('edit_posts') ) // Reset only for those who can edit the site ?>
+            <li><a href="#" class="reset-scores">Reset Score</a></li>
+            <li><a href="<?php echo wp_logout_url(); ?>" title="Logout">Logout</a></li>
+          </ul>
+        </div>
+
       </div><!-- .navbar-inner -->
     </div>
   </header>
