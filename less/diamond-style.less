@@ -53,7 +53,19 @@
 }
 
 /**
- * General Styles
+ *	Content Fluff
+ */
+.content-fluff {
+	&.rock-platform {
+		display: block;
+		width: 300px;
+		height: 120px;
+		background: url('../images/rock-platform.png') no-repeat;
+	}
+}
+
+/**
+ *	General Styles
  */
 body {
 
@@ -91,8 +103,8 @@ body {
 		border: none;
 		border-radius: 0;
 		text-shadow: none;
-		background: @colorOrange;
-		&:hover { background: lighten(@colorOrange,10%); border: none; box-shadow: none; }
+		background: @colorDeepRed;
+		&:hover { background: lighten(@colorDeepRed,10%); border: none; box-shadow: none; }
 	}
 	.post-date {
 		color: darken(@colorBrightPurple, 30%);
@@ -487,35 +499,49 @@ body.logged-in {
 body.home.logged-in {
 	.user-avatar {
 		position: absolute;
-		bottom: 0;
-		left: 120px;
-		&.male {
-
-		}
+		bottom: -20px;
+		left: 400px;
+		z-index: 9;
+	}
+	.rock-platform {
+		position: absolute;
+		bottom: -55px;
+		left: 295px;
 	}
 	#primary { min-height: 720px; }
 
 	#page { background-color: fadeout(#FFF, 10%); }
 
 	#content {
-		background-color: fadeout(@colorBrightPurple, 5%);
+		header { background-color: fadeout(@colorBrightPurple, 5%); }
 		h1 { font-size: 38px; font-weight: 200; text-align: left; margin: 28px; float: left; }
 	}
 	ul.units {
+		margin-top: 25px;
 		li.unit {
 			list-style: none;
 			a {
-				display: block;
-				position: absolute;
-				height: 100px;
-				width: 100px;
+				display: none; // Hack!
+				float: left;
+				height: 150px;
+				width: 150px;
+				margin-left: 25px;
 				line-height: 100px;
 				border-radius: 100px;
-				text-indent: -9999px;
+				background-color: #FFF;
+				border: 5px solid #DDD;
+				overflow: hidden;
+				img { margin-top: -2px; height: 100%; max-width: inherit; }
+				.dashboard-selection-info { .no-text(); }
+				// Aunty Aloha
 				&.post204 {
-					top: 260px;
-					left: 360px;
-					background: url('../images/aunty-aloha-icon.png') center center no-repeat rgba(113,195,197,0.9);
+					display: block;
+					img { margin-left: -2px; }
+				}
+				// Uncle Ikaika
+				&.post203 {
+					display: block;
+					img { margin-left: -155px; }
 				}
 			}
 		}
@@ -985,6 +1011,13 @@ body.page-template-statistics-php {
 			li { list-style: none; }
 		}
 	}
+}
+
+/**
+ *	Page Hacks
+ */
+body.postid-203 {
+	.flower { display: none; }
 }
 
 

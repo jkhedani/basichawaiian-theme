@@ -155,18 +155,29 @@ increment_object_value ( $post->ID, 'times_viewed' );
 				create_object_record( $unitIDs );
 
 				// Show all units and check if they are complete
-				echo '<ul class="units dashboard-selections row">';
+				echo '<ul class="units dashboard-selections">';
 				$unitCount = 0;
 				while ( $units->have_posts() ) : $units->the_post();
 					$unitID = $post->ID;
 					$unitLink = get_permalink();
 					$unitTitle = get_the_title();
-					$popoverContent = "<h1>&#8216;Anak&#275; Aloha</h1><i>Topics in this module: </i><ul><li>Introductions</li><li>Greetings</li><li>Family</li><li>Gardening</li><li>Food</li></ul><a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>";
-					echo '<li class="unit pull-left">';
+
+					// Modify markup for each individual unit for now
+
+					if ( $unitID == 204 ) {
+						$popoverContent = "<h1>&#8216;Anak&#275; Aloha</h1><i>Topics in this module: </i><ul><li>Introductions</li><li>Greetings</li><li>Family</li><li>Gardening</li><li>Food</li></ul><a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>";
+					} elseif ( $unitID == 203 ) {
+						$popoverContent = "<h1>&#8216;Anakala Ikaika</h1><i>Topics in this module: </i><ul><li>Something</li><li>Something</li><li>Something</li><li>Something</li><li>Something</li></ul><a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>";
+					} else {
+						$popoverContent = "<h1>&#8216;Anak&#275; Aloha</h1><i>Topics in this module: </i><ul><li>Introductions</li><li>Greetings</li><li>Family</li><li>Gardening</li><li>Food</li></ul><a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>";
+					}
+						echo '<li class="unit ">';
 						echo 	'<a class="dashboard-selection post'.$post->ID.'" href="javascript:void(0);" data-title="'.get_the_title().'" data-content="'.$popoverContent.'" data-complete="'.$unitsCompleted[$unitCount].'">';
+						echo 		'<img src="'.get_stylesheet_directory_uri().'/images/mug-icons.png" />';
 						echo 		'<div class="dashboard-selection-info"><h4>'.get_the_title().'</h4></div>';
 						echo 	'</a>';
 					echo '</li>';
+
 					$unitCount++;
 				endwhile;
 				echo '</ul>';
@@ -179,6 +190,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
     		$user_id = $user->ID;
 				$gender = get_user_meta( $user_id, 'gender', true );
 				echo '<div class="user-avatar '.$gender.' default"></div>';
+				echo '<div class="content-fluff rock-platform"></div>';
 
 				/**
 				 *	User Wallet

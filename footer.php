@@ -23,12 +23,11 @@
 			$gender = get_user_meta( $user_id, 'gender', true );
 			echo '<div class="avatars">';
 			echo 	'<div class="avatar-wrapper">';
-			if ( get_post_type( $post->ID ) == 'units' ) {
+			if ( get_post_type( $post->ID ) == 'units' && $post->ID == 204 ) {
 				echo 		'<div class="user-avatar '.$gender.' backturn"></div>';
 				echo 		'<div class="kukui-avatar aunty-aloha backturn"></div>';	
 			} else {
-				echo 		'<div class="user-avatar '.$gender.' default"></div>';
-				echo 		'<div class="kukui-avatar aunty-aloha default"></div>';	
+				echo 		'<div class="user-avatar '.$gender.' backturn"></div>';
 			}
 			echo  '</div>';
 			echo '</div>';
