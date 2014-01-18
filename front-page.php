@@ -165,9 +165,34 @@ increment_object_value ( $post->ID, 'times_viewed' );
 					// Modify markup for each individual unit for now
 
 					if ( $unitID == 204 ) {
-						$popoverContent = "<h1>&#8216;Anak&#275; Aloha</h1><i>Topics in this module: </i><ul><li>Introductions</li><li>Greetings</li><li>Family</li><li>Gardening</li><li>Food</li></ul><a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>";
+						$popoverContent = "
+							<h1>&#8216;Anak&#275; Aloha</h1>
+							<i>Topics in this module: </i>
+							<ul>
+								<li>KA HOʻOLAUNA (Introductions)</li>
+								<li>KA ʻOHANA (Family)</li>
+								<li>KA MOʻOKŪʻAUHAU (Genealogy)</li>
+								<li>NĀ LANI ʻEHĀ: Liliʻuokalani (The Royal Four: Liliʻuokalani)</li>
+								<li>KA ʻAI ME KA ʻAI ʻANA (Food and Food Preparation)</li>
+								<li>NĀ HELU/NĀ WAIHOʻOLUʻU (Numbers and Colors)</li>
+							</ul>
+							<a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>
+						";
 					} elseif ( $unitID == 203 ) {
-						$popoverContent = "<h1>&#8216;Anakala Ikaika</h1><i>Topics in this module: </i><ul><li>Something</li><li>Something</li><li>Something</li><li>Something</li><li>Something</li></ul><a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>";
+						$popoverContent = "
+							<h1>&#8216;Anakala Ikaika</h1>
+							<i>Topics in this module: </i>
+							<ul>
+								<li>NĀ MĀMALA ʻŌLELO MAʻAMAU (Everyday Phrases)</li>
+								<li>NĀ KAUOHA (Commands)</li>
+								<li>NĀ KUHIKUHI (Directions) </li>
+								<li>NĀ LANI ʻEHĀ: Kalākaua (The Royal Four: Kalākaua)</li>
+								<li>KE KAI (The Ocean)</li>
+								<li>NĀ HAʻUKI ME NĀ PĀʻANI LIKE ʻOLE (Sports and Games)</li>
+								<li>KA ʻALEMANAKA/KA MANAWA (Calendar and Dates)</li>
+							</ul>
+							<a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>
+						";
 					} else {
 						$popoverContent = "<h1>&#8216;Anak&#275; Aloha</h1><i>Topics in this module: </i><ul><li>Introductions</li><li>Greetings</li><li>Family</li><li>Gardening</li><li>Food</li></ul><a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>";
 					}
