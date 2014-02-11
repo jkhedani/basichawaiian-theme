@@ -93,6 +93,7 @@ function get_object_record( $postIDs ) {
 			"
 			, $affected_user_id
 		));
+
 		return $queriedObject;
 	} // is_user_logged_in
 }
@@ -269,8 +270,12 @@ function is_object_complete ( $postID ) {
 			, $affected_user_id
 		));
 		// Return false if user has not completed an object
-		if ( $isObjectComplete[0]->times_completed == 0 )
+		if ( $isObjectComplete == false ) { // Check if array is empty first
+			return false;	
+		} else if ( $isObjectComplete[0]->times_completed == 0 ) {
 			return false;
+		}
+		
 		// Return true if user has
 		return true;	
   }

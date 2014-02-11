@@ -268,13 +268,13 @@ function diamond_scripts() {
  	if(!empty($_SERVER['HTTPS'])) $protocol='https:';
 
   wp_enqueue_style( 'open-sans-google-fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700', array(), false, 'all');
-  wp_enqueue_style( 'raleway-google-fonts', 'http://fonts.googleapis.com/css?family=Raleway:700', array(), false, 'all');
+  wp_enqueue_style( 'raleway-google-fonts', 'http://fonts.googleapis.com/css?family=Raleway:200,700', array(), false, 'all');
   wp_enqueue_style( 'diamond-style', get_stylesheet_directory_uri().'/css/diamond-style.css' );
-  //wp_enqueue_style( 'diamond-style-responsive', get_stylesheet_directory_uri().'/css/diamond-style-responsive.css', array('diamond-style','resets','bootstrap-base-styles','bootstrap-parent-style'));
 	wp_enqueue_script( 'bootstrap-modal', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-modal.js', array('jquery'), false, true);
   wp_enqueue_script( 'bootstrap-carousel', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-carousel.js', array('jquery'), false, true);
   wp_enqueue_script( 'bootstrap-tooltip', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-tooltip.js', array('jquery'), false, true);
   wp_enqueue_script( 'bootstrap-popover', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-popover.js', array('jquery', 'bootstrap-tooltip'), false, true);
+  wp_enqueue_script( 'bootstrap-dropdown', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-dropdown.js', array('jquery'), false, true);
   wp_enqueue_script( 'chart-script', get_stylesheet_directory_uri().'/js/chart/Chart.min.js', array(), false, true);
   wp_enqueue_script( 'diamond-custom-script', get_stylesheet_directory_uri().'/js/scripts.js', array('jquery'), false, true);
 
@@ -285,7 +285,7 @@ function diamond_scripts() {
 		'nonce' => wp_create_nonce('ajax_scripts_nonce')
 	));
 
-  // Course Storage Scripts
+  // Scene Generation Scripts
   wp_enqueue_script('scene-scripts', "$stylesheetDir/lib/scene-generator/scene-scripts.js", array( 'jquery','json2' ), true);
   wp_localize_script('scene-scripts', 'scene_scripts', array(
     'ajaxurl' => admin_url('admin-ajax.php',$protocol),
@@ -953,6 +953,47 @@ function BASICHWN_connections() {
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Phrases to One Lesson
   ));
+
+  /**
+   *  Scene Selection Connections
+   */
+  p2p_register_connection_type(array(
+    'name' => 'scenes_to_pages',
+    'from' => 'scenes',
+    'to' => 'page',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-many',
+    'fields' => array(
+      'gender' => array( 
+        'title' => 'Gender',
+        'type' => 'select',
+        'values' => array( 'male', 'female', 'both' )
+      ),
+    ),
+    'title' => array(
+      'from' => __('Pages to Connect Scenes to', 'basichawaiian'),
+      'to' => __('Connected Scenes', 'basichawaiian'),
+    ),
+  ));
+  p2p_register_connection_type(array(
+    'name' => 'scenes_to_units',
+    'from' => 'scenes',
+    'to' => 'units',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-many',
+    'fields' => array(
+      'gender' => array( 
+        'title' => 'Gender',
+        'type' => 'select',
+        'values' => array( 'male', 'female', 'both' )
+      ),
+    ),
+    'title' => array(
+      'from' => __('Units to Connect Scenes to', 'basichawaiian'),
+      'to' => __('Connected Scenes', 'basichawaiian'),
+    ),
+  ));
+
 }
 add_action( 'p2p_init', 'BASICHWN_connections' );
 

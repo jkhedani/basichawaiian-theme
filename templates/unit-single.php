@@ -14,12 +14,16 @@ $previousPageURL = get_home_URL();
 
 ?>
 
+<?php $sceneID = check_scene_progress( $post->ID ); ?>
+
 <article
 	id="post-<?php the_ID(); ?>" 
 	<?php post_class(); ?> 
 	data-post-id="<?php echo $post->ID; ?>" 
 	data-viewed="<?php echo is_first_object_visit( $post->ID ); ?>"
-	data-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>">
+	data-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>"
+	data-assoc-scene="<?php echo $sceneID ?>"
+	data-scene-viewed="<?php echo scene_viewed( $sceneID ); ?>">
 
 	<header class="entry-header">
 		<h1 class="entry-title"><?php echo get_the_title(); ?></h1>

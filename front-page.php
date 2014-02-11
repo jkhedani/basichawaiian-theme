@@ -38,7 +38,6 @@ increment_object_value ( $post->ID, 'times_viewed' );
 						?>
 					</div>
 				</div><!-- .hero -->
-				
 				<!-- Development Screenshots -->
 				<div class="development-screenshots span12">
 					<div class="padded">
@@ -101,26 +100,25 @@ increment_object_value ( $post->ID, 'times_viewed' );
 	<?php } else { ?>
 
 	<!-- Learner's Dashboard -->
-			
+
+	<?php $sceneID = check_scene_progress( $post->ID ); ?>
+
 	<div id="primary" class="content-area">
 		<div id="content" class="site-content" role="main"
 			data-post-id="<?php echo $post->ID; ?>" 
 			data-viewed="<?php echo is_first_object_visit( $post->ID ); ?>"
-			data-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>">
-			
-			<!-- User Metadata -->
+			data-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>"
+			data-assoc-scene="<?php echo $sceneID; ?>"
+			data-scene-viewed="<?php echo scene_viewed( $sceneID ); ?>">
 
+
+			<!-- User Metadata -->
 			<header>
 				<?php if ( !is_unit_complete( 204 ) ) { // Checking if Aunty Aloha is done ?>
 				<h1><?php _e('Visit <span class="inline-kukui aunty-aloha">&#8216;Anak&#275; Aloha</span> in her Garden','hwn'); ?></h1>
 				<?php } else { ?>
 				<h1><?php _e('Visit a kukui to further your knowledge.','hwn'); ?></h1>
 				<?php } ?>
-				<?php
-					// Reset only for those who can edit the site
-					if ( current_user_can('edit_posts') ) 
-						echo '<a href="#" class="reset-scores btn btn-danger pull-right" style="margin:30px;">Reset Score</a>'; 
-				?>
 			</header>
 
 			<!-- Content Navigation -->
@@ -152,22 +150,59 @@ increment_object_value ( $post->ID, 'times_viewed' );
 					}
 				}
 
+
 				// Create fresh object records if they do not have any for this page.
 				create_object_record( $unitIDs );
 
 				// Show all units and check if they are complete
-				echo '<ul class="units dashboard-selections row">';
+				echo '<ul class="units dashboard-selections">';
 				$unitCount = 0;
 				while ( $units->have_posts() ) : $units->the_post();
 					$unitID = $post->ID;
 					$unitLink = get_permalink();
 					$unitTitle = get_the_title();
-					$popoverContent = "<h1>&#8216;Anak&#275; Aloha</h1><i>Topics in this module: </i><ul><li>Introductions</li><li>Greetings</li><li>Family</li><li>Gardening</li><li>Food</li></ul><a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>";
-					echo '<li class="unit pull-left">';
+
+					// Modify markup for each individual unit for now
+
+					if ( $unitID == 204 ) {
+						$popoverContent = "
+							<h1>&#8216;Anak&#275; Aloha</h1>
+							<i>Topics in this module: </i>
+							<ul>
+								<li>KA HOʻOLAUNA (Introductions)</li>
+								<li>KA ʻOHANA (Family)</li>
+								<li>KA MOʻOKŪʻAUHAU (Genealogy)</li>
+								<li>NĀ LANI ʻEHĀ: Liliʻuokalani (The Royal Four: Liliʻuokalani)</li>
+								<li>KA ʻAI ME KA ʻAI ʻANA (Food and Food Preparation)</li>
+								<li>NĀ HELU/NĀ WAIHOʻOLUʻU (Numbers and Colors)</li>
+							</ul>
+							<a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>
+						";
+					} elseif ( $unitID == 203 ) {
+						$popoverContent = "
+							<h1>&#8216;Anakala Ikaika</h1>
+							<i>Topics in this module: </i>
+							<ul>
+								<li>NĀ MĀMALA ʻŌLELO MAʻAMAU (Everyday Phrases)</li>
+								<li>NĀ KAUOHA (Commands)</li>
+								<li>NĀ KUHIKUHI (Directions) </li>
+								<li>NĀ LANI ʻEHĀ: Kalākaua (The Royal Four: Kalākaua)</li>
+								<li>KE KAI (The Ocean)</li>
+								<li>NĀ HAʻUKI ME NĀ PĀʻANI LIKE ʻOLE (Sports and Games)</li>
+								<li>KA ʻALEMANAKA/KA MANAWA (Calendar and Dates)</li>
+							</ul>
+							<a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>
+						";
+					} else {
+						$popoverContent = "<h1>&#8216;Anak&#275; Aloha</h1><i>Topics in this module: </i><ul><li>Introductions</li><li>Greetings</li><li>Family</li><li>Gardening</li><li>Food</li></ul><a class='btn btn-primary' href='$unitLink' title='Go to this unit'>Visit $unitTitle</a>";
+					}
+						echo '<li class="unit ">';
 						echo 	'<a class="dashboard-selection post'.$post->ID.'" href="javascript:void(0);" data-title="'.get_the_title().'" data-content="'.$popoverContent.'" data-complete="'.$unitsCompleted[$unitCount].'">';
+						echo 		'<img src="'.get_stylesheet_directory_uri().'/images/mug-icons.png" />';
 						echo 		'<div class="dashboard-selection-info"><h4>'.get_the_title().'</h4></div>';
 						echo 	'</a>';
 					echo '</li>';
+
 					$unitCount++;
 				endwhile;
 				echo '</ul>';
@@ -180,6 +215,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
     		$user_id = $user->ID;
 				$gender = get_user_meta( $user_id, 'gender', true );
 				echo '<div class="user-avatar '.$gender.' default"></div>';
+				echo '<div class="content-fluff rock-platform"></div>';
 
 				/**
 				 *	User Wallet

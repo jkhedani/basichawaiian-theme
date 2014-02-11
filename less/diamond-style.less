@@ -7,6 +7,7 @@
 @import "../../bedrock/inc/bootstrap/less/carousel.less";
 @import "../../bedrock/inc/bootstrap/less/modals.less";
 @import "../../bedrock/inc/bootstrap/less/popovers.less";
+@import "../../bedrock/inc/bootstrap/less/dropdowns.less";
 @import "../../bedrock/inc/bootstrap/less/progress-bars.less";
 
 @colorUser: rgb(148,61,80);
@@ -52,7 +53,19 @@
 }
 
 /**
- * General Styles
+ *	Content Fluff
+ */
+.content-fluff {
+	&.rock-platform {
+		display: block;
+		width: 300px;
+		height: 120px;
+		background: url('../images/rock-platform.png') no-repeat;
+	}
+}
+
+/**
+ *	General Styles
  */
 body {
 
@@ -90,8 +103,8 @@ body {
 		border: none;
 		border-radius: 0;
 		text-shadow: none;
-		background: @colorOrange;
-		&:hover { background: lighten(@colorOrange,10%); border: none; box-shadow: none; }
+		background: @colorDeepRed;
+		&:hover { background: lighten(@colorDeepRed,10%); border: none; box-shadow: none; }
 	}
 	.post-date {
 		color: darken(@colorBrightPurple, 30%);
@@ -106,6 +119,12 @@ body {
 	}
 	.hidden {
 		display: none;
+	}
+	.icon-cogwheel {
+		width: 17px;
+		height: 17px;
+		background: none;
+		img { width: 100%; }
 	}
 	hr.clear { clear: both; background: none; border: none; margin: 0; }
 	pre { font-size: 14px; }
@@ -127,16 +146,32 @@ body {
 		}
 	}
 	header#navbar {
-		background-color: #000;
+		background: @colorDeepPurple;
 		.navbar {
 			color: #FFF;
 			margin: 0 auto;
 			.navbar-inner {
-				background: #000;
+				background: @colorDeepPurple;
 				border: none;
-				a { padding: 10px 0; }
-				a.site-title { color: #EEE; font-family: @fontDisplay; font-weight: 600; }
 				border-radius: 0;
+				box-shadow: none;
+				-webkit-box-shadow: none;
+				// Logo / Site Title (left)
+				a.site-title { color: #EEE; font-family: @fontDisplay; font-weight: 600; padding: 10px 0; }
+				// Settings (right)
+				.settings-panel {
+					float: right;
+					margin-right: -20px;
+					.icon-cogwheel {
+						margin-top: 10px;
+					}
+					ul {
+						width: 150px;
+						margin: 13px 0 0 -143px;
+						border-radius: 0;
+						border: none;
+					}
+				}
 			}
 		}
 	}
@@ -444,7 +479,7 @@ body.single-post, body.archive.date, body.not-logged-in.page {
  *  Logged-in General
  */
 body.logged-in {
-	background: url('../images/texture-one.png');
+	.full-width-background-image('../images/dashboard-bg-blur.jpg');
 	&.aunty-aloha {
  	.full-width-background-image('../images/aunty-aloha-bg.jpg');
 	}
@@ -464,33 +499,49 @@ body.logged-in {
 body.home.logged-in {
 	.user-avatar {
 		position: absolute;
-		bottom: 0;
-		left: 120px;
-		&.male {
-
-		}
+		bottom: -20px;
+		left: 400px;
+		z-index: 9;
+	}
+	.rock-platform {
+		position: absolute;
+		bottom: -55px;
+		left: 295px;
 	}
 	#primary { min-height: 720px; }
-	#page { .full-width-background-image('../images/dashboard-bg.jpg'); }
+
+	#page { background-color: fadeout(#FFF, 10%); }
+
 	#content {
-		background-color: rgba( 44, 44, 44, 0.6 );
-		h1 { font-size: 38px; text-align: left; margin: 28px; float: left; }
+		header { background-color: fadeout(@colorBrightPurple, 5%); }
+		h1 { font-size: 38px; font-weight: 200; text-align: left; margin: 28px; float: left; }
 	}
 	ul.units {
+		margin-top: 25px;
 		li.unit {
 			list-style: none;
 			a {
-				display: block;
-				position: absolute;
-				height: 100px;
-				width: 100px;
+				display: none; // Hack!
+				float: left;
+				height: 150px;
+				width: 150px;
+				margin-left: 25px;
 				line-height: 100px;
 				border-radius: 100px;
-				text-indent: -9999px;
+				background-color: #FFF;
+				border: 5px solid #DDD;
+				overflow: hidden;
+				img { margin-top: -2px; height: 100%; max-width: inherit; }
+				.dashboard-selection-info { .no-text(); }
+				// Aunty Aloha
 				&.post204 {
-					top: 260px;
-					left: 360px;
-					background: url('../images/aunty-aloha-icon.png') center center no-repeat rgba(113,195,197,0.9);
+					display: block;
+					img { margin-left: -2px; }
+				}
+				// Uncle Ikaika
+				&.post203 {
+					display: block;
+					img { margin-left: -155px; }
 				}
 			}
 		}
@@ -960,6 +1011,13 @@ body.page-template-statistics-php {
 			li { list-style: none; }
 		}
 	}
+}
+
+/**
+ *	Page Hacks
+ */
+body.postid-203 {
+	.flower { display: none; }
 }
 
 

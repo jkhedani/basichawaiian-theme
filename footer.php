@@ -23,12 +23,11 @@
 			$gender = get_user_meta( $user_id, 'gender', true );
 			echo '<div class="avatars">';
 			echo 	'<div class="avatar-wrapper">';
-			if ( get_post_type( $post->ID ) == 'units' ) {
+			if ( get_post_type( $post->ID ) == 'units' && $post->ID == 204 ) {
 				echo 		'<div class="user-avatar '.$gender.' backturn"></div>';
 				echo 		'<div class="kukui-avatar aunty-aloha backturn"></div>';	
 			} else {
-				echo 		'<div class="user-avatar '.$gender.' default"></div>';
-				echo 		'<div class="kukui-avatar aunty-aloha default"></div>';	
+				echo 		'<div class="user-avatar '.$gender.' backturn"></div>';
 			}
 			echo  '</div>';
 			echo '</div>';
@@ -54,15 +53,7 @@
 	?>
 
 	<?php if ( is_user_logged_in() ) { // Is logged in ?>
-<!-- 		<footer id="colophon" class="site-footer container" role="contentinfo">
-			<div class="site-info">
-				<div class="container-narrow">
-					<p>&copy; Basic Hawaiian -->
-						<?php // echo date('Y'); ?>
-					<!-- </p>
-				</div>	
-			</div> --><!-- .site-info -->
-		<!-- </footer> --><!-- #colophon .site-footer -->
+		
 	<?php } else { // Not logged in ?>
 		<footer id="colophon">
 			<div class="footer-art container"></div>
