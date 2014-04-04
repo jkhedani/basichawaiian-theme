@@ -11,8 +11,24 @@ body.wp-admin.not-admin #wpfooter {
 
 body.wp-admin.not-admin #wpcontent .wrap { margin: 40px 0 20px; }
 
+body.login {
+	background: url('../../images/public/marketing-bg.jpg') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+body.login div#login {
+	padding-top: 15%;
+}
+
 body.login div#login h1 a {
     background-size: auto;
-    background-image: url('../../images/login-logo.png');
-    padding-bottom: 40px;
+    background-image: url('../../images/public/bh-beta-logo.png');
+    width: auto;
 }
+body.login p#nav,
+body.login p#backtoblog { padding: 0; margin-top: 10px; }
+body.login p#nav a,
+body.login p#backtoblog a { color: #FFF; }

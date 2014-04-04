@@ -26,14 +26,20 @@ $previousPageURL = get_home_URL();
 	data-scene-viewed="<?php echo scene_viewed( $sceneID ); ?>">
 
 	<header class="entry-header">
-		<h1 class="entry-title"><?php echo get_the_title(); ?></h1>
-		<a class="btn btn-inverse btn-back" href="<?php echo $previousPageURL; ?>"><i class="icon-arrow-left icon-white" style="padding-right:10px;"></i>Back to Unit View</a>
+
+		<!-- <a class="btn btn-inverse btn-back" href=""><i class="icon-arrow-left icon-white" style="padding-right:10px;"></i>Back to Unit View</a> -->
 	</header><!-- .entry-header -->
 
-	<div class="entry-content">
-		<?php
+	<div class="unit-banner">
+		<h1><?php echo get_the_title(); ?></h1>
+		<?php if ( get_field('unit_location') ) : ?>
+		<h2><?php echo get_field('unit_location'); ?></h2>
+		<?php endif; ?>
+	</div>
 
-		the_content();
+	<div class="entry-content">
+		<div class="helper-text">Weeks with <?php echo get_the_title(); ?></div>
+		<?php
 
 		/*
 		 * "Display all Modules associated with this particular Unit along with any associated lessons under each object."
@@ -69,11 +75,11 @@ $previousPageURL = get_home_URL();
 				<ol class="carousel-indicators">
 					<?php for ( $i = 0; $i < $moduleCount; $i++ ) { ?>
 						<?php if ( $i == 0 ) { ?>
-						<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="first active"></li>
+						<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="first active"><?php echo $i + 1; ?></li>
 	    			<?php } elseif ( $i == $moduleCount - 1 ) { ?>
-	    			<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="last"></li>
+	    			<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="last"><?php echo $i + 1; ?></li>
 	    			<?php } else { ?>
-	    			<li data-target="#<?php echo $carouselID; ?>" data-slide-to="1"></li>
+	    			<li data-target="#<?php echo $carouselID; ?>" data-slide-to="1"><?php echo $i + 1; ?></li>
 	    			<?php } ?>
 	    		<?php } ?>
 	    	</ol>
@@ -88,31 +94,95 @@ $previousPageURL = get_home_URL();
 				?>
 
 				<li class="module item <?php if ( $indexCount == 0 ) echo 'active'; ?>" data-complete="<?php echo is_object_complete( $moduleID ) ? "1" : "0"; ?>">
-					<h2 class="module-title"><?php the_title(); ?></h2>
+					<h2 class="module-title"><?php //the_title(); ?></h2>
 
 				<?php
 					// Connected Modules
-					$lessons = new WP_Query( array(
+					$topicNumber = 1;
+					$topics = new WP_Query( array(
 						'connected_type' => 'topics_to_modules',
 						'connected_items' => $moduleID,
 						'nopaging' => true,
 					));
-					if ( $lessons->have_posts() ) :
-						echo '<ul class="topics row">';
-						while( $lessons->have_posts() ) : $lessons->the_post();
+
+					if ( $topics->have_posts() ) : ?>
+					<ul class="topics">
+					<?php while( $topics->have_posts() ) : $topics->the_post();
 							$topicID = $post->ID;
 							create_object_record( $topicID ); // May be redundant but for first time visitors, this prevents missing records errors.
 							?>
-							<li 
-								class="topic span4 pull-left" 
-								data-topic-id="<?php echo $topicID; ?>" 
-								data-complete="<?php echo is_topic_complete( $topicID ) ? "1" : "0"; ?>"
-								data-exercise-complete="<?php echo scene_viewed( $topicID ) ? "1" : "0"; ?>"
-							>
+<!-- 							<li 
+								class="topic" 
+								data-topic-id="<?php //echo $topicID; ?>" 
+								data-complete="<?php //echo is_topic_complete( $topicID ) ? "1" : "0"; ?>"
+								data-exercise-complete="<?php //echo scene_viewed( $topicID ) ? "1" : "0"; ?>"
+							> -->
+							<!-- <ul class="lessons"> -->
 							<?php
-							echo 	'<a href="'.get_permalink($topicID).'?module='.$indexCount.'"><h4>' . get_the_title($topicID) . '</h4></a>';
-							echo '</li>';
-						endwhile;
+								switch ( $topicNumber ) {
+									case '1': // Vocabulary
+										$postTypes = array( 'instruction_lessons', 'vocabulary_lessons' );
+										$connectedTypes = array( 'instructional_lessons_to_topics', 'vocabulary_lessons_to_topics' );
+										break;
+									case '2': // Basics
+										$postTypes = array( 'instruction_lessons', 'phrases_lessons' );
+										$connectedTypes = array( 'instructional_lessons_to_topics', 'phrases_lessons_to_topics' );
+										break;
+									case '3': // Phrases
+										$postTypes = array( 'instruction_lessons', 'phrases_lessons' );
+										$connectedTypes = array( 'instructional_lessons_to_topics', 'phrases_lessons_to_topics' );
+										break;
+									case '4': // Proverbs
+										$postTypes = array( 'instruction_lessons' );
+										$connectedTypes = array( 'instructional_lessons_to_topics' );
+										break;
+									case '5': // Songs
+										$postTypes = array( 'instruction_lessons', 'song_lessons' );
+										$connectedTypes = array( 'instructional_lessons_to_topics', 'song_lessons_to_topics' );
+										break;
+									case '6': // Chants
+										$postTypes = array( 'instruction_lessons', 'chant_lessons' );
+										$connectedTypes = array( 'instructional_lessons_to_topics', 'chant_lessons_to_topics' );
+										break;
+									case '7': // Readings
+										$postTypes = array( 'instruction_lessons', 'readings' );
+										$connectedTypes = array( 'instructional_lessons_to_topics', 'readings_to_topics' );
+										break;
+									case '8': // Ohana Learning Activities
+										$postTypes = array( 'instruction_lessons', 'vocabulary_lessons' );
+										$connectedTypes = array( 'instructional_lessons_to_topics', 'vocabulary_lessons_to_topics' );
+										break;
+								}
+								//Display lessons associated with topic
+								$lessons = new WP_Query( array(
+								  'post_type' => $postTypes,
+								  'suppress_filters' => false,
+								  'connected_type' => $connectedTypes,
+								  'connected_items' => $topicID,
+								));
+								while ( $lessons->have_posts() ) : $lessons->the_post(); ?>
+								<li class="lesson">
+										<span class="supertitle"><?php echo get_the_title($topicID); ?></span>
+										<h3><?php echo get_the_title(); ?></h3>
+										<?php if ( is_object_complete( $post->ID ) ) { ?>
+											<div class="lesson-point earned"></div>
+										<?php } else { ?>
+											<div class="lesson-point unearned"></div>
+										<?php } ?>
+										
+										<a class="prompt-lesson-start btn btn-cta blue" href="#lesson-start-modal" data-lesson-url="<?php echo get_permalink($post->ID); ?>">Start</a>
+									</a>
+								</li>
+								<?php
+								endwhile;
+								wp_reset_postdata(); ?>
+<!-- 							</ul> -->
+
+							<?php 
+							
+							//echo '</li>'; // .topic
+							$topicNumber++;
+						endwhile; // topics
 						wp_reset_postdata();
 						echo '</ul>'; // .topics
 					else:
@@ -135,3 +205,17 @@ $previousPageURL = get_home_URL();
 	</div><!-- .entry-content -->
 
 </article><!-- #post-<?php the_ID(); ?> -->
+
+<div id="lesson-start-modal" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Start your lesson</h3>
+  </div>
+  <div class="modal-body">
+    <h2><?php echo __('M&#257;kaukau?'); ?></h2>
+  </div>
+  <div class="modal-footer">
+    <a class="btn btn-primary start-lesson" href="javascript:void(0);" data-lesson-type="lecture" data-connected-to-id="<?php echo $post->ID; ?>"><?php echo __('&#8216;Ae'); ?></a>
+		<a class="btn btn-primary abort-lesson" href="javascript:void(0);"><?php echo __('&#8216;A&#8216;ole'); ?></a>
+  </div>
+</div>

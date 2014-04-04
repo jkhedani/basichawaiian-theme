@@ -9,7 +9,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 
 $postType = get_post_type( $post->ID );
 $postTypeObject = get_post_type_object($postType);
-$landingPageID = get_connected_object_ID( $post->ID, 'vocabulary_lessons_to_topics' );
+$landingPageID = get_connected_object_ID( $post->ID, 'vocabulary_lessons_to_topics', 'topics_to_modules', 'modules_to_units' );
 $currencyTypeID = get_connected_object_ID( $post->ID, 'vocabulary_lessons_to_topics', 'topics_to_modules', 'modules_to_units' );
 
 if ( is_object_complete ( $post->ID ) ) {
@@ -106,36 +106,7 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 <article id="post-<?php the_ID(); ?>" <?php post_class('lesson-container'); ?> data-lesson-id="<?php echo $post->ID; ?>" data-lesson-complete="<?php echo $objectCompleted; ?>">
 
 	<header class="lesson-header">
-		<h1 class="lesson-title"><?php the_title(); ?></h1>
-
-		<div class="lesson-progress progress span5">
-			<?php
-				$width = 100 / $totalLessonCards;
-				for ( $i = 0; $i < $totalLessonCards; $i++ ) {
-					if ( $i == 0 ) :
-						echo '<div class="bar bar-info current" style="width: '.$width.'%;"></div>';
-					elseif ( $i == $totalLessonCards - 1 ):
-						echo '<div class="bar bar-info last" style="width: '.$width.'%;"></div>';
-					else :
-						echo '<div class="bar bar-info" style="width: '.$width.'%;"></div>';
-					endif;
-				}
-			?>
-		</div>
-
-		<hr class="clear" />
-
-		<div class="lesson-karma pull-right">
-			<?php
-				$percentToPass = 0.90;
-				$karmaAllowance = count($vocabularyObjectIDs) * $percentToPass; // Vocab karma allowance based on total amount of testable cards.
-				$karmaAllowance = round( count($vocabularyObjectIDs) - $karmaAllowance );
-
-				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
-					echo '<i class="karma-point icon-leaf icon-white pull-right"></i>';
-				}
-			?>
-		</div>
+		<!-- <h1 class="lesson-title"><?php //the_title(); ?></h1> -->
 
 		<?php
 		 // Learn Instructional Text
@@ -156,10 +127,52 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 	</header><!-- .entry-header -->
 
 	<div class="lesson-content">
+
+		<!-- Feedback -->
 		<div class="lesson-feedback alert">
 			<span class="lesson-feedback-correct">That's correct!</span>
 			<span class="lesson-feedback-incorrect">Aue! The correct answer was <strong class="lesson-feedback-correct-option"></strong></span>
 		</div>
+
+		<!-- Lesson Progress -->
+		<div class="lesson-progress">
+			<?php
+				for ( $i = 0; $i < $totalLessonCards; $i++ ) {
+					if ( $i == 0 ) :
+						echo '<div class="lei-counter viewed current"></div>';
+					elseif ( $i == $totalLessonCards - 1 ):
+						echo '<div class="lei-counter last"></div>';
+					else :
+						echo '<div class="lei-counter"></div>';
+					endif;
+				}
+				// $width = 100 / $totalLessonCards;
+				// for ( $i = 0; $i < $totalLessonCards; $i++ ) {
+				// 	if ( $i == 0 ) :
+				// 		echo '<div class="lei-counter viewed current" style="width: '.$width.'%;"></div>';
+				// 	elseif ( $i == $totalLessonCards - 1 ):
+				// 		echo '<div class="lei-counter last" style="width: '.$width.'%;"></div>';
+				// 	else :
+				// 		echo '<div class="lei-counter" style="width: '.$width.'%;"></div>';
+				// 	endif;
+				// }
+			?>
+		</div>
+
+		<!-- Lesson Karma -->
+		<div class="lesson-karma pull-right">
+			<?php
+				$percentToPass = 0.90;
+				$karmaAllowance = count($vocabularyObjectIDs) * $percentToPass; // Vocab karma allowance based on total amount of testable cards.
+				$karmaAllowance = round( count($vocabularyObjectIDs) - $karmaAllowance );
+
+				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
+					echo '<i class="karma-point"></i>';
+				}
+			?>
+		</div>
+
+		
 		<?php
 
 		$lessonCardCounter = 0;

@@ -1,0 +1,43 @@
+/**
+ *	Useful Mixins
+ *	General array of mixins to help ease memorization of vendor prefixing
+ *	as well as provide useful shortcuts for everyday css 'hacks'.
+ *	By Justin Hedani
+ *	Installation
+ *		At the top of your LESS document, insert the following:
+ *			@import 'path-to-this-file.less';
+ *		And that's it!
+ *	Usage
+ *		Reference mixins by just calling the appropriate mixin class within
+ *		the class you wish the css to be applied.
+ *		http://www.lesscss.org/#docs
+ */
+
+// Border Radius
+.border-radius( @radius ) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+// Clearfix
+// Sources: http://nicolasgallagher.com/micro-clearfix-hack/
+// https://github.com/twbs/bootstrap/blob/master/less/mixins.less
+.clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+// Modern approach: http://www.zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement/
+// Changed hide-text to no-text due to bootstrap overlap
+.no-text {
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}

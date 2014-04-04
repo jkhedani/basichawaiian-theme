@@ -52,6 +52,7 @@
     <style type="text/css">
       #navbar { margin-top: 28px; } /* Positions navbar below admin bar */
       #main { padding-top: 88px; } /* Lowers all content below navbar to approximate position */
+      .drawer { top: 32px; }
       @media (max-width: 979px) {
         #main { padding-top: 0px; } /* Navbar turns static, no need for compensation here*/
       }
@@ -63,18 +64,35 @@
 
   <?php if ( is_user_logged_in() ) {  ?>
   <header id="navbar">
-    <div class="navbar navbar-inverse container">
+    <div class="navbar navbar-inverse">
       <div class="navbar-inner">
-        <a class="brand site-title" href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 
-        <div class="settings-panel dropdown">
-          <a data-toggle="dropdown" href="#"><i class="icon-cogwheel"><img src="<?php echo get_stylesheet_directory_uri(); ?>/images/cogwheel.png" /></i></a>
-          <ul class="dropdown-menu">
-          <?php if ( current_user_can('edit_posts') ) // Reset only for those who can edit the site ?>
-            <li><a href="#" class="reset-scores">Reset Score</a></li>
-            <li><a href="<?php echo wp_logout_url(); ?>" title="Logout">Logout</a></li>
-          </ul>
+        <!-- Site Brand/Title -->
+        <a class="brand site-title" href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><i class="icon icon-logo-greens"></i><?php bloginfo( 'name' ); ?></a>
+
+        <!-- Show user earnings and points -->
+        <div class="user-achievements">
+          <?php $walletBalance = get_wallet_balance( 204 ); ?>
+          <div class="currency-balance flower"><?php echo !empty($walletBalance) ? $walletBalance : "0"; ?></div>
         </div>
+
+        <!-- Show user name and settings -->
+        <div class="user-settings">
+          <?php
+            global $current_user;
+            $current_user_info = wp_get_current_user();
+          ?>
+          <p>Aloha, <?php echo $current_user_info->user_login; ?></p>          
+          <div class="settings-panel">
+            <a data-toggle="drawer" class="drawer-closed" href="#"><i class="fa fa-bars"></i></a>
+            <ul class="drawer">
+              <li><a class="edit-profile" href="<?php echo get_edit_user_link(); ?>">Edit your profile</a></li>
+              <?php if ( current_user_can('edit_posts') ) // Reset only for those who can edit the site ?>
+              <li><a href="#" class="reset-scores">Reset Score</a></li>
+              <li><a href="<?php echo wp_logout_url(); ?>" title="Logout">Logout</a></li>
+            </ul>
+          </div><!-- .settings-panel -->
+        </div><!-- .user-meta -->
 
       </div><!-- .navbar-inner -->
     </div>

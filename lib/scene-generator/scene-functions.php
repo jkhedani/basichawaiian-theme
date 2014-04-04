@@ -108,6 +108,8 @@ function display_scene() {
 		$html .= '<div class="modal-count">';
 		$html .= '<div class="modal-count-wrap">';
 		  foreach ($sceneSlideObject as $token) {
+		  	if ($token === reset($sceneSlideObject))
+		  	$html .= '<span class="modal-counter viewed current"></span>';	
 		  	$html .= '<span class="modal-counter"></span>';
 		  }
 	  $html .= '</div>';

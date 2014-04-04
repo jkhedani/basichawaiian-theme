@@ -31,16 +31,15 @@ $lessonCardCount = $chantLines->post_count;
 	<header class="lesson-header">
 		<h1 class="lesson-title"><?php the_title(); ?></h1>
 
-		<div class="lesson-progress progress span5">
+		<div class="lesson-progress span5">
 			<?php
-				$width = 100 / $lessonCardCount;
-				for ( $i = 0; $i < $lessonCardCount; $i++ ) {
+				for ( $i = 0; $i < $totalLessonCards; $i++ ) {
 					if ( $i == 0 ) :
-						echo '<div class="bar bar-info current" style="width: '.$width.'%;"></div>';
-					elseif ( $i == $lessonCardCount - 1 ):
-						echo '<div class="bar bar-info last" style="width: '.$width.'%;"></div>';
+						echo '<div class="lei-counter viewed current"></div>';
+					elseif ( $i == $totalLessonCards - 1 ):
+						echo '<div class="lei-counter last"></div>';
 					else :
-						echo '<div class="bar bar-info" style="width: '.$width.'%;"></div>';
+						echo '<div class="lei-counter"></div>';
 					endif;
 				}
 			?>

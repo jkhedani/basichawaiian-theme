@@ -267,8 +267,9 @@ function diamond_scripts() {
 	$protocol='http:'; // discover the correct protocol to use
  	if(!empty($_SERVER['HTTPS'])) $protocol='https:';
 
-  wp_enqueue_style( 'open-sans-google-fonts', 'http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700', array(), false, 'all');
-  wp_enqueue_style( 'raleway-google-fonts', 'http://fonts.googleapis.com/css?family=Raleway:200,700', array(), false, 'all');
+  wp_enqueue_style( 'open-sans-google-fonts', '//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700', array(), false, 'all');
+  wp_enqueue_style( 'raleway-google-fonts', '//fonts.googleapis.com/css?family=Raleway:200,700', array(), false, 'all');
+  wp_enqueue_style( 'font-awesome-icons', '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css', array(), false, 'all');
   wp_enqueue_style( 'diamond-style', get_stylesheet_directory_uri().'/css/diamond-style.css' );
 	wp_enqueue_script( 'bootstrap-modal', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-modal.js', array('jquery'), false, true);
   wp_enqueue_script( 'bootstrap-carousel', get_template_directory_uri().'/inc/bootstrap/js/bootstrap-carousel.js', array('jquery'), false, true);

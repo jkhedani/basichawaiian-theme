@@ -39,9 +39,6 @@ add_action('wp_ajax_nopriv_reset_scores', 'reset_scores');
 add_action('wp_ajax_reset_scores', 'reset_scores');
 // REMOVE AFTER TESTING!!!!!!!!!!!
 
-
-
-
 function get_wallet_balance( $postID ) {
 	global $post;
 	$current_user = wp_get_current_user();

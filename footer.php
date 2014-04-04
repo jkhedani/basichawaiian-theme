@@ -18,48 +18,55 @@
 			/**
 			 * User Avatar
 			 */
-			$user = wp_get_current_user();
-			$user_id = $user->ID;
-			$gender = get_user_meta( $user_id, 'gender', true );
-			echo '<div class="avatars">';
-			echo 	'<div class="avatar-wrapper">';
-			if ( get_post_type( $post->ID ) == 'units' && $post->ID == 204 ) {
-				echo 		'<div class="user-avatar '.$gender.' backturn"></div>';
-				echo 		'<div class="kukui-avatar aunty-aloha backturn"></div>';	
-			} else {
-				echo 		'<div class="user-avatar '.$gender.' backturn"></div>';
-			}
-			echo  '</div>';
-			echo '</div>';
+			// $user = wp_get_current_user();
+			// $user_id = $user->ID;
+			// $gender = get_user_meta( $user_id, 'gender', true );
+			// echo '<div class="avatars">';
+			// echo 	'<div class="avatar-wrapper">';
+			// if ( get_post_type( $post->ID ) == 'units' && $post->ID == 204 ) {
+			// 	echo 		'<div class="user-avatar '.$gender.' backturn"></div>';
+			// 	echo 		'<div class="kukui-avatar aunty-aloha backturn"></div>';	
+			// } else {
+			// 	echo 		'<div class="user-avatar '.$gender.' backturn"></div>';
+			// }
+			// echo  '</div>';
+			// echo '</div>';
 
 			/**
 			 *	User Currency
 			 */
-			$walletBalance = get_wallet_balance($post->ID); ?>
-			<div class="wallet-balance span4 pull-right">
+			//$walletBalance = get_wallet_balance($post->ID); ?>
+<!-- 			<div class="wallet-balance span4 pull-right">
 				<div class="currency-type flower">
 					<div class="currency-icon flower"></div>
-					<div class="currency-balance flower"><?php echo !empty($walletBalance) ? $walletBalance : "0"; ?></div>
-				</div>
+					<div class="currency-balance flower"><?php //echo !empty($walletBalance) ? $walletBalance : "0"; ?></div>
+				</div> -->
 
-				<div class="currency-type kukui">
+<!-- 				<div class="currency-type kukui">
 					<div class="currency-icon kukui"></div>
-					<div class="currency-balance kukui">0</div>
+					<div class="currency-balance kukui">0</div> -->
 					<?php //if ( $walletBalance > 1 ) { echo '<a class="btn btn-small pull-right claim-kukui" href="javascript:void(0);">Claim a kukui</a>'; } ?>
-				</div>
-			</div>
+<!-- 				</div>
+			</div> -->
 		<?php }
 	endif;
 	?>
 
 	<?php if ( is_user_logged_in() ) { // Is logged in ?>
-		
+		<footer id="colophon">
+			<div class="footer-content">
+				<?php  wp_nav_menu( array('menu' => 'Support Menu' )); ?>
+				<span class="copyright">&copy; Basic Hawaiian <?php echo get_the_date('Y'); ?></span>
+			</div>
+		</footer>
 	<?php } else { // Not logged in ?>
 		<footer id="colophon">
 			<div class="footer-art container"></div>
 			<div class="footer-content container">
-				<span class="copyright">&copy; Basic Hawaiian <?php echo get_the_date('Y'); ?></span>
-				<?php  wp_nav_menu( array('menu' => 'Project Nav' )); ?>
+				<div class="padded">
+					<?php  wp_nav_menu( array('menu' => 'Footer Menu' )); ?>
+					<span class="copyright">&copy; Basic Hawaiian <?php echo get_the_date('Y'); ?></span>
+				</div>
 			</div>
 		</footer>
 	<?php } // not logged in ?>
