@@ -142,11 +142,11 @@ function display_scene() {
 
 		  // Last slide
 		  if ($i == $slideCount - 1) { 
-		  $html .= '		<a href="javascript:void(0);" class="btn prev">Prev</a>';
-		  $html .= '		<a href="javascript:void(0);" class="btn btn-primary end-scene" data-dismiss="modal">Done</a>';
+		  $html .= '		<a href="javascript:void(0);" class="btn prev"><i class="fa fa-arrow-left"></i></a>';
+		  $html .= '		<a href="javascript:void(0);" class="btn btn-primary end-scene" data-dismiss="modal"><i class="fa fa-check"></i></a>';
 		  } else {
-		  $html .= '		<a href="javascript:void(0);" class="btn btn-primary prev">Prev</a>';
-		  $html .= '		<a href="javascript:void(0);" class="btn btn-primary next">Next</a>';
+		  $html .= '		<a href="javascript:void(0);" class="btn btn-primary prev"><i class="fa fa-arrow-left"></i></a>';
+		  $html .= '		<a href="javascript:void(0);" class="btn btn-primary next"><i class="fa fa-arrow-right"></i></a>';
 		  }
 		  $html .= '	</div>'; // .modal-footer
 			$html .= '</div>'; // .modal-slide-X

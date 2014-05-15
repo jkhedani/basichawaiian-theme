@@ -86,10 +86,10 @@
           <div class="settings-panel">
             <a data-toggle="drawer" class="drawer-closed" href="#"><i class="fa fa-bars"></i></a>
             <ul class="drawer">
-              <li><a class="edit-profile" href="<?php echo get_edit_user_link(); ?>">Edit your profile</a></li>
+              <li><a class="edit-profile" href="<?php echo get_edit_user_link(); ?>"><i class="fa fa-edit"></i>Edit your profile</a></li>
               <?php if ( current_user_can('edit_posts') ) // Reset only for those who can edit the site ?>
-              <li><a href="#" class="reset-scores">Reset Score</a></li>
-              <li><a href="<?php echo wp_logout_url(); ?>" title="Logout">Logout</a></li>
+              <li><a href="#" class="reset-scores"><i class="fa fa-times-circle-o"></i>Reset Score</a></li>
+              <li><a href="<?php echo wp_logout_url(); ?>" title="Logout"><i class="fa fa-sign-out"></i>Logout</a></li>
             </ul>
           </div><!-- .settings-panel -->
         </div><!-- .user-meta -->

@@ -150,7 +150,7 @@ function finish_lesson() {
 		if ( !empty( $lessonCardCorrectCount ) )
 		$html .= '<p class="lesson-results-score">You got '.$lessonCardCorrectCount.' out of '.$lessonCardCount.' correct!</p>';
 		$html .= '<div class="lesson-results-control">';
-		$html .= '<a href="'. get_permalink( $lessonID ) .'" class="replay-lesson btn">Replay Lesson</a>';
+		$html .= '<a href="'. get_permalink( $lessonID ) .'" class="replay-lesson btn"><i class="fa fa-refresh"></i></a>';
 		$html .= '<a href="'. get_permalink( $landingID ) .'" class="btn btn-primary">Continue</a>';
 		$html .= '</div>';
 		$html .= '</div>';

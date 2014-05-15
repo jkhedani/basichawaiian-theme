@@ -35,6 +35,13 @@ $previousPageURL = get_home_URL();
 		<?php if ( get_field('unit_location') ) : ?>
 		<h2><?php echo get_field('unit_location'); ?></h2>
 		<?php endif; ?>
+		<!-- User Avatar -->
+		<?php 
+			$user = wp_get_current_user();
+  		$user_id = $user->ID;
+			$gender = get_user_meta( $user_id, 'gender', true );
+		?>
+		<div class="user-avatar <?php echo $gender; ?> default"></div>
 	</div>
 
 	<div class="entry-content">
@@ -73,6 +80,7 @@ $previousPageURL = get_home_URL();
 
 			<div id="<?php echo $carouselID; ?>" class="carousel slide">
 				<ol class="carousel-indicators">
+					<li><a class="carousel-indicator-control left" href="#<?php echo $carouselID ?>" data-slide="prev">&lsaquo;</a></li>
 					<?php for ( $i = 0; $i < $moduleCount; $i++ ) { ?>
 						<?php if ( $i == 0 ) { ?>
 						<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="first active"><?php echo $i + 1; ?></li>
@@ -82,7 +90,11 @@ $previousPageURL = get_home_URL();
 	    			<li data-target="#<?php echo $carouselID; ?>" data-slide-to="1"><?php echo $i + 1; ?></li>
 	    			<?php } ?>
 	    		<?php } ?>
+	    		<li><a class="carousel-indicator-control right" href="#<?php echo $carouselID ?>" data-slide="next">&rsaquo;</a></li>
 	    	</ol>
+
+	    	
+				
 
 				<ul class="modules carousel-inner">
 			
@@ -170,7 +182,7 @@ $previousPageURL = get_home_URL();
 											<div class="lesson-point unearned"></div>
 										<?php } ?>
 										
-										<a class="prompt-lesson-start btn btn-cta blue" href="#lesson-start-modal" data-lesson-url="<?php echo get_permalink($post->ID); ?>">Start</a>
+										<a class="prompt-lesson-start start btn btn-cta blue" href="#lesson-start-modal" data-lesson-title="<?php echo get_the_title(); ?>" data-lesson-url="<?php echo get_permalink($post->ID); ?>">Start</a>
 									</a>
 								</li>
 								<?php
@@ -196,8 +208,7 @@ $previousPageURL = get_home_URL();
 
 			</ul>
 			<?php wp_reset_postdata(); ?>
-			<a class="carousel-control left" href="#<?php echo $carouselID ?>" data-slide="prev">&lsaquo;</a>
-			<a class="carousel-control right" href="#<?php echo $carouselID ?>" data-slide="next">&rsaquo;</a>
+
 			</div><!-- #moduleList -->
 		
 		<?php } // MODULES ?>
@@ -206,13 +217,12 @@ $previousPageURL = get_home_URL();
 
 </article><!-- #post-<?php the_ID(); ?> -->
 
-<div id="lesson-start-modal" class="modal hide fade">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>Start your lesson</h3>
-  </div>
+<div id="lesson-start-modal" class="modal <?php echo $post->post_name; ?> hide fade">
+  <!-- <div class="modal-header"></div> -->
   <div class="modal-body">
+  	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h2><?php echo __('M&#257;kaukau?'); ?></h2>
+    <h3>Start your lesson</h3>
   </div>
   <div class="modal-footer">
     <a class="btn btn-primary start-lesson" href="javascript:void(0);" data-lesson-type="lecture" data-connected-to-id="<?php echo $post->ID; ?>"><?php echo __('&#8216;Ae'); ?></a>

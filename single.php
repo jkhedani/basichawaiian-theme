@@ -30,7 +30,7 @@ get_header(); ?>
 
 				// READINGS CONTENT
 				} elseif(get_post_type($post->ID) == 'readings') {
-					get_template_part( 'templates/readings', 'single' );
+					get_template_part( 'templates/lesson-readings', 'single' );
 
 				// VOCABULARY LESSON CONTENT
 				} elseif(get_post_type($post->ID) == 'vocabulary_lessons') {

@@ -23,7 +23,7 @@
 @colorDeepRed: rgb(209, 111, 88);
 @colorBrightGray: rgb(248, 247, 246);
 
-@colorLightBlue: rgb(34,177,196);
+@colorLightBlue: rgb(103, 183, 185);
 @colorOrange: rgb(255,134,31);
 @colorLightOrange: rgb(239,178,69);
 @colorYellow: rgb(242,212,0);
@@ -115,6 +115,9 @@
 	&.viewed { opacity: 1.0; }
 }
 
+// Bootstrap Alerts
+.lesson-content .alert { margin-bottom: 0; }
+
 // Alerts
 body.home {
 #primary-alert {
@@ -135,7 +138,7 @@ body.home {
 		color: #FFF;
 		.alert-content-title {
 			margin: 0;
-			font-size: 25px;
+			font-size: 21px;
 		}
 		.alert-content-subtitle {
 			
@@ -145,9 +148,16 @@ body.home {
 }
 
 // General Modal Tweaks
+.modal.fade.in { top: 15%; }
 .modal-backdrop, .modal-backdrop.fade.in {
 	opacity: 0.9;
-	background: #FFF;
+	background: @colorDeepPurple;
+}
+.modal {
+	a.prev { position: absolute; left: -49px; top: 200px; background: @colorBrightGray; color: @colorDeepPurple;  }
+	a.next, a.end-scene { position: absolute; right: -49px; top: 200px; margin: 0; background: @colorBrightGray; color: @colorDeepPurple; }
+	a.next, a.prev, a.end-scene { &:hover { background: #FFF; } }
+	// a.end-scene { margin: 0; }
 }
 
 body {
@@ -182,12 +192,17 @@ body {
 		color: #FFF;
 	}
 	.btn-primary {
+		color: #FFF;
+		padding: 10px 30px;
+		font-size: 18px;
+		text-transform: lowercase;
+		background: @colorLightBlue;
+
 		margin-right: 15px;
 		border: none;
 		border-radius: 0;
 		text-shadow: none;
-		background: @colorDeepRed;
-		&:hover { background: lighten(@colorDeepRed,10%); border: none; box-shadow: none; }
+		&:hover { background: lighten(@colorLightBlue,10%); border: none; box-shadow: none; }
 	}
 	.btn-cta {
 		color: #FFF;
@@ -195,6 +210,7 @@ body {
 		text-transform: uppercase;
 		&.blue { background: @colorLightBlue; }
 		&.red { background: @colorDeepRed }
+		&:hover { color: #FFF; }
 	}
 	.post-date {
 		color: darken(@colorBrightPurple, 30%);
@@ -275,6 +291,14 @@ body {
 					.settings-panel {
 						float: right;
 						a[data-toggle='drawer'] { color: #FFF; font-size: 20px; }
+						ul.drawer {
+							li {
+								a {
+									padding: 15px 30px 15px 20px;
+									i { padding-right: 15px; font-size: 25px; }
+								}
+							}
+						}
 					}
 				} // .user-meta
 			}
@@ -693,8 +717,8 @@ body.home.logged-in {
 		margin: 235px 0 0 -40px;
 		.clearfix();
 		a { font-size: 40px; }
-		a[data-slide-to="prev"] { float: left; }
-		a[data-slide-to="next"] { float: right; }
+		a[data-slide-to="prev"] { float: left; color: #FFF; }
+		a[data-slide-to="next"] { float: right; color: #FFF; }
 	} // .coverflow-controls
 	.coverflow-counter-container {
 		position: absolute;
@@ -776,26 +800,34 @@ body.single-topics {
  * General Lesson Styles
  */
 
-body[class*="lessons"] { header#navbar { display: none; } } // Hide navbar on lesson pages
+body[class*="lessons"],body.single-readings { header#navbar { display: none; } } // Hide navbar on lesson pages
  #lesson-start-modal {
- 		background: url('../images/texture-one.png');
- 		text-align: center;
- 		.modal-body {
- 			font-family: @fontDisplay;
- 			padding: 100px;
- 			h2 { font-size: 60px; }
- 		}
- 		.modal-footer {
- 			text-align: center;
- 			background: none;
- 			border: none;
- 			box-shadow: none;
- 			a { width: 80px; margin: 0 0 0 15px; }
- 		}
- }
+	background: url('../images/texture-one.png');
+	text-align: center;
+	.modal-body {
+		height: 350px;
+		font-family: @fontDisplay;
+		button.close { position: absolute; right: 20px; }
+		h2 { font-size: 60px; color: @colorDeepPurple; margin-top: 22px; }
+		h3 { color: @colorDeepPurple; }
+	}
+	.modal-footer {
+		text-align: center;
+		background: none;
+		border: none;
+		box-shadow: none;
+		a { width: 80px; margin: 0 0 0 15px;
+			&.start-lesson { background-color: @colorLightBlue; }
+		}
+	}
+	&.aunty-aloha {
+		background: url('../images/aunty-aloha-home-hero') no-repeat #FFF;
+	}
+}
 .lesson-header {
 	margin-top: 100px;
 	.clearfix();
+	.lesson-quit { display: block; float: right; text-transform: uppercase; color: #FFF; margin: 0 0 10px 0; }
 	.lesson-title {
 		margin: 32px 0 28px !important;
 		float: left;
@@ -822,14 +854,17 @@ body[class*="lessons"] { header#navbar { display: none; } } // Hide navbar on le
 // Lesson Progress
 .lesson-progress {
 	float: right;
+	margin: 25px 15px 0 15px;
 }
 
 // Lesson Karma
-.lesson-karma { float: right; margin: 10px 0 0 0;
+.lesson-karma { float: right; margin: 25px 0 0 0;
 	.karma-point {
 		width: 22px;
 		height: 30px;
+		float: right;
 		display: block;
+		margin-left: 5px;
 		background: url('../images/karma-point-icon.png') no-repeat;
 	}
 }
@@ -873,18 +908,54 @@ body[class*="lessons"] { header#navbar { display: none; } } // Hide navbar on le
 	// Actionable Lesson Items
 	.btn-primary { min-width: 150px; margin-bottom: 10px; }
 	.audio-player { float: left; margin: 0 0 20px 0; }
-	.pause-audio { display: none; }
+	.play-audio, .pause-audio {
+		background: url('../images/audio-icon.png') -35px 0 no-repeat;
+		width: 31px;
+		padding: 0;
+		height: 25px;
+		border: none;
+		-webkit-appearance: none;
+		.no-text();
+	}
+	.pause-audio { display: none; background-position: 0px 0px; }
+	.show-translation {
+		width: 25px;
+		height: 25px;
+		padding: 0;
+		min-width: 0px;
+		box-shadow: none;
+		margin-left: 15px;
+		&:first-child { margin-left: 0; }
+		.no-text();
+		// Show English
+		&.lang-english {
+			background: url('../images/international-icons.png') -34px 0px no-repeat;
+			opacity: 0.5;
+			&:hover, &:active, &:focus {
+				background: url('../images/international-icons.png') -34px 0px no-repeat;
+				opacity: 1.0;
+			}
+		}
+		&.lang-hawaiian {
+			background: url('../images/international-icons.png') -4px 0px no-repeat;
+			&:hover, &:active, &:focus {
+				background: url('../images/international-icons.png') -4px 0px no-repeat;
+				opacity: 1.0;
+			}
+		}
+	}
 }
 
 .lesson-footer {
 	width: 100%;
-	background-color: rgba(44,44,44,0.6);
+	border-top: 1px solid #DDD;
+	background-color: rgba(255, 255, 255, 0.85);
 	.lesson-controls {
 		padding: 28px;
 		height: 21px;
-		.advance-lesson { display: none; }
-		.check-lesson { display: none; }
-		.finish-lesson { display: none; }
+		.advance-lesson { display: none; float: right; margin-top: -11px; i { margin-left: 10px; } }
+		.check-lesson { display: none; float: right; margin-top: -11px; }
+		.finish-lesson { display: none; float: right; margin-top: -11px; }
 	}
 }
 
@@ -900,8 +971,13 @@ body[class*="lessons"] { header#navbar { display: none; } } // Hide navbar on le
 	.lesson-results-blurb { margin: 5px auto 20px; font-size: 28px; line-height: 1.0; }
 	.lesson-results-score { margin: 5px auto; }
 	.lesson-results-control {
-		margin-top: 200px;
-		a { margin-right: 10px; }
+		margin-top: 180px;
+		a { margin-right: 10px;
+			&.replay-lesson {
+				background: rgba(255,255,255, 0.4) !important;
+				&:hover { color: #FFF; }
+			}
+		}
 	}
 	&.success {
 		&.male { background: url('../images/hooray-boy.jpg') no-repeat; }
@@ -919,7 +995,7 @@ body[class*="lessons"] { header#navbar { display: none; } } // Hide navbar on le
  */
 
 // Add aunty aloha avatar for instructions
-body.aunty-aloha[class*="lessons"] {
+body.aunty-aloha[class*="lessons"], body.aunty-aloha.single-readings {
 	.lesson-instructions {
 		position: relative;
 		&:before {
@@ -944,7 +1020,7 @@ body.single-instruction_lessons {
 	}
 	.lesson-content {
 		img { float: left; margin: 0 28px 0 0; }
-		.instructional-slide-content { border-bottom: 1px solid #CCC; margin: 0 0 15px 0; }
+		.instructional-slide-content { margin: 0 0 15px 0; }
 	}
 }
 
@@ -984,6 +1060,9 @@ body.single-readings {
  *	Lesson Styles: Phrases;
  */
 body.single-phrases_lessons {
+	.lesson-karma {
+		margin: 25px 20px 0 0;
+	}
 	.lesson-image-container {
 		max-width: 300px;
 		max-height: 300px;
@@ -999,7 +1078,6 @@ body.single-phrases_lessons {
 body.single-phrases_lessons, body.single-song_lessons {
 	.lesson-card { max-width: none; }
 	.lesson-card-assessment-option {
-		border: 1px solid #DDD;
 		margin: 0 15px 0 0;
 	}
 }
@@ -1015,7 +1093,6 @@ body.single-vocabulary_lessons {
 			&.test-card {
 				max-width: 100%;
 				.lesson-card-assessment {
-					border-bottom: 1px solid #CCC;
 					padding-bottom: 15px;
 					margin-bottom: 20px;
 					.clearfix(); 
@@ -1086,11 +1163,11 @@ body.single-vocabulary_lessons {
 		.scene-content {
 			height: 390px;
 			overflow: auto;
-			background: url('../images/texture-one.png');
+			background: #FFF;
 			padding: 20px;
 			color: @colorBrown;
 			font-family: @fontDisplay;
-			font-size: 27px;
+			font-size: 23px;
 			font-weight: 600;
 			line-height: 1.3;
 			p img { margin: 0 0 -10px 0; }
@@ -1101,7 +1178,7 @@ body.single-vocabulary_lessons {
 		box-shadow: none;
 		background: none;
 		padding: 14px 0 0 0; 
-		.scene-caption { float: left; max-width: 450px; text-align: left; }
+		.scene-caption { float: left; text-align: left; }
 	}
 }
 
@@ -1125,20 +1202,37 @@ body.single-units {
 	
 	// content container
 	article {
+		padding-top: 25px;
 		.clearfix();
 	}
 
 	// Purple sidebar
 	.unit-banner {
 		width: 232px;
-		min-height: 150px;
+		min-height: 232px;
+		margin-top: 85px;
 		float: left;
-		background: url('../images/unit-banner-aunty-aloha.png') no-repeat @colorBrightPurple;
+		position: relative;
+		background: url('../images/unit-banner-aunty-aloha.png') 0 67px no-repeat @colorBrightPurple;
+		.user-avatar { width: 63px; height: 131px; bottom: 15px; left: 130px;
+			&.female { background: url('../images/unit-banner-avatar-female.png') no-repeat; }
+			&.male { background: url('../images/unit-banner-avatar-male.png') no-repeat; }
+		}
+		h1, h2 { text-align: center; color: #FFF; }
+		h1 { font-size: 27px; margin-bottom: 0; }
+		h2 { font-size: 17px; margin: 0; line-height: 1.0; }
 	}
 	// White squares
  	.entry-content {
  		width: 710px;
  		float: right;
+ 		.helper-text { // "Weeks with XYZ"
+ 			color: #FFF;
+ 			text-align: center;
+ 			text-transform: uppercase;
+ 			letter-spacing: 1px;
+ 			font-weight: 700;
+ 		}
  		#module-list {
  			margin: 0 auto;
  			min-height: 420px;
@@ -1152,6 +1246,7 @@ body.single-units {
 				 		// 	ul.lessons {
 				 		// 		margin: 0;
 				 				li.lesson {
+				 					position: relative;
 				 					width: 230px;
 				 					min-height: 230px;
 				 					float: left;
@@ -1160,17 +1255,22 @@ body.single-units {
 				 					list-style: none;
 				 					background: rgba(255, 255, 255, 0.9);
 				 					&:nth-child( 3n + 1 ) { margin-left: 0; }
-				 					.supertitle {  }
-				 					h3 { font-size: 19px; }
+				 					.supertitle { display: block; margin-top: 15px; }
+				 					h3 { font-size: 19px; line-height: 1.3; margin-top: 5px; }
 				 					.lesson-point {
 				 						width: 50px;
 				 						height: 50px;
 				 						margin: 0 auto;
+				 						position: absolute;
+				 						bottom: 72px;
+				 						left: 92px;
 				 						background: url('../images/content-points-flower.png') no-repeat;
 				 						&.unearned { background-position: -46px 0; }
 				 						&.earned { width: 46px; }
 				 					}
-				 					a {  }
+				 					a.prompt-lesson-start { position: absolute; bottom: 22px;
+				 						&.start { left: 63px; }
+				 					}
 				 				}
 				 		// 	} // .lessons
 				 		// } // .topic
@@ -1182,11 +1282,27 @@ body.single-units {
 	// Specific Carousel Styles
 	.carousel {
 		.carousel-indicators {
-			margin: 0 auto;
+			margin: 14px auto -14px;
 			position: relative;
 			display: block;
+			width: 451px;
+			top: auto;
+			right: auto;
 			.clearfix();
-			li { width: 30px; height: 30px; .roundCorners( 15px ); text-indent: 0; }
+			li {
+				width: 36px;
+				height: 36px;
+				color: @colorDeepPurple;
+				text-indent: 0;
+				font-weight: 700;
+				line-height: 2.5;
+				.roundCorners( 18px );
+				&.last {
+					.no-text();
+					background: url('../images/ohana-activity-icon.png') 6px 8px no-repeat rgba(255, 255, 255, 0.25);
+					&.active { background: url('../images/ohana-activity-icon.png') 6px 8px no-repeat rgba(255, 255, 255, 1.0); }
+				}
+			}
 		}
 		.carousel-inner {
 			margin: 0;

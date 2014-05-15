@@ -22,7 +22,8 @@ if ( get_field('instructional_slide') ) {
 <article id="post-<?php the_ID(); ?>" <?php post_class('lesson-container'); ?> data-lesson-id="<?php echo $post->ID; ?>" data-lesson-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>">
 
 	<header class="lesson-header">
-		<h1 class="lesson-title"><?php the_title(); ?></h1>
+		<?php $previousurl = htmlspecialchars($_SERVER['HTTP_REFERER']); ?>
+		<a href="<?php echo $previousurl; ?>" class="lesson-quit">Quit</a>
 		<div class="lesson-progress span5">
 			<?php
 				for ( $i = 0; $i < $totalLessonCards; $i++ ) {
@@ -86,14 +87,17 @@ if ( get_field('instructional_slide') ) {
 						// Slide Audio
 						if ( $instructionalSlide['instructional_slide_audio_ogg'] ) {
 							echo 	'<div class="infromation-slide-audio audio-player">';
-							echo 		'<button class="btn btn-primary play-audio">Play Audio</button>';
-							echo 		'<button class="btn btn-primary pause-audio">Pause Audio</button>';
+							echo 		'<button class="play-audio">Play Audio</button>';
+							echo 		'<button class="pause-audio">Pause Audio</button>';
 							echo 		'<audio class="pronunciation" src="'.$instructionalSlide['instructional_slide_audio_ogg'].'"></audio>';
 							echo 	'</div>';
 						}
-						if ( $instructionalSlide['instructional_slide_translation'] )
-							echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
+						$slideTranslation = $instructionalSlide['instructional_slide_translation'];
+						if ( !empty( $slideTranslation ) ) {
+							echo 	'<button class="btn show-translation lang-hawaiian"><span>Show</span> Hawaiian</button>';
+							echo 	'<button class="btn show-translation lang-english"><span>Show</span> English</button>';
 							echo 	'<div class="translation instructional-slide-translation hidden">'.$instructionalSlide['instructional_slide_translation'].'</div>';
+						}
 						$lessonCardCounter++;
 						echo '</div>'; // Instructional Slide
 					}
@@ -104,7 +108,7 @@ if ( get_field('instructional_slide') ) {
 
 	<footer class="lesson-footer">
 		<div class="lesson-controls">
-			<a class="btn btn-primary advance-lesson" href="javascript:void(0);">Next</a>
+			<a class="btn btn-primary advance-lesson" href="javascript:void(0);">Next<i class="fa fa-arrow-right"></i></a>
 			<a class="btn check-lesson" href="javascript:void(0);">Check</a>
 			<a class="btn btn-primary finish-lesson" href="javascript:void(0);" data-lesson-outcome="pass" data-currency-type-id="<?php echo $currencyTypeID; ?>" data-landing-id="<?php echo $landingPageID; ?>"><?php echo __('Pau!'); ?></a>
 		</div>

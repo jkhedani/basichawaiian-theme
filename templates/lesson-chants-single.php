@@ -29,7 +29,7 @@ $lessonCardCount = $chantLines->post_count;
 <article id="post-<?php the_ID(); ?>" <?php post_class('lesson-container'); ?> data-lesson-id="<?php echo $post->ID; ?>">
 
 	<header class="lesson-header">
-		<h1 class="lesson-title"><?php the_title(); ?></h1>
+		<!-- <h1 class="lesson-title"><?php //the_title(); ?></h1> -->
 
 		<div class="lesson-progress span5">
 			<?php

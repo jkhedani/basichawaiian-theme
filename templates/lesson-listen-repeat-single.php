@@ -27,7 +27,7 @@ $lessonCardCount = $phrases->post_count;
 <article id="post-<?php the_ID(); ?>" <?php post_class('lesson-container'); ?> data-lesson-id="<?php echo $post->ID; ?>" data-lesson-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>">
 
 	<header class="lesson-header">
-		<h1 class="lesson-title"><?php the_title(); ?></h1>
+		<!-- <h1 class="lesson-title"><?php //the_title(); ?></h1> -->
 		<div class="lesson-progress span5">
 			<?php
 				for ( $i = 0; $i < $totalLessonCards; $i++ ) {
@@ -62,8 +62,8 @@ $lessonCardCount = $phrases->post_count;
 				echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
 				
 				if ( get_field('phrases_pronunciation') ) {
-					echo 	'<button class="btn btn-primary play-audio">Play Audio</button>';
-					echo 	'<button class="btn btn-primary pause-audio">Pause Audio</button>';
+					echo 	'<button class="play-audio">Play Audio</button>';
+					echo 	'<button class="pause-audio">Pause Audio</button>';
 					echo 	'<audio class="pronunciation" src="'.get_field('phrases_pronunciation').'"></audio>';	
 				}
 				echo '</div>';

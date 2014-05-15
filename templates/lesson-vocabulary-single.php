@@ -106,8 +106,8 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 <article id="post-<?php the_ID(); ?>" <?php post_class('lesson-container'); ?> data-lesson-id="<?php echo $post->ID; ?>" data-lesson-complete="<?php echo $objectCompleted; ?>">
 
 	<header class="lesson-header">
-		<!-- <h1 class="lesson-title"><?php //the_title(); ?></h1> -->
-
+		<?php $previousurl = htmlspecialchars($_SERVER['HTTP_REFERER']); ?>
+		<a href="<?php echo $previousurl; ?>" class="lesson-quit">Quit</a>
 		<?php
 		 // Learn Instructional Text
 		 if ( get_field('vocab_lesson_optional_learn_instructional_text') ) {
@@ -200,12 +200,15 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 			echo 	'<h3>'. get_the_title() .'</h3>';
 			echo 	'<div style="margin-bottom:15px;">'. get_the_post_thumbnail($post->ID, 'medium') . '</div>';
 			
-			echo 	'<button class="btn btn-primary play-audio">Play Audio</button>';
-			echo 	'<button class="btn btn-primary pause-audio">Pause Audio</button>';
+			echo 	'<button class="play-audio">Play Audio</button>';
+			echo 	'<button class="pause-audio">Pause Audio</button>';
 			echo 	'<audio class="pronunciation" src="'.get_field('audio_track').'"></audio>';
 
-			echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
+			if ( get_field('english_translation') ) {
+			echo 	'<button class="btn show-translation lang-hawaiian"><span>Show</span> Hawaiian</button>';
+			echo 	'<button class="btn show-translation lang-english"><span>Show</span> English</button>';
 			echo  '<div class="translation english-translation hidden">'.get_field('english_translation').'</div>';
+		  }
 			echo '</div>'; // .lesson-card
 		
 			$lessonCardCounter++;
@@ -259,11 +262,11 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 				}
 			echo '</div>';
 
-			echo 	'<button class="btn btn-primary play-audio">Play Audio</button>';
-			echo 	'<button class="btn btn-primary pause-audio">Pause Audio</button>';
+			echo 	'<button class="play-audio">Play Audio</button>';
+			echo 	'<button class="pause-audio">Pause Audio</button>';
 			echo 	'<audio class="pronunciation" src="'.get_field('audio_track').'"></audio>';
 
-			echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
+			echo 	'<button class="btn btn-primary show-translation lang-english"><span>Show</span> English</button>';
 			echo  '<div class="translation english-translation hidden">'.get_field('english_translation').'</div>';
 
 
@@ -279,9 +282,9 @@ $totalLessonCards = $vocabularyTerms->post_count + $lessonCardsToTeachCount;
 
 	<footer class="lesson-footer">
 		<div class="lesson-controls">
-			<a class="btn btn-primary advance-lesson" href="javascript:void(0);">Next</a>
-			<a class="btn check-lesson" href="javascript:void(0);">Check</a>
-			<a class="btn btn-primary finish-lesson" href="javascript:void(0);" data-lesson-outcome="pass" data-currency-type-id="<?php echo $currencyTypeID; ?>" data-landing-id="<?php echo $landingPageID; ?>"><?php echo __('Pau!'); ?></a>
+			<a class="btn btn-cta blue advance-lesson" href="javascript:void(0);">Next <i class="fa fa-arrow-right"></i></a>
+			<a class="btn btn-cta blue check-lesson" href="javascript:void(0);">Check <i class="fa fa-check"></i></a>
+			<a class="btn btn-cta blue finish-lesson" href="javascript:void(0);" data-lesson-outcome="pass" data-currency-type-id="<?php echo $currencyTypeID; ?>" data-landing-id="<?php echo $landingPageID; ?>"><?php echo __('Pau!'); ?></a>
 		</div>
 	</footer>
 

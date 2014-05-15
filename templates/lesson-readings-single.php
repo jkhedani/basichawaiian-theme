@@ -17,7 +17,8 @@ $currencyTypeID = get_connected_object_ID( $post->ID, 'readings_to_topics', 'top
 <article id="post-<?php the_ID(); ?>" <?php post_class('lesson-container'); ?> data-lesson-id="<?php echo $post->ID; ?>" data-lesson-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>">
 
 	<header class="lesson-header">
-		<h1 class="lesson-title"><?php the_title(); ?></h1>
+		<?php $previousurl = htmlspecialchars($_SERVER['HTTP_REFERER']); ?>
+		<a href="<?php echo $previousurl; ?>" class="lesson-quit">Quit</a>
 		<h4 class="lesson-instructions current">
 			<?php 
 				if ( get_field('readings_optional_instructional_text') ) {
@@ -32,8 +33,8 @@ $currencyTypeID = get_connected_object_ID( $post->ID, 'readings_to_topics', 'top
 	<div class="lesson-content">
 		<div class="lesson-card learn-card current last" data-lesson-object-id="<?php echo $post->ID; ?>" data-lesson-object-result="-99">
 
-			<button class="btn btn-primary play-audio">Play Audio</button>
-			<button class="btn btn-primary pause-audio">Pause Audio</button>
+			<button class="play-audio">Play Audio</button>
+			<button class="pause-audio">Pause Audio</button>
 			<audio class="pronunciation" src="<?php echo get_field('readings_audio_track'); ?>"></audio>
 
 			<?php if ( get_field('original_newspaper') ): ?>
