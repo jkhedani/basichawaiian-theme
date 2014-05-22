@@ -118,7 +118,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 				<div class="alert-avatar aunty-aloha"></div>
 				<div class="alert-content">
 					<?php if ( !is_unit_complete( 204 ) ) { // Checking if Aunty Aloha is done ?>
-					<span class="alert-content-title"><?php _e('E komo mai <span class="inline-kukui aunty-aloha">&#8216;Anak&#275; Aloha</span> in her Garden','hwn'); ?></span>
+					<span class="alert-content-title"><?php _e('E kipa mai i&#257; <span class="inline-kukui aunty-aloha">&#8216;Anak&#275; Aloha</span> ma ka m&#257;la.','hwn'); ?></span>
 					<span class="alert-content-subtitle">Completing the first Kukui will unlock the rest!</span>
 					<?php } else { ?>
 					<h1><?php _e('Visit a kukui to further your knowledge.','hwn'); ?></h1>
@@ -174,7 +174,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 						<?php if ( get_field('unit_location') ) : ?>
 						<h2><?php echo get_field('unit_location'); ?></h2>
 						<?php endif; ?>
-						<a class="view-unit btn btn-cta blue" href="<?php echo get_permalink(); ?>">Visit</a>
+						<a class="view-unit btn btn-cta blue" href="<?php echo get_permalink(); ?>">E komo mai</a>
 					</li>
 					<?php endwhile;
 								wp_reset_postdata(); ?>

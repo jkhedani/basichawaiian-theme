@@ -35,7 +35,7 @@ jQuery(document).ready(function($){
 		var coverflow = this;
 		// Prevent horizontal scrolling on page.
 		$('html, body').css('overflow-x','hidden');
-		$('html, body').css('overflow-y','hidden');
+		// $('html, body').css('overflow-y','hidden');
 		// Find the width and margins of all items in the coverflow
 		var flowwidth = 0;
 		var flowslidemargin = 0; // Allows us define "true" position for use laster

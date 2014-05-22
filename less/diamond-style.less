@@ -1189,6 +1189,17 @@ body.single-vocabulary_lessons {
 body.single-units {
 	.container { width: 960px; }
 	#content {
+		.topic-spacer {
+			clear: both;
+			width: 100% !important;
+			display: block;
+			padding-bottom: 10px;
+			border-bottom: 2px solid fadeout(#FFF, 80%);
+			color: #FFF;
+			margin-bottom: 20px;
+			text-shadow: 1px 1px @colorDarkPurple;
+			-moz-text-shadow: 1px 1px @colorDarkPurple;
+		}
 		#module-list {
 			text-align: center;
 			ul.modules {
@@ -1210,7 +1221,7 @@ body.single-units {
 	.unit-banner {
 		width: 232px;
 		min-height: 232px;
-		margin-top: 85px;
+		margin-top: 105px;
 		float: left;
 		position: relative;
 		background: url('../images/unit-banner-aunty-aloha.png') 0 67px no-repeat @colorBrightPurple;
@@ -1232,6 +1243,7 @@ body.single-units {
  			text-transform: uppercase;
  			letter-spacing: 1px;
  			font-weight: 700;
+ 			text-shadow: 1px 1px #37343f;
  		}
  		#module-list {
  			margin: 0 auto;
@@ -1243,8 +1255,8 @@ body.single-units {
 			 			margin: 0;
 				 		// li.topic {
 				 		// 	list-style: none;
-				 		// 	ul.lessons {
-				 		// 		margin: 0;
+				 			ul.lessons {
+				 				margin: 0;
 				 				li.lesson {
 				 					position: relative;
 				 					width: 230px;
@@ -1272,7 +1284,7 @@ body.single-units {
 				 						&.start { left: 63px; }
 				 					}
 				 				}
-				 		// 	} // .lessons
+				 			} // .lessons
 				 		// } // .topic
 			 		} // .topics
 			 	}

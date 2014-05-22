@@ -2370,6 +2370,17 @@ body.single-vocabulary_lessons .lesson-content .lesson-card.test-card .lesson-ca
 body.single-units .container {
   width: 960px;
 }
+body.single-units #content .topic-spacer {
+  clear: both;
+  width: 100% !important;
+  display: block;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.19999999999999996);
+  color: #FFF;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px #37343f;
+  -moz-text-shadow: 1px 1px #37343f;
+}
 body.single-units #content #module-list {
   text-align: center;
 }
@@ -2411,7 +2422,7 @@ body.single-units article:after {
 body.single-units .unit-banner {
   width: 232px;
   min-height: 232px;
-  margin-top: 85px;
+  margin-top: 105px;
   float: left;
   position: relative;
   background: url('../images/unit-banner-aunty-aloha.png') 0 67px no-repeat #d3d3e5;
@@ -2452,6 +2463,7 @@ body.single-units .entry-content .helper-text {
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 700;
+  text-shadow: 1px 1px #37343f;
 }
 body.single-units .entry-content #module-list {
   margin: 0 auto;
@@ -2463,7 +2475,10 @@ body.single-units .entry-content #module-list ul.modules {
 body.single-units .entry-content #module-list ul.modules li.module ul.topics {
   margin: 0;
 }
-body.single-units .entry-content #module-list ul.modules li.module ul.topics li.lesson {
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons {
+  margin: 0;
+}
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons li.lesson {
   position: relative;
   width: 230px;
   min-height: 230px;
@@ -2473,19 +2488,19 @@ body.single-units .entry-content #module-list ul.modules li.module ul.topics li.
   list-style: none;
   background: rgba(255, 255, 255, 0.9);
 }
-body.single-units .entry-content #module-list ul.modules li.module ul.topics li.lesson:nth-child( 3n + 1 ) {
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons li.lesson:nth-child( 3n + 1 ) {
   margin-left: 0;
 }
-body.single-units .entry-content #module-list ul.modules li.module ul.topics li.lesson .supertitle {
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons li.lesson .supertitle {
   display: block;
   margin-top: 15px;
 }
-body.single-units .entry-content #module-list ul.modules li.module ul.topics li.lesson h3 {
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons li.lesson h3 {
   font-size: 19px;
   line-height: 1.3;
   margin-top: 5px;
 }
-body.single-units .entry-content #module-list ul.modules li.module ul.topics li.lesson .lesson-point {
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons li.lesson .lesson-point {
   width: 50px;
   height: 50px;
   margin: 0 auto;
@@ -2494,17 +2509,17 @@ body.single-units .entry-content #module-list ul.modules li.module ul.topics li.
   left: 92px;
   background: url('../images/content-points-flower.png') no-repeat;
 }
-body.single-units .entry-content #module-list ul.modules li.module ul.topics li.lesson .lesson-point.unearned {
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons li.lesson .lesson-point.unearned {
   background-position: -46px 0;
 }
-body.single-units .entry-content #module-list ul.modules li.module ul.topics li.lesson .lesson-point.earned {
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons li.lesson .lesson-point.earned {
   width: 46px;
 }
-body.single-units .entry-content #module-list ul.modules li.module ul.topics li.lesson a.prompt-lesson-start {
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons li.lesson a.prompt-lesson-start {
   position: absolute;
   bottom: 22px;
 }
-body.single-units .entry-content #module-list ul.modules li.module ul.topics li.lesson a.prompt-lesson-start.start {
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons li.lesson a.prompt-lesson-start.start {
   left: 63px;
 }
 body.single-units .carousel .carousel-indicators {

@@ -118,18 +118,21 @@ $previousPageURL = get_home_URL();
 					));
 
 					if ( $topics->have_posts() ) : ?>
+
 					<ul class="topics">
 					<?php while( $topics->have_posts() ) : $topics->the_post();
 							$topicID = $post->ID;
 							create_object_record( $topicID ); // May be redundant but for first time visitors, this prevents missing records errors.
 							?>
+							<h3 class="topic-spacer"><?php echo get_the_title(); ?></h3>
 <!-- 							<li 
 								class="topic" 
 								data-topic-id="<?php //echo $topicID; ?>" 
 								data-complete="<?php //echo is_topic_complete( $topicID ) ? "1" : "0"; ?>"
 								data-exercise-complete="<?php //echo scene_viewed( $topicID ) ? "1" : "0"; ?>"
 							> -->
-							<!-- <ul class="lessons"> -->
+							<ul class="lessons">
+
 							<?php
 								switch ( $topicNumber ) {
 									case '1': // Vocabulary
@@ -188,7 +191,7 @@ $previousPageURL = get_home_URL();
 								<?php
 								endwhile;
 								wp_reset_postdata(); ?>
-<!-- 							</ul> -->
+							</ul>
 
 							<?php 
 							
