@@ -156,8 +156,8 @@ $previousPageURL = get_home_URL();
 										$connectedTypes = array( 'instructional_lessons_to_topics', 'song_lessons_to_topics' );
 										break;
 									case '6': // Chants
-										$postTypes = array( 'instruction_lessons', 'chant_lessons' );
-										$connectedTypes = array( 'instructional_lessons_to_topics', 'chant_lessons_to_topics' );
+										$postTypes = array( 'instruction_lessons', 'chants_lessons' );
+										$connectedTypes = array( 'instructional_lessons_to_topics', 'chants_lessons_to_topics' );
 										break;
 									case '7': // Readings
 										$postTypes = array( 'instruction_lessons', 'readings' );

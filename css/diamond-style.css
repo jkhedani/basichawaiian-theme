@@ -2559,15 +2559,6 @@ body.single-units .carousel .carousel-indicators li {
   -moz-border-radius: 18px;
   border-radius: 18px;
 }
-body.single-units .carousel .carousel-indicators li.last {
-  text-indent: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  background: url('../images/ohana-activity-icon.png') 6px 8px no-repeat rgba(255, 255, 255, 0.25);
-}
-body.single-units .carousel .carousel-indicators li.last.active {
-  background: url('../images/ohana-activity-icon.png') 6px 8px no-repeat #ffffff;
-}
 body.single-units .carousel .carousel-inner {
   margin: 0;
   overflow: visible;
