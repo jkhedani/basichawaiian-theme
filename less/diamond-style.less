@@ -141,7 +141,7 @@ body.home {
 			font-size: 21px;
 		}
 		.alert-content-subtitle {
-			
+
 		}
 	}
 }
@@ -682,14 +682,13 @@ body.home.logged-in {
 			}
 			h1, h2 {
 				color: @colorDeepPurple;
-				font-family: @fontDisplay;
 				display: block;
 				clear: both;
 				margin: 0 auto;
 				text-align: center;
 			}
-			h1 { font-size: 45px; font-weight: 700; }
-			h2 { font-size: 23px; font-weight: 200; }
+			h1 { font-family: @fontDisplay; font-size: 45px; font-weight: 700; }
+			h2 { font-family: @fontSans; font-size: 23px; font-weight: 200; }
 			&.active { opacity: 1.0; }
 			&:first-child { margin: 0; }
 			a.view-unit {
@@ -753,8 +752,8 @@ body.logged-in {
 			margin-left: 40px;
 			.currency-icon {
 				width: 82px;
-				height: 82px;			
-				.roundCorners(90px);	
+				height: 82px;
+				.roundCorners(90px);
 				&.kukui { background: url('../images/kukui-nut.png') center center no-repeat @colorYellow; border: 10px solid @colorLightOrange; }
 				&.flower { background: url('../images/flower.png') center center no-repeat @colorAuntyAloha; border: 10px solid @colorLightBlue; }
 			}
@@ -959,7 +958,7 @@ body[class*="lessons"],body.single-readings { header#navbar { display: none; } }
 	}
 }
 
-.lesson-results { 
+.lesson-results {
 	width: 645px;
 	height: 415px;
 	margin: 150px auto;
@@ -1038,7 +1037,7 @@ body.single-listenrepeat_lessons {
 
 /**
  * Lesson Styles: Readings
- */ 
+ */
 body.single-readings {
 	.lesson-content {
 		.lesson-card {
@@ -1053,13 +1052,19 @@ body.single-readings {
 				margin-top: 20px;
 			}
 		}
-	}	
+	}
 }
 
 /**
  *	Lesson Styles: Phrases;
  */
 body.single-phrases_lessons {
+	.lesson-feedback {
+		.pronunciation-container {
+			float: right;
+			margin-top: -22px;
+		}
+	}
 	.lesson-karma {
 		margin: 25px 20px 0 0;
 	}
@@ -1095,7 +1100,7 @@ body.single-vocabulary_lessons {
 				.lesson-card-assessment {
 					padding-bottom: 15px;
 					margin-bottom: 20px;
-					.clearfix(); 
+					.clearfix();
 					.lesson-card-assessment-option {
 						font-size: 14px;
 						float: left;
@@ -1148,7 +1153,7 @@ body.single-vocabulary_lessons {
 				&:nth-child(even) { background-position: -25px 0; }
 				&:nth-child(odd) { background-position: -50px 0; }
 				&.viewed { opacity: 1.0; }
-			}	
+			}
 		}
 	}
 	.modal-slide {
@@ -1177,7 +1182,7 @@ body.single-vocabulary_lessons {
 		border: none;
 		box-shadow: none;
 		background: none;
-		padding: 14px 0 0 0; 
+		padding: 14px 0 0 0;
 		.scene-caption { float: left; text-align: left; }
 	}
 }
@@ -1189,16 +1194,26 @@ body.single-vocabulary_lessons {
 body.single-units {
 	.container { width: 960px; }
 	#content {
-		.topic-spacer {
+		.topic-title {
 			clear: both;
 			width: 100% !important;
 			display: block;
-			padding-bottom: 10px;
-			border-bottom: 2px solid fadeout(#FFF, 80%);
 			color: #FFF;
-			margin-bottom: 20px;
 			text-shadow: 1px 1px @colorDarkPurple;
 			-moz-text-shadow: 1px 1px @colorDarkPurple;
+		}
+		.topic-title-hwn {
+			margin-bottom: 0px;
+		}
+		.topic-title-eng {
+			margin-top: 0;
+			font-weight: normal;
+		}
+		.topic-spacer {
+			padding-bottom: 10px;
+			border-bottom: 2px solid fadeout(#FFF, 80%);
+			margin-bottom: 20px;
+
 		}
 		#module-list {
 			text-align: center;
@@ -1210,7 +1225,7 @@ body.single-units {
 			}
 		}
 	}
-	
+
 	// content container
 	article {
 		padding-top: 25px;
@@ -1256,7 +1271,8 @@ body.single-units {
 				 		// li.topic {
 				 		// 	list-style: none;
 				 			ul.lessons {
-				 				margin: 0;
+								.clearfix();
+				 				margin: 0 0 20px 0;
 				 				li.lesson {
 				 					position: relative;
 				 					width: 230px;
@@ -1391,7 +1407,7 @@ body.postid-203 {
 /**
  *	Retina Media Query
  */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   // Non-scalable
   .logo {
   	&.icon-logo-greens {
@@ -1433,7 +1449,7 @@ body.postid-203 {
 // 			&.right { right: 0px; }
 // 		}
 // 		.avatars { display: none; }
-// 	}	
+// 	}
 // }
 
 

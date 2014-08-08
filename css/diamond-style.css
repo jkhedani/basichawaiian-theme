@@ -1685,17 +1685,18 @@ body.home.logged-in ul.units li.unit .unit-info:hover {
 body.home.logged-in ul.units li.unit h1,
 body.home.logged-in ul.units li.unit h2 {
   color: #4d4461;
-  font-family: 'Raleway', sans-serif;
   display: block;
   clear: both;
   margin: 0 auto;
   text-align: center;
 }
 body.home.logged-in ul.units li.unit h1 {
+  font-family: 'Raleway', sans-serif;
   font-size: 45px;
   font-weight: 700;
 }
 body.home.logged-in ul.units li.unit h2 {
+  font-family: 'Open Sans', sans-serif;
   font-size: 23px;
   font-weight: 200;
 }
@@ -2176,7 +2177,8 @@ body.single-listenrepeat_lessons .lesson-content .lesson-card-content {
 }
 /**
  * Lesson Styles: Readings
- */body.single-readings .lesson-content .lesson-card {
+ */
+body.single-readings .lesson-content .lesson-card {
   margin: 28px;
 }
 body.single-readings .lesson-content .lesson-card .readings-texts {
@@ -2370,16 +2372,25 @@ body.single-vocabulary_lessons .lesson-content .lesson-card.test-card .lesson-ca
 body.single-units .container {
   width: 960px;
 }
-body.single-units #content .topic-spacer {
+body.single-units #content .topic-title {
   clear: both;
   width: 100% !important;
   display: block;
-  padding-bottom: 10px;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.19999999999999996);
   color: #FFF;
-  margin-bottom: 20px;
   text-shadow: 1px 1px #37343f;
   -moz-text-shadow: 1px 1px #37343f;
+}
+body.single-units #content .topic-title-hwn {
+  margin-bottom: 0px;
+}
+body.single-units #content .topic-title-eng {
+  margin-top: 0;
+  font-weight: normal;
+}
+body.single-units #content .topic-spacer {
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.19999999999999996);
+  margin-bottom: 20px;
 }
 body.single-units #content #module-list {
   text-align: center;
@@ -2476,7 +2487,25 @@ body.single-units .entry-content #module-list ul.modules li.module ul.topics {
   margin: 0;
 }
 body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons {
-  margin: 0;
+  *zoom: 1;
+  margin: 0 0 20px 0;
+}
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons:before,
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons:after {
+  clear: both;
+}
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons:before,
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons:after {
+  content: " ";
+  display: table;
+}
+body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons:after {
+  clear: both;
 }
 body.single-units .entry-content #module-list ul.modules li.module ul.topics ul.lessons li.lesson {
   position: relative;

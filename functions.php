@@ -340,7 +340,7 @@ function remove_admin_menu_items() {
   //  remove_menu_page('options-general.php'); // "Settings"
   //}
 
-  // Move 
+  // Move
 
   // Add menu separators
   add_admin_menu_separator(10);
@@ -548,10 +548,14 @@ function BASICHWN_post_types() {
   register_post_type( 'pronouns',
     array(
     'menu_position' => 16,
-    'public' => true,
+    'public' =>true,
     'supports' => array('title', 'editor', 'thumbnail'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'pronoun'),
+
+    // Hide Pronouns as they are not in use
+    'show_ui' => false,
+
     )
   );
 
@@ -732,7 +736,7 @@ add_action( 'init', 'BASICHWN_post_types' );
 
 // Basic Hawaiian Custom Taxonomies
 function BASICHWN_taxonomies() {
-  
+
   $labels = array(
     'name' => _x( 'Instructional Categories', 'taxonomy general name' ),
     'singular_name' => _x( 'Instructional Category', 'taxonomy singular name' ),
@@ -740,12 +744,12 @@ function BASICHWN_taxonomies() {
     'all_items' => __( 'All Instructional Categories' ),
     'parent_item' => __( 'Parent Instructional Category' ),
     'parent_item_colon' => __( 'Parent Instructional Category:' ),
-    'edit_item' => __( 'Edit Instructional Category' ), 
+    'edit_item' => __( 'Edit Instructional Category' ),
     'update_item' => __( 'Update Instructional Category' ),
     'add_new_item' => __( 'Add New Instructional Category' ),
     'new_item_name' => __( 'New Instructional Category Name' ),
     'menu_name' => __( ' Edit Instructional Categories' ),
-  );  
+  );
 
   register_taxonomy('instructional_lesson_categories',array('instruction_lessons'), array(
     'hierarchical' => true,
@@ -763,12 +767,12 @@ function BASICHWN_taxonomies() {
   //   'all_items' => __( 'All Vocabulary Categories' ),
   //   'parent_item' => __( 'Parent Vocabulary Category' ),
   //   'parent_item_colon' => __( 'Parent Vocabulary Category:' ),
-  //   'edit_item' => __( 'Edit Vocabulary Category' ), 
+  //   'edit_item' => __( 'Edit Vocabulary Category' ),
   //   'update_item' => __( 'Update Vocabulary Category' ),
   //   'add_new_item' => __( 'Add New Vocabulary Category' ),
   //   'new_item_name' => __( 'New Vocabulary Category Name' ),
   //   'menu_name' => __( ' Edit Vocabulary Categories' ),
-  // ); 	
+  // );
 
   // register_taxonomy('vocabulary_categories',array('vocabulary_terms'), array(
   //   'hierarchical' => true,
@@ -786,12 +790,12 @@ function BASICHWN_taxonomies() {
   //   'all_items' => __( 'All Difficulty Levels' ),
   //   'parent_item' => __( 'Parent Difficulty Level' ),
   //   'parent_item_colon' => __( 'Parent Difficulty Level:' ),
-  //   'edit_item' => __( 'Edit Difficulty Level' ), 
+  //   'edit_item' => __( 'Edit Difficulty Level' ),
   //   'update_item' => __( 'Update Difficulty Level' ),
   //   'add_new_item' => __( 'Add New Difficulty Level' ),
   //   'new_item_name' => __( 'New Difficulty Level Name' ),
   //   'menu_name' => __( 'Edit Difficulty Levels' ),
-  // ); 	
+  // );
 
   // register_taxonomy('difficulty_level',array('vocabulary_terms','post'), array(
   //   'hierarchical' => true,
@@ -807,11 +811,11 @@ add_action( 'init', 'BASICHWN_taxonomies');
  * Posts 2 Posts Connections
  */
 function BASICHWN_connections() {
-  
+
   /*
    * Core IA Connections
    */
-  
+
   // Connect Modules to Units
   p2p_register_connection_type(array(
     'name' => 'modules_to_units',
@@ -965,7 +969,7 @@ function BASICHWN_connections() {
     'sortable' => 'any',
     'cardinality' => 'many-to-many',
     'fields' => array(
-      'gender' => array( 
+      'gender' => array(
         'title' => 'Gender',
         'type' => 'select',
         'values' => array( 'male', 'female', 'both' )
@@ -983,7 +987,7 @@ function BASICHWN_connections() {
     'sortable' => 'any',
     'cardinality' => 'many-to-many',
     'fields' => array(
-      'gender' => array( 
+      'gender' => array(
         'title' => 'Gender',
         'type' => 'select',
         'values' => array( 'male', 'female', 'both' )
@@ -1051,7 +1055,7 @@ BELOW IS NOT NEEDED AND/OR MAYBE NEEDED IN THE FUTURE
 
 // User Avatar Profile Field
 // http://wordpress.stackexchange.com/questions/54044/wordpress-user-profile-upload-if-page-is-saved-file-reset
-function extra_user_profile_fields( $user ) { 
+function extra_user_profile_fields( $user ) {
 $r = get_user_meta( $user->ID, 'picture', true );
 ?>
 
@@ -1063,7 +1067,7 @@ $r = get_user_meta( $user->ID, 'picture', true );
     <th scope="row">Picture</th>
     <td>
       <input type="file" name="picture" value="" />
-      <?php //print_r($r); 
+      <?php //print_r($r);
           if (!isset($r['error'])) {
               $r = $r['url'];
               echo "<img src='$r' />";
@@ -1079,12 +1083,12 @@ $r = get_user_meta( $user->ID, 'picture', true );
     <td>
       <input type="submit" name="remove_user_picture" value="Remove your image" />
       <?php
-      if ( function_exists('wp_nonce_field') ) 
+      if ( function_exists('wp_nonce_field') )
         wp_nonce_field('remove_user_picture','user-profile-remove_user_picture');
       ?>
     </td>
   </tr>
-</table> 
+</table>
 
 <?php
 }
@@ -1093,12 +1097,12 @@ add_action( 'edit_user_profile', 'extra_user_profile_fields' );
 
 function save_extra_user_profile_fields( $user_id ) {
   if ( !current_user_can( 'edit_user', $user_id ) ) { return false; }
-  
+
   if( $_FILES['picture']['error'] === UPLOAD_ERR_OK ) { //http://www.php.net/manual/en/features.file-upload.errors.php
     $r = wp_handle_upload( $_FILES['picture'], array('test_form' => FALSE) ); //http://codex.wordpress.org/Function_Reference/wp_handle_upload#Parameters
     update_user_meta( $user_id, 'picture', $r );
   }
-  
+
   // Remove user image
   if ( empty($_POST) || !wp_verify_nonce($_POST['user-profile-remove_user_picture'],'remove_user_picture') ) {
     print 'sorry';// Maybe
@@ -1124,7 +1128,7 @@ function make_form_accept_uploads() {
 add_action('user_edit_form_tag', 'make_form_accept_uploads');
 
 
-*/ 
+*/
 
 
 /**

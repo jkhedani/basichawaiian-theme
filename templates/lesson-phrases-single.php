@@ -56,10 +56,17 @@ $lessonCardCount = $phrases->post_count;
 	</header><!-- .entry-header -->
 
 	<div class="lesson-content">
+
 		<!-- Lesson Feedback -->
 		<div class="lesson-feedback alert">
 			<span class="lesson-feedback-correct">That's correct!</span>
 			<span class="lesson-feedback-incorrect">Aue! The correct answer was <strong class="lesson-feedback-correct-option"></strong></span>
+
+			<!-- Display Audio in Phrases feedback -->
+			<div class="pronunciation-container">
+				<button class="play-audio">Play Audio</button>
+				<button class="pause-audio">Pause Audio</button>
+			</div>
 		</div>
 
 
@@ -91,7 +98,7 @@ $lessonCardCount = $phrases->post_count;
 
 		<?php
 
-		// Grab all IDs associated with this game	
+		// Grab all IDs associated with this game
 		$gameObjectIDs = array();
 		$lessonCardCounter = 0;
 		while ( $phrases->have_posts() ) : $phrases->the_post();
@@ -111,7 +118,7 @@ $lessonCardCount = $phrases->post_count;
 				'connected_items' => $post->ID,
 				'nopaging' => true,
 			));
-			
+
 			if ( $lessonCardCounter === 0 ) :
 				echo '<div class="lesson-card test-card current" data-lesson-object-id="'.$post->ID.'" data-lesson-object-result="-99">';
 			elseif ( $lessonCardCounter == $lessonCardCount - 1 ) :
@@ -131,7 +138,7 @@ $lessonCardCount = $phrases->post_count;
 					endwhile;
 					wp_reset_postdata();
 				endif;
-			// If not, get the post thumbnail 
+			// If not, get the post thumbnail
 			} else {
 				if ( get_the_post_thumbnail() ) {
 					echo get_the_post_thumbnail();
@@ -143,7 +150,7 @@ $lessonCardCount = $phrases->post_count;
 			echo '<!-- You spent more cheating then you did learning. -->';
 				foreach ( $lessonAssessmentOptions as $lessonAssessmentOption ) {
 					if ( $lessonAssessmentOption === $correctAnswer ) :
-						echo '<a class="btn btn-cta blue lesson-card-assessment-option correct-option">'.$lessonAssessmentOption.'</a>';
+						echo '<a class="btn btn-cta blue lesson-card-assessment-option correct-option" data-correct-option-audio="'.get_field('phrases_pronunciation').'">'.$lessonAssessmentOption.'</a>';
 					else :
 						echo '<a class="btn btn-cta blue lesson-card-assessment-option">'.$lessonAssessmentOption.'</a>';
 					endif;

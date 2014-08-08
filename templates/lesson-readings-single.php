@@ -9,7 +9,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 
 $postType = get_post_type( $post->ID );
 $postTypeObject = get_post_type_object($postType);
-$landingPageID = get_connected_object_ID( $post->ID, 'readings_to_topics' );
+$landingPageID = get_connected_object_ID( $post->ID, 'readings_to_topics', 'topics_to_modules', 'modules_to_units' );
 $currencyTypeID = get_connected_object_ID( $post->ID, 'readings_to_topics', 'topics_to_modules', 'modules_to_units' );
 
 ?>
@@ -20,7 +20,7 @@ $currencyTypeID = get_connected_object_ID( $post->ID, 'readings_to_topics', 'top
 		<?php $previousurl = htmlspecialchars($_SERVER['HTTP_REFERER']); ?>
 		<a href="<?php echo $previousurl; ?>" class="lesson-quit">Quit</a>
 		<h4 class="lesson-instructions current">
-			<?php 
+			<?php
 				if ( get_field('readings_optional_instructional_text') ) {
 					echo get_field('readings_optional_instructional_text');
 				} else {
