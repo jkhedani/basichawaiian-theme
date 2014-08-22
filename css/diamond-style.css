@@ -1495,7 +1495,7 @@ body.not-logged-in.home #main #content .home-page-slides .home-page-slide .home-
 body.not-logged-in.home #main #content .home-page-slides .home-page-slide .home-page-slide-content-container {
   float: right;
   width: 55%;
-  margin-top: 35px;
+  margin-top: 30px;
 }
 body.not-logged-in.home #main #content .home-page-slides .home-page-slide .home-page-slide-content-container .home-page-slide-content {
   font-size: 18px;
@@ -2143,9 +2143,9 @@ body.single-readings header#navbar {
   color: #FFF;
   max-width: 760px;
   line-height: 1.4;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 23px;
-  font-weight: normal;
+  font-weight: 200;
   display: none;
 }
 .lesson-header .lesson-instructions.current {

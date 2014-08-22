@@ -37,7 +37,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 							// ));
 						?>
 						<!-- Sign Up -->
-						<a class="btn btn-primary sign-up" href="<?php echo get_home_url(); ?>/wp-login.php" target="_blank">Sign Up</a>
+						<a class="btn btn-primary sign-up" href="<?php echo get_home_url(); ?>/wp-login.php?action=register" target="_blank">Sign Up</a>
 						<img src="<?php echo get_stylesheet_directory_uri(); ?>/images/available-app-store.png" />
 					</div>
 				</div><!-- .hero -->
@@ -83,8 +83,14 @@ increment_object_value ( $post->ID, 'times_viewed' );
 						</div>
 						<div class="home-page-slide-content-container">
 							<h3 class="home-page-slide-title">Speak Hawaiian in no time!</h3>
-							<p class="home-page-slide-content">Bacon ipsum dolor sit amet rump meatloaf flank, jerky frankfurter swine pork loin bresaola porchetta shank chuck.</p>
-							<a class="view-more" href="#">Learn More <i class="icon-chevron-right"></i></a>
+							<p class="home-page-slide-content">
+								Our goal is to make learning how to speak Hawaiian easy and fun. We've designed the program to be super flexible allowing you to learn practically anytime and anywhere.
+							</p>
+							<?php
+								// Retrieve the page data based on rename
+								$page_data = get_page_by_title('Speak Hawaiian in no time!');
+							?>
+							<a class="view-more" href="<?php echo get_permalink( $page_data->ID ); ?>">Learn More <i class="icon-chevron-right"></i></a>
 						</div>
 						<hr / >
 					</div>
@@ -96,8 +102,12 @@ increment_object_value ( $post->ID, 'times_viewed' );
 						</div>
 						<div class="home-page-slide-content-container">
 							<h3 class="home-page-slide-title">Practice culture and traditions!</h3>
-							<p class="home-page-slide-content">Bacon ipsum dolor sit amet rump meatloaf flank, jerky frankfurter swine pork loin bresaola porchetta shank chuck.</p>
-							<a class="view-more" href="#">Learn More <i class="icon-chevron-right"></i></a>
+							<p class="home-page-slide-content">As you progress through Basic Hawaiian, you will visit and learn from four Kukui ʻOhana members, who will share with you their special skills and expertise.</p>
+							<?php
+								// Retrieve the page data based on rename
+								$page_data = get_page_by_title('Practice culture and traditions!');
+							?>
+							<a class="view-more" href="<?php echo get_permalink( $page_data->ID ); ?>">Learn More <i class="icon-chevron-right"></i></a>
 						</div>
 						<hr / >
 					</div>
@@ -109,8 +119,13 @@ increment_object_value ( $post->ID, 'times_viewed' );
 						</div>
 						<div class="home-page-slide-content-container">
 							<h3 class="home-page-slide-title">Learn with family and friends!</h3>
-							<p class="home-page-slide-content">Bacon ipsum dolor sit amet rump meatloaf flank, jerky frankfurter swine pork loin bresaola porchetta shank chuck.</p>
-							<a class="view-more" href="#">Learn More <i class="icon-chevron-right"></i></a>
+							<p class="home-page-slide-content">Basic Hawaiian acknowledges that rather than learning on our own, we prefer to learn in small groups, with and from people we like.</p>
+							<?php
+								// Retrieve the page data based on rename
+								$page_data = get_page_by_title('Learn with family and friends!');
+							?>
+							<a
+							<a class="view-more" href="<?php echo get_permalink( $page_data->ID ); ?>">Learn More <i class="icon-chevron-right"></i></a>
 						</div>
 						<hr / >
 					</div>
@@ -121,9 +136,14 @@ increment_object_value ( $post->ID, 'times_viewed' );
 							<img src="<?php echo get_stylesheet_directory_uri(); ?>/images/image-mobile.png" class="home-page-featured-image" />
 						</div>
 						<div class="home-page-slide-content-container">
-							<h3 class="home-page-slide-title">Go Mobile</h3>
-							<p class="home-page-slide-content">Bacon ipsum dolor sit amet rump meatloaf flank, jerky frankfurter swine pork loin bresaola porchetta shank chuck.</p>
-							<a class="view-more" href="#">Learn More <i class="icon-chevron-right"></i></a>
+							<h3 class="home-page-slide-title">Go mobile!</h3>
+							<p class="home-page-slide-content">With Basic Hawaiian you can learn how to speak Hawaiian anytime, anywhere, providing you have reliable access to a computer with Internet connection or and iOS device.</p>
+							<?php
+								// Retrieve the page data based on rename
+								$page_data = get_page_by_title('Go mobile!');
+							?>
+							<a
+							<a class="view-more" href="<?php echo get_permalink( $page_data->ID ); ?>">Learn More <i class="icon-chevron-right"></i></a>
 						</div>
 						<hr / >
 					</div>

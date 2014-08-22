@@ -122,7 +122,7 @@
 					</li>
 				<?php } ?>
 				<li>
-					<a class="" href="<?php echo get_home_url(); ?>/wp-login.php" title="Sign into your account here.">Sign Up</a>
+					<a class="" href="<?php echo get_home_url(); ?>/wp-login.php?action=register" title="Sign into your account here.">Sign Up</a>
 				</li>
 				<li>
 					<a class="log-in" href="<?php echo get_home_url(); ?>/wp-login.php" title="Sign into your account here.">Log In</a>
