@@ -15,7 +15,7 @@
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title><?php
-	//Print the <title> tag based on what is being viewed. 
+	//Print the <title> tag based on what is being viewed.
 	global $page, $paged;
 
   //Add page/content title
@@ -82,7 +82,7 @@
             global $current_user;
             $current_user_info = wp_get_current_user();
           ?>
-          <p>Aloha, <?php echo $current_user_info->user_login; ?></p>          
+          <p>Aloha, <?php echo $current_user_info->user_login; ?></p>
           <div class="settings-panel">
             <a data-toggle="drawer" class="drawer-closed" href="#"><i class="fa fa-bars"></i></a>
             <ul class="drawer">
@@ -98,11 +98,38 @@
     </div>
   </header>
   <?php } else { // user is not logged in ?>
-  <header id="navbar-basic">
+  <header id="navbar">
     <div class="container">
-      <h2 class="site-title"><a href="<?php echo get_site_url(); ?>"><?php bloginfo('name'); ?></a></h2>
-      <a class="btn btn-primary log-in" href="<?php echo get_home_url(); ?>/wp-login.php" title="Sign into your account here.">Log In</a>
-    </div>
+
+			<!-- Site Brand/Title -->
+			<a class="brand site-title" href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home">
+				<i class="icon icon-logo-new"></i>
+				<?php //bloginfo( 'name' ); ?>
+			</a>
+
+			<!-- Menu -->
+      <?php
+				$locations = get_nav_menu_locations();
+				$menu = wp_get_nav_menu_object( $locations['public-menu'] );
+				$menu_items = wp_get_nav_menu_items( $menu->term_id );
+			?>
+			<ul id="menu-<?php echo $menu->slug; ?>" class="public-menu">
+				<?php foreach ( $menu_items as $menu_item ) { ?>
+					<li>
+						<a title="<?php echo $menu_item->attr_title; ?>" href="<?php echo $menu_item->url; ?>">
+							<?php echo $menu_item->title; ?>
+						</a>
+					</li>
+				<?php } ?>
+				<li>
+					<a class="" href="<?php echo get_home_url(); ?>/wp-login.php" title="Sign into your account here.">Sign Up</a>
+				</li>
+				<li>
+					<a class="log-in" href="<?php echo get_home_url(); ?>/wp-login.php" title="Sign into your account here.">Log In</a>
+				</li>
+			</ul>
+
+		</div>
   </header>
   <?php } // user not logged in ?>
 

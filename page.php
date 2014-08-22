@@ -16,8 +16,8 @@ get_header(); ?>
 	<div id="primary" class="content-area">
 		<div id="content" class="site-content" role="main">
 
-		<?php bedrock_get_breadcrumbs(); ?>
-			
+		<?php //bedrock_get_breadcrumbs(); ?>
+
 		<?php
 			while ( have_posts() ) : the_post();
 				/*

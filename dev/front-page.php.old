@@ -15,14 +15,14 @@ get_header();
 increment_object_value ( $post->ID, 'times_viewed' );
 
 ?>
-
+	
 	<!-- Public Home -->
 
 	<?php if ( ! is_user_logged_in() ) { ?>
-
+		
 		<div id="primary" class="content-area">
 			<div id="content" class="site-content row" role="main">
-
+				
 				<!-- Hero -->
 				<div class="hero span12">
 					<div class="padded">
@@ -31,110 +31,47 @@ increment_object_value ( $post->ID, 'times_viewed' );
 						<?php echo get_the_content();?>
 						<?php endwhile; ?>
 						<?php
-							// echo smlsubform( array( // http://wordpress.org/plugins/mail-subscribe-list/
-							// 	'emailtxt' 	=> 'We are still in beta! Sign up to hear the latest:',
-							// 	'submittxt' => 'Subscribe',
-							// ));
+							echo smlsubform( array( // http://wordpress.org/plugins/mail-subscribe-list/
+								'emailtxt' 	=> 'We are still in beta! Sign up to hear the latest:',
+								'submittxt' => 'Subscribe',
+							));
 						?>
-						<!-- Sign Up -->
-						<a class="btn btn-primary sign-up" href="<?php echo get_home_url(); ?>/wp-login.php" target="_blank">Sign Up</a>
-						<img src="<?php echo get_stylesheet_directory_uri(); ?>/images/available-app-store.png" />
 					</div>
 				</div><!-- .hero -->
+				<!-- Development Screenshots -->
+				<div class="development-screenshots span12">
+					<div class="padded">
+						<h2>Development Screenshots</h2>
+						<a class="view-more" href="<?php echo get_home_url(); ?>/2013?archive-type=screenshots">View All Screenshots<i class="icon-chevron-right icon-white"></i></a>
+						<?php $idObj = get_category_by_slug('screenshots'); $id = $idObj->term_id; ?>
+						<?php $latestScreenshotPosts = new WP_Query( array( 'post_type' => 'post', 'cat' => $id, 'posts_per_page' => 3 )); ?>
+						<ul class="three-up">
+						<?php while ( $latestScreenshotPosts->have_posts() ) : $latestScreenshotPosts->the_post(); ?>
 
-				<!-- Testimonials -->
-				<?php
-					$testimonials = new WP_Query( array(
-						'post_type' => 'testimonials',
-						'posts_per_page' => 1,
-						'orderby' => 'rand'
-					));
-				?>
-				<div class="testimonials span12">
-					<?php while ( $testimonials->have_posts() ) : $testimonials->the_post(); ?>
-						<div class="image-container">
-							<?php echo get_the_post_thumbnail(); ?>
-						</div>
-						<div class="content-container">
-							<h3><?php echo get_the_content(); ?></h3>
-							<h4 class="client">- <?php echo get_the_title(); ?></h4>
-						</div>
-					<?php endwhile; ?>
-					<?php wp_reset_postdata(); ?>
-				</div>
+							<?php $latestScreenshots = new WP_Query( array( 'post_type' => 'attachment', 'post_status' => 'any', 'post_parent' => $post->ID  )); ?>
+							<?php while ( $latestScreenshots->have_posts() ) : $latestScreenshots->the_post(); ?>
+							<?php if ( $latestScreenshots->current_post < 3 ) : ?>
+							<?php $latestScreenshot = wp_get_attachment_image_src( $post->ID, 'large' ); ?> 
+							<li>
+								<a class="wrapper" href="<?php echo the_permalink(); ?>" target="_blank">
+									<img src="<?php echo $latestScreenshot[0]; ?>" />
+								</a>
+							</li>
+							<?php endif; ?>
+							<?php endwhile; ?>
+							<?php wp_reset_postdata(); ?>
 
-				<!-- Home Page Slides -->
-				<div class="home-page-slides span12">
-
-					<!-- Slide 1 -->
-					<!-- <div id="visit-the-kukui" class="home-page-slide text-right padded">
-						<img class="home-page-featured-image" />
-						<div class="home-page-slide-content-container">
-							<h3 class="home-page-slide-title">Test Title</h3>
-							<p class="home-page-slide-content">Bacon ipsum dolor sit amet rump meatloaf flank, jerky frankfurter swine pork loin bresaola porchetta shank chuck.</p>
-							<a class="view-more" href="#">Learn More <i class="icon-chevron-right"></i></a>
-						</div>
-					</div> -->
-
-					<!-- Slide1 -->
-					<div id="speak-hwn" class="home-page-slide text-left padded">
-						<div class="home-page-featured-image-container">
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/images/image-speak-hwn.png" class="home-page-featured-image" />
-						</div>
-						<div class="home-page-slide-content-container">
-							<h3 class="home-page-slide-title">Speak Hawaiian in no time!</h3>
-							<p class="home-page-slide-content">Bacon ipsum dolor sit amet rump meatloaf flank, jerky frankfurter swine pork loin bresaola porchetta shank chuck.</p>
-							<a class="view-more" href="#">Learn More <i class="icon-chevron-right"></i></a>
-						</div>
-						<hr / >
+						<?php endwhile; ?>
+						<?php wp_reset_postdata(); ?>
+						</ul>
 					</div>
-
-					<!-- Slide 2 -->
-					<div id="practice-traditions" class="home-page-slide text-right padded">
-						<div class="home-page-featured-image-container">
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/images/images-tradition.png" class="home-page-featured-image" />
-						</div>
-						<div class="home-page-slide-content-container">
-							<h3 class="home-page-slide-title">Practice culture and traditions!</h3>
-							<p class="home-page-slide-content">Bacon ipsum dolor sit amet rump meatloaf flank, jerky frankfurter swine pork loin bresaola porchetta shank chuck.</p>
-							<a class="view-more" href="#">Learn More <i class="icon-chevron-right"></i></a>
-						</div>
-						<hr / >
-					</div>
-
-					<!-- Slide3 -->
-					<div id="learn-family" class="home-page-slide text-left padded">
-						<div class="home-page-featured-image-container">
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/images/image-learn-family.png" class="home-page-featured-image" />
-						</div>
-						<div class="home-page-slide-content-container">
-							<h3 class="home-page-slide-title">Learn with family and friends!</h3>
-							<p class="home-page-slide-content">Bacon ipsum dolor sit amet rump meatloaf flank, jerky frankfurter swine pork loin bresaola porchetta shank chuck.</p>
-							<a class="view-more" href="#">Learn More <i class="icon-chevron-right"></i></a>
-						</div>
-						<hr / >
-					</div>
-
-					<!-- Slide4 -->
-					<div id="go-mobile" class="home-page-slide text-right padded">
-						<div class="home-page-featured-image-container">
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/images/image-mobile.png" class="home-page-featured-image" />
-						</div>
-						<div class="home-page-slide-content-container">
-							<h3 class="home-page-slide-title">Go Mobile</h3>
-							<p class="home-page-slide-content">Bacon ipsum dolor sit amet rump meatloaf flank, jerky frankfurter swine pork loin bresaola porchetta shank chuck.</p>
-							<a class="view-more" href="#">Learn More <i class="icon-chevron-right"></i></a>
-						</div>
-						<hr / >
-					</div>
-
-
-				</div><!-- .home-page-slides -->
+				</div><!-- dev screenshots -->
 
 				<!-- Latest Updates (posts) -->
 				<div class="latest-updates span12">
 					<div class="padded">
 						<h2>Latest Updates</h2>
+						<a class="view-more" href="<?php echo get_home_url(); ?>/2013">View All Posts<i class="icon-chevron-right icon-white"></i></a>
 						<?php
 							$idObj = get_category_by_slug('screenshots');
 							$id = $idObj->term_id;
@@ -168,7 +105,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 
 	<div id="primary" class="content-area">
 		<div id="content" class="site-content" role="main"
-			data-post-id="<?php echo $post->ID; ?>"
+			data-post-id="<?php echo $post->ID; ?>" 
 			data-viewed="<?php echo is_first_object_visit( $post->ID ); ?>"
 			data-complete="<?php echo is_object_complete( $post->ID ) ? "1" : "0"; ?>"
 			data-assoc-scene="<?php echo $sceneID; ?>"
@@ -260,7 +197,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 				</div>
 
 				<!-- User Avatar -->
-				<?php
+				<?php 
 					$user = wp_get_current_user();
 	    		$user_id = $user->ID;
 					$gender = get_user_meta( $user_id, 'gender', true );

@@ -49,24 +49,16 @@ function filter_links_rel_external( $content ) {
   return preg_replace( '/\<a /i', '<a rel="external" ', $content );
 }
 
-/**
- * Load Tweaks
- */
+// Load Tweaks
 require( 'lib/tweaks.php' );
 
-/**
- *  Load Admin Tweaks
- */
+// Load Admin Tweaks
 require( 'lib/admin-tweaks/admin-tweaks.php' );
 
-/**
- * Load User Interactions Functions
- */
+// Load User Interactions Functions
 require( 'lib/user-interactions/user-interactions-functions.php' );
 
-/**
- * Load User Profile Functions
- */
+// Load User Profile Functions
 require( 'lib/user-interactions/profile/user-profile-functions.php' );
 
 
@@ -301,6 +293,13 @@ function BASICHWN_l10n(){
 }
 add_action('after_setup_theme', 'BASICHWN_l10n');
 
+// Basic Hawaiian Menu Locations
+function BASICHWN_designate_menu_locations() {
+  register_nav_menu( 'public-menu', __( 'Public Menu' ) );
+  register_nav_menu( 'footer-menu', __( 'Footer Menu' ) );
+}
+add_action( 'init', 'BASICHWN_designate_menu_locations' );
+
 // Allow URL to change localization
 // Example: basichawaiian.org/?l=basichawaiian
 // http://codex.wordpress.org/Function_Reference/load_theme_textdomain
@@ -417,6 +416,30 @@ function BASICHWN_post_types() {
     'supports' => array('title'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'topic'),
+    )
+  );
+
+  /**
+   * Custom/AUX Post Types
+   */
+  // Testimonials
+  $labels = array(
+    'name' => __( 'Testimonials' ),
+    'singular_name' => __( 'Testimonials' ),
+    'add_new' => __( 'Add New Testimonial' ),
+    'add_new_item' => __( 'Add New Testimonial' ),
+    'edit_name' => __( 'Edit This Testimonial' ),
+    'view_item' => __( 'View This Testimonial' ),
+    'search_items' => __('Search Testimonials'),
+    'not_found' => __('No Testimonials found.'),
+  );
+  register_post_type( 'testimonials',
+    array(
+    'menu_position' => 8,
+    'public' => true,
+    'supports' => array( 'title', 'editor', 'thumbnail' ),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'testimonials'),
     )
   );
 

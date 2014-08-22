@@ -144,7 +144,7 @@ $sceneID = check_scene_progress( $post->ID );
 										break;
 									case '5': // Proverbs
 										$postTypes = array( 'instruction_lessons' );
-										$connectedTypes = array( 'instructional_lessons_to_topics' );
+										$connectedTypes = array( 'instructional_lessons_to_topics', 'phrases_lessons_to_topics' );
 										$topicTitleEng = 'Proverbs';
 										break;
 									case '6': // Songs
