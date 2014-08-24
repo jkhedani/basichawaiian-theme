@@ -123,8 +123,8 @@ $sceneID = check_scene_progress( $post->ID );
 								create_object_record( $topicID ); // May be redundant but for first time visitors, this prevents missing records errors.
 								switch ( $topicNumber ) {
 									case '1': // Basics/Cultural Foundations
-										$postTypes = array( 'instruction_lessons', 'phrases_lessons' );
-										$connectedTypes = array( 'instructional_lessons_to_topics', 'phrases_lessons_to_topics' );
+										$postTypes = array( 'instruction_lessons', 'video_lessons', 'phrases_lessons' );
+										$connectedTypes = array( 'instructional_lessons_to_topics', 'video_lessons_to_topics', 'phrases_lessons_to_topics' );
 										$topicTitleEng = 'Cultural Foundations';
 										break;
 									case '2': // Vocabulary
@@ -177,8 +177,9 @@ $sceneID = check_scene_progress( $post->ID );
 									'orderby' => 'meta_value_num',
 									'nopaging' => true,
 								));
-								if ( $lessons->have_posts() ) :
-						?>
+								?>
+
+								<?php if ( $lessons->have_posts() ) : ?>
 								<!-- TOPIC -->
 								<h3 class="topic-title topic-title-hwn"><?php echo get_the_title(); ?></h3>
 								<h4 class="topic-title topic-title-eng topic-spacer"><?php echo $topicTitleEng; ?></h4>
@@ -191,7 +192,26 @@ $sceneID = check_scene_progress( $post->ID );
 
 								<!-- LESSONS -->
 								<ul class="lessons">
-									<?php while ( $lessons->have_posts() ) : $lessons->the_post(); ?>
+									<?php while ( $lessons->have_posts() ) : $lessons->the_post();
+
+									// Create special display for video content type.
+									if ( get_post_type( $post->ID ) === 'video_lessons' ) : ?>
+
+									<!-- VIDEO LESSON -->
+									<li class="lesson">
+											<span class="supertitle"><?php echo get_the_title($topicID); ?></span>
+											<h3><?php echo get_the_title(); ?></h3>
+											<?php if ( is_object_complete( $post->ID ) ) { ?>
+												<div class="lesson-point earned"></div>
+											<?php } else { ?>
+												<div class="lesson-point unearned"></div>
+											<?php } ?>
+											<a class="prompt-lesson-start start btn btn-cta blue" href="#lesson-start-modal" data-lesson-title="<?php echo get_the_title(); ?>" data-lesson-url="<?php echo get_permalink($post->ID); ?>">Start</a>
+										</a>
+									</li>
+
+									<?php else : ?>
+
 									<!-- LESSON -->
 									<li class="lesson">
 											<span class="supertitle"><?php echo get_the_title($topicID); ?></span>
@@ -204,13 +224,14 @@ $sceneID = check_scene_progress( $post->ID );
 											<a class="prompt-lesson-start start btn btn-cta blue" href="#lesson-start-modal" data-lesson-title="<?php echo get_the_title(); ?>" data-lesson-url="<?php echo get_permalink($post->ID); ?>">Start</a>
 										</a>
 									</li>
-									<?php
-									endwhile;
-									wp_reset_postdata(); ?>
+
+									<?php endif; // special post display conditional ?>
+
+									<?php endwhile; ?>
+									<?php wp_reset_postdata(); ?>
 								</ul><!-- ul.lessons -->
 							<?php endif; // if lessons ?>
 							<?php
-
 							//echo '</li>'; // .topic
 							$topicNumber++;
 						endwhile; // topics
