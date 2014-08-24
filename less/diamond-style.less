@@ -58,6 +58,11 @@
 	white-space: nowrap;
 	overflow: hidden;
 }
+.border-box {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
 
 /**
  *	General Styles
@@ -1142,6 +1147,25 @@ body.single-instruction_lessons {
 	.lesson-content {
 		img { float: left; margin: 0 28px 0 0; }
 		.instructional-slide-content { margin: 0 0 15px 0; }
+	}
+}
+
+/**
+ *	Lesson Styles: Video Lesson
+ */
+body.single-video_lessons {
+	.lesson-content {
+		iframe { width: 100%; min-height: 315px; }
+		.clearfix();
+		.video-player-container, .video-player-metadata { padding: 20px; .border-box(); }
+		.video-player-container {
+			width: 60%;
+			float: left
+		}
+		.video-player-metadata {
+			width: 40%;
+			float: right;
+		}
 	}
 }
 

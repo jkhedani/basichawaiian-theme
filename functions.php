@@ -80,6 +80,7 @@ function custom_body_classes( $classes ) {
     'topics_to_modules',
     array(
       'instructional_lessons_to_topics',
+      'video_lessons_to_topics',
       'listen_repeat_lessons_to_topics',
       'readings_to_topics',
       'vocabulary_lessons_to_topics',

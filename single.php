@@ -19,10 +19,14 @@ get_header(); ?>
 				// TOPIC PAGE CONTENT
 				} elseif ( get_post_type( $post->ID ) == 'topics') {
 					get_template_part( 'templates/topic', 'single' );
-				
+
 				// INSTRUCTIONAL CONTENT
 				} elseif(get_post_type($post->ID) == 'instruction_lessons') {
 					get_template_part( 'templates/lesson-instructional', 'single' );
+
+				// VIDEO CONTENT
+				} elseif(get_post_type($post->ID) == 'video_lessons') {
+					get_template_part( 'templates/lesson-video', 'single' );
 
 				// LISTEN AND REPEAT CONTENT
 				} elseif(get_post_type($post->ID) == 'listenrepeat_lessons') {

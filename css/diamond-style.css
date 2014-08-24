@@ -807,6 +807,11 @@
   white-space: nowrap;
   overflow: hidden;
 }
+.border-box {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
 /**
  *	General Styles
  */
@@ -2376,6 +2381,48 @@ body.single-instruction_lessons .lesson-content img {
 }
 body.single-instruction_lessons .lesson-content .instructional-slide-content {
   margin: 0 0 15px 0;
+}
+/**
+ *	Lesson Styles: Video Lesson
+ */
+body.single-video_lessons .lesson-content {
+  *zoom: 1;
+}
+body.single-video_lessons .lesson-content iframe {
+  width: 100%;
+  min-height: 315px;
+}
+body.single-video_lessons .lesson-content:before,
+body.single-video_lessons .lesson-content:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+body.single-video_lessons .lesson-content:after {
+  clear: both;
+}
+body.single-video_lessons .lesson-content:before,
+body.single-video_lessons .lesson-content:after {
+  content: " ";
+  display: table;
+}
+body.single-video_lessons .lesson-content:after {
+  clear: both;
+}
+body.single-video_lessons .lesson-content .video-player-container,
+body.single-video_lessons .lesson-content .video-player-metadata {
+  padding: 20px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body.single-video_lessons .lesson-content .video-player-container {
+  width: 60%;
+  float: left;
+}
+body.single-video_lessons .lesson-content .video-player-metadata {
+  width: 40%;
+  float: right;
 }
 /**
  *	Lesson Styles: Listen Repeat;
