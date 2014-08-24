@@ -468,6 +468,27 @@ function BASICHWN_post_types() {
     )
   );
 
+  // Video Lessons
+  $labels = array(
+    'name' => __( 'Video Lessons' ),
+    'singular_name' => __( 'Video Lesson' ),
+    'add_new' => __( 'Add New Video Lesson' ),
+    'add_new_item' => __( 'Add New Video Lesson' ),
+    'edit_name' => __( 'Edit This Video Lesson' ),
+    'view_item' => __( 'View This Video Lesson' ),
+    'search_items' => __('Search Video Lessons'),
+    'not_found' => __('No Video Lessons found.'),
+  );
+  register_post_type( 'video_lessons',
+    array(
+    'menu_position' => 11,
+    'public' => true,
+    'supports' => array( 'title' ),
+    'labels' => $labels,
+    'rewrite' => array('slug' => 'video-lessons'),
+    )
+  );
+
   // Listen and Repeat Lessons
   $labels = array(
     'name' => __( 'Listen and Repeat Lessons' ),
