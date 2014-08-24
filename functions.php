@@ -888,6 +888,14 @@ function BASICHWN_connections() {
     'sortable' => 'any',
     'cardinality' => 'many-to-one', // Many Lectures to One Module
   ));
+  // Connect Video Lessons to Topics
+  p2p_register_connection_type(array(
+    'name' => 'video_lessons_to_topics',
+    'from' => 'video_lessons',
+    'to' => 'topics',
+    'sortable' => 'any',
+    'cardinality' => 'many-to-one', // Many Lectures to One Module
+  ));
   // Connect Listen and Repeat Lessons to Topics
   p2p_register_connection_type(array(
     'name' => 'listen_repeat_lessons_to_topics',
