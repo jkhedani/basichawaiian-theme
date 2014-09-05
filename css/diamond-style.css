@@ -1643,7 +1643,7 @@ body.not-logged-in header#navbar a.site-title {
 }
 body.not-logged-in header#navbar ul.public-menu {
   height: 68px;
-  width: 390px;
+  width: 391px;
   float: right;
   display: block;
   margin: 0;
