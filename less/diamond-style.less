@@ -15,15 +15,15 @@
 
 @colorUser: rgb(148,61,80);
 @colorKukui: rgb(243,178,88);
-@colorAuntyAloha: rgb(113,195,197);
+@colorAuntyAloha: rgb(27, 163, 156);
 
-@colorBrightPurple: rgb(211, 211, 229);
+@colorBrightPurple: rgb(191, 191, 209);
 @colorDeepPurple: rgb(77, 68, 97);
 @colorDarkPurple: rgb(55, 52, 63);
 @colorDeepRed: rgb(209, 111, 88);
 @colorBrightGray: rgb(248, 247, 246);
 
-@colorLightBlue: rgb(103, 183, 185);
+@colorLightBlue: rgb(27, 163, 156);
 @colorOrange: rgb(255,134,31);
 @colorLightOrange: rgb(239,178,69);
 @colorYellow: rgb(242,212,0);
@@ -758,10 +758,15 @@ body.logged-in {
 		}
 	}
 	footer#colophon {
-		opacity: 0.6;
-		&:hover { opacity: 1.0; }
-		.footer-content { margin: 0 auto; width: 499px; }
-		span.copyright { float: left; margin-left: 15px; }
+		.footer-content {
+			width: 600px;
+			padding-top: 20px;
+			margin: 65px auto 0;
+			color: #FFF;
+			border-top: 1px solid rgba(255,255,255,0.2);
+			text-align: center;
+		}
+		span.copyright { float: none; margin-left: 15px; }
 	}
 }
 
@@ -776,7 +781,7 @@ body.home.logged-in {
 		left: 320px;
 		z-index: 9;
 	}
-	#primary { min-height: 720px; }
+	// #primary { min-height: 720px; }
 
 	#content {
 		header { background-color: fadeout(@colorBrightPurple, 5%); }

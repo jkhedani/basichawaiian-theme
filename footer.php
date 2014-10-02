@@ -25,7 +25,7 @@
 			// echo 	'<div class="avatar-wrapper">';
 			// if ( get_post_type( $post->ID ) == 'units' && $post->ID == 204 ) {
 			// 	echo 		'<div class="user-avatar '.$gender.' backturn"></div>';
-			// 	echo 		'<div class="kukui-avatar aunty-aloha backturn"></div>';	
+			// 	echo 		'<div class="kukui-avatar aunty-aloha backturn"></div>';
 			// } else {
 			// 	echo 		'<div class="user-avatar '.$gender.' backturn"></div>';
 			// }
@@ -55,7 +55,7 @@
 	<?php if ( is_user_logged_in() ) { // Is logged in ?>
 		<footer id="colophon">
 			<div class="footer-content">
-				<?php  wp_nav_menu( array('menu' => 'Support Menu' )); ?>
+				<?php  //wp_nav_menu( array('menu' => 'Support Menu' )); ?>
 				<span class="copyright">&copy; Basic Hawaiian <?php echo get_the_date('Y'); ?></span>
 			</div>
 		</footer>
