@@ -88,7 +88,8 @@
             <ul class="drawer">
               <li><a class="edit-profile" href="<?php echo get_edit_user_link(); ?>"><i class="fa fa-edit"></i>Edit your profile</a></li>
               <?php if ( current_user_can('edit_posts') ) // Reset only for those who can edit the site ?>
-              <li><a href="#" class="reset-scores"><i class="fa fa-times-circle-o"></i>Reset Score</a></li>
+              <li><a href="mailto:info@basichawaiian.com" class="get-support"><i class="fa fa-question-circle"></i>Get Support</a></li>
+							<li><a href="#" class="reset-scores"><i class="fa fa-times-circle-o"></i>Reset Score</a></li>
               <li><a href="<?php echo wp_logout_url(); ?>" title="Logout"><i class="fa fa-sign-out"></i>Logout</a></li>
             </ul>
           </div><!-- .settings-panel -->
