@@ -165,6 +165,7 @@ $sceneID = check_scene_progress( $post->ID );
 									case '9': // Group Activities
 										$postTypes = array( 'instruction_lessons' );
 										$connectedTypes = array( 'instructional_lessons_to_topics' );
+										$topicTitleEng = 'Family Lessons';
 										break;
 								}
 								//Display lessons associated with topic
