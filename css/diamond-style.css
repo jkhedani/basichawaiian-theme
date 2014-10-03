@@ -2419,6 +2419,23 @@ body.single-video_lessons .lesson-content .video-player-metadata {
   width: 40%;
   float: right;
 }
+body.single-video_lessons .lesson-content .video-player-metadata h3 {
+  margin-top: 0px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+body.single-video_lessons .lesson-content .video-player-metadata a,
+body.single-video_lessons .lesson-content .video-player-metadata p {
+  font-size: 14px;
+}
+body.single-video_lessons .lesson-content .video-player-metadata a {
+  color: #A9A9A9;
+}
+body.single-video_lessons .lesson-content .video-player-metadata a i {
+  font-size: 18px;
+  color: #ce1312;
+  margin-right: 10px;
+}
 /**
  *	Lesson Styles: Listen Repeat;
  */
