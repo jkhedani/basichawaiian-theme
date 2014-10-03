@@ -99,6 +99,7 @@ if ( get_field('instructional_slide') ) {
 	</div><!-- .entry-content -->
 
 	<footer class="lesson-footer">
+
 		<!-- Lesson Counter -->
 		<div class="lesson-progress span5">
 			<?php

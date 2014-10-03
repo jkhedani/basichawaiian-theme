@@ -69,22 +69,6 @@ $lessonCardCount = $phrases->post_count;
 			</div>
 		</div>
 
-
-		<!-- Lesson Progress -->
-		<div class="lesson-progress span5">
-			<?php
-				for ( $i = 0; $i < $totalLessonCards; $i++ ) {
-					if ( $i == 0 ) :
-						echo '<div class="lei-counter viewed current"></div>';
-					elseif ( $i == $totalLessonCards - 1 ):
-						echo '<div class="lei-counter last"></div>';
-					else :
-						echo '<div class="lei-counter"></div>';
-					endif;
-				}
-			?>
-		</div>
-
 		<!-- Lesson Karma -->
 		<div class="lesson-karma pull-right">
 			<?php
@@ -167,6 +151,23 @@ $lessonCardCount = $phrases->post_count;
 	</div><!-- .entry-content -->
 
 	<footer class="lesson-footer">
+
+		<!-- Lesson Progress -->
+		<div class="lesson-progress span5">
+			<?php
+				for ( $i = 0; $i < $lessonCardCount; $i++ ) {
+					if ( $i == 0 ) :
+						echo '<div class="lei-counter viewed current"></div>';
+					elseif ( $i == $lessonCardCount - 1 ):
+						echo '<div class="lei-counter last"></div>';
+					else :
+						echo '<div class="lei-counter"></div>';
+					endif;
+				}
+			?>
+		</div>
+
+		<!-- Lesson Controls -->
 		<div class="lesson-controls">
 			<a class="btn btn-primary advance-lesson" href="javascript:void(0);">Next</a>
 			<a class="btn check-lesson" href="javascript:void(0);">Check</a>

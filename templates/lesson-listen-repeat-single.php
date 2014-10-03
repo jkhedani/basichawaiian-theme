@@ -60,11 +60,17 @@ $lessonCardCount = $phrases->post_count;
 
 				echo  '<h3 class="translation english-translation hidden">'.get_field('english_translation').'</h3>';
 				echo 	'<button class="btn btn-primary show-translation"><span>Show</span> English</button>';
-				
+
 				if ( get_field('phrases_pronunciation') ) {
 					echo 	'<button class="play-audio">Play Audio</button>';
 					echo 	'<button class="pause-audio">Pause Audio</button>';
-					echo 	'<audio class="pronunciation" src="'.get_field('phrases_pronunciation').'"></audio>';	
+					// http://stackoverflow.com/questions/4053262/how-can-i-add-multiple-sources-to-an-html5-audio-tag-programmatically
+					if ( audio.canPlayType('audio/mpeg;') ) {
+						echo 	'<audio class="pronunciation" src="'.get_field('phrases_pronunciation_mp3').'"></audio>';
+					} else {
+						echo 	'<audio class="pronunciation" src="'.get_field('phrases_pronunciation').'"></audio>';
+					}
+
 				}
 				echo '</div>';
 
@@ -78,7 +84,7 @@ $lessonCardCount = $phrases->post_count;
 					echo get_the_post_thumbnail();
 				endwhile;
 				wp_reset_postdata();
-				
+
 				echo '</div>';
 				$lessonCardCounter++;
 			endwhile;
