@@ -24,19 +24,6 @@ if ( get_field('instructional_slide') ) {
 	<header class="lesson-header">
 		<?php $previousurl = htmlspecialchars($_SERVER['HTTP_REFERER']); ?>
 		<a href="<?php echo $previousurl; ?>" class="lesson-quit">Quit</a>
-		<div class="lesson-progress span5">
-			<?php
-				for ( $i = 0; $i < $totalLessonCards; $i++ ) {
-					if ( $i == 0 ) :
-						echo '<div class="lei-counter viewed current"></div>';
-					elseif ( $i == $totalLessonCards - 1 ):
-						echo '<div class="lei-counter last"></div>';
-					else :
-						echo '<div class="lei-counter"></div>';
-					endif;
-				}
-			?>
-		</div>
 
 		<hr class="clear" />
 
@@ -53,7 +40,7 @@ if ( get_field('instructional_slide') ) {
 
 				if ( $instructionalSlide['instructional_slide_optional_instructions'] ) {
 					echo $instructionalSlide['instructional_slide_optional_instructions'];
-				}	else { 
+				}	else {
 					echo 'Progress through each slide until you reach the end.';
 				}
 
@@ -62,7 +49,7 @@ if ( get_field('instructional_slide') ) {
 
 			}
 		?>
-	
+
 	</header><!-- .entry-header -->
 
 	<div class="lesson-content">
@@ -89,7 +76,12 @@ if ( get_field('instructional_slide') ) {
 							echo 	'<div class="infromation-slide-audio audio-player">';
 							echo 		'<button class="play-audio">Play Audio</button>';
 							echo 		'<button class="pause-audio">Pause Audio</button>';
+							// http://stackoverflow.com/questions/4053262/how-can-i-add-multiple-sources-to-an-html5-audio-tag-programmatically
+							if ( audio.canPlayType('audio/mpeg;') ) {
+							echo 		'<audio class="pronunciation" src="'.$instructionalSlide['instructional_slide_audio_mp3'].'"></audio>';
+							} else {
 							echo 		'<audio class="pronunciation" src="'.$instructionalSlide['instructional_slide_audio_ogg'].'"></audio>';
+							}
 							echo 	'</div>';
 						}
 						$slideTranslation = $instructionalSlide['instructional_slide_translation'];
@@ -107,6 +99,22 @@ if ( get_field('instructional_slide') ) {
 	</div><!-- .entry-content -->
 
 	<footer class="lesson-footer">
+		<!-- Lesson Counter -->
+		<div class="lesson-progress span5">
+			<?php
+				for ( $i = 0; $i < $lessonCardCount; $i++ ) {
+					if ( $i == 0 ) :
+						echo '<div class="lei-counter viewed current"></div>';
+					elseif ( $i == $lessonCardCount - 1 ):
+						echo '<div class="lei-counter last"></div>';
+					else :
+						echo '<div class="lei-counter"></div>';
+					endif;
+				}
+			?>
+		</div>
+
+		<!-- Lesson Controls -->
 		<div class="lesson-controls">
 			<a class="btn btn-primary advance-lesson" href="javascript:void(0);">Next<i class="fa fa-arrow-right"></i></a>
 			<a class="btn check-lesson" href="javascript:void(0);">Check</a>
