@@ -988,7 +988,7 @@ body[class*="lessons"],body.single-readings { header#navbar { display: none; } }
 }
 // Lesson Progress
 .lesson-progress {
-	float: right;
+	float: left;
 	margin: 25px 15px 0 15px;
 }
 
@@ -1240,6 +1240,28 @@ body.single-phrases_lessons {
 *	Lesson Styles: Chants;
 */
 body.single-chants_lessons {
+	.lesson-feedback {
+		.pronunciation-container {
+			float: right;
+			margin-top: -4px;
+		}
+	}
+	.lesson-karma {
+		margin: 25px 20px 0 0;
+	}
+	.lesson-image-container {
+		max-width: 300px;
+		max-height: 300px;
+		overflow: hidden;
+		margin-bottom: 20px
+	}
+}
+
+
+/**
+*	Lesson Styles: Songs;
+*/
+body.single-song_lessons {
 	.lesson-feedback {
 		.pronunciation-container {
 			float: right;

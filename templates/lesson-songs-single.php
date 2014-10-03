@@ -29,32 +29,8 @@ $lessonCardCount = $songLines->post_count;
 <article id="post-<?php the_ID(); ?>" <?php post_class('lesson-container'); ?> data-lesson-id="<?php echo $post->ID; ?>">
 
 	<header class="lesson-header">
-		<!-- <h1 class="lesson-title"><?php //the_title(); ?></h1> -->
-
-		<div class="lesson-progress">
-			<?php
-				for ( $i = 0; $i < $totalLessonCards; $i++ ) {
-					if ( $i == 0 ) :
-						echo '<div class="lei-counter viewed current"></div>';
-					elseif ( $i == $totalLessonCards - 1 ):
-						echo '<div class="lei-counter last"></div>';
-					else :
-						echo '<div class="lei-counter"></div>';
-					endif;
-				}
-			?>
-		</div>
-		<hr class="clear" />
-
-		<div class="lesson-karma pull-right">
-			<?php
-				$karmaAllowance = 100 / $lessonCardCount;
-				$karmaAllowance = round( 60 / $karmaAllowance );
-				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
-					echo '<i class="karma-point icon-leaf icon-white pull-right"></i>';
-				}
-			?>
-		</div>
+		<?php $previousurl = htmlspecialchars($_SERVER['HTTP_REFERER']); ?>
+		<a href="<?php echo $previousurl; ?>" class="lesson-quit">Quit</a>
 
 		<?php
 			// Second loop to grab optional instructional text
@@ -72,7 +48,7 @@ $lessonCardCount = $songLines->post_count;
 				} else {
 					echo 'Choose the English sentence that best represents the Hawaiian phrase below.';
 				}
-				
+
 				$lessonCardCounter++;
 				echo '</h4>';
 			endwhile;
@@ -81,13 +57,31 @@ $lessonCardCount = $songLines->post_count;
 	</header><!-- .entry-header -->
 
 	<div class="lesson-content">
+
 		<div class="lesson-feedback alert">
 			<span class="lesson-feedback-correct">That's correct!</span>
 			<span class="lesson-feedback-incorrect">Aue! The correct answer was <strong class="lesson-feedback-correct-option"></strong></span>
+
+			<!-- Display Audio in Phrases feedback -->
+			<div class="pronunciation-container">
+				<button class="play-audio">Play Audio</button>
+				<button class="pause-audio">Pause Audio</button>
+			</div>
 		</div>
+
+		<div class="lesson-karma pull-right">
+			<?php
+				$karmaAllowance = 100 / $lessonCardCount;
+				$karmaAllowance = round( 60 / $karmaAllowance );
+				for ( $i = 0; $i < $karmaAllowance; $i++ ) {
+					echo '<i class="karma-point icon-leaf icon-white pull-right"></i>';
+				}
+			?>
+		</div>
+
 		<?php
 
-		// Grab all IDs associated with this game	
+		// Grab all IDs associated with this game
 		$gameObjectIDs = array();
 		$lessonCardCounter = 0;
 		while ( $songLines->have_posts() ) : $songLines->the_post();
@@ -111,9 +105,10 @@ $lessonCardCount = $songLines->post_count;
 			echo '<!-- You spent more cheating then you did learning. -->';
 				foreach ( $lessonAssessmentOptions as $lessonAssessmentOption ) {
 					if ( $lessonAssessmentOption == get_field('song_answer') ) :
-						echo '<a class="btn lesson-card-assessment-option correct-option">'.$lessonAssessmentOption.'</a>';
+						echo '<a class="btn btn-cta gray lesson-card-assessment-option correct-option" data-correct-option-audio="'.get_field('song_audio_ogg').'" data-correct-option-audio-mp3="'.get_field('song_audio_mp3').'">'.$lessonAssessmentOption.'</a>';
+						//echo '<a class="btn lesson-card-assessment-option correct-option">'.$lessonAssessmentOption.'</a>';
 					else :
-						echo '<a class="btn lesson-card-assessment-option">'.$lessonAssessmentOption.'</a>';
+						echo '<a class="btn btn-cta gray lesson-card-assessment-option">'.$lessonAssessmentOption.'</a>';
 					endif;
 				}
 			echo '</div>';
@@ -128,6 +123,23 @@ $lessonCardCount = $songLines->post_count;
 	</div><!-- .entry-content -->
 
 	<footer class="lesson-footer">
+
+		<!-- Lesson Progress -->
+		<div class="lesson-progress">
+			<?php
+				for ( $i = 0; $i < $lessonCardCount; $i++ ) {
+					if ( $i == 0 ) :
+						echo '<div class="lei-counter viewed current"></div>';
+					elseif ( $i == $lessonCardCount - 1 ):
+						echo '<div class="lei-counter last"></div>';
+					else :
+						echo '<div class="lei-counter"></div>';
+					endif;
+				}
+			?>
+		</div>
+
+		<!-- Lesson Controls -->
 		<div class="lesson-controls">
 			<a class="btn btn-primary advance-lesson" href="javascript:void(0);">Next</a>
 			<a class="btn check-lesson" href="javascript:void(0);">Check</a>
