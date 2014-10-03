@@ -217,6 +217,9 @@ body {
 		color: #FFF;
 		padding: 10px 30px;
 		text-transform: uppercase;
+		&.gray { background: #f5f5f5; color: rgb( 73, 73, 78 );
+			&:hover { background: @colorLightBlue; color: #FFF; }
+		}
 		&.blue { background: @colorLightBlue; }
 		&.red { background: @colorDeepRed }
 		&:hover { color: #FFF; }
@@ -959,7 +962,7 @@ body[class*="lessons"],body.single-readings { header#navbar { display: none; } }
 .lesson-header {
 	margin-top: 100px;
 	.clearfix();
-	.lesson-quit { display: block; float: right; text-transform: uppercase; color: #FFF; margin: 0 0 10px 0; }
+	.lesson-quit { display: block; float: right; text-transform: uppercase; color: @colorDeepPurple; margin: 0 0 10px 0; }
 	.lesson-title {
 		margin: 32px 0 28px !important;
 		float: left;
@@ -972,7 +975,7 @@ body[class*="lessons"],body.single-readings { header#navbar { display: none; } }
 		padding: 15px 20px 15px 160px;
 		background: @colorBrightPurple;
 		margin: 0 0 30px;
-		color: #FFF;
+		color: @colorDeepPurple;
 		max-width: 760px;
 		// height: 64px;
 		line-height: 1.4;
@@ -990,7 +993,7 @@ body[class*="lessons"],body.single-readings { header#navbar { display: none; } }
 }
 
 // Lesson Karma
-.lesson-karma { float: left; margin: 25px 0 0 0;
+.lesson-karma { float: left; margin: 25px 20px 0 0;
 	.karma-point {
 		width: 22px;
 		height: 30px;
@@ -1233,11 +1236,32 @@ body.single-phrases_lessons {
 	}
 }
 
+/**
+*	Lesson Styles: Chants;
+*/
+body.single-chants_lessons {
+	.lesson-feedback {
+		.pronunciation-container {
+			float: right;
+			margin-top: -4px;
+		}
+	}
+	.lesson-karma {
+		margin: 25px 20px 0 0;
+	}
+	.lesson-image-container {
+		max-width: 300px;
+		max-height: 300px;
+		overflow: hidden;
+		margin-bottom: 20px
+	}
+}
+
 
 /**
  *	Lesson Styles: Three choice assessments ( phrases, songs, proverbs )
  */
-body.single-phrases_lessons, body.single-song_lessons {
+body.single-phrases_lessons, body.single-song_lessons, body.single-chants_lessons {
 	.lesson-card { max-width: none; }
 	.lesson-card-assessment-option {
 		margin: 0 15px 0 0;

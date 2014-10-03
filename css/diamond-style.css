@@ -996,6 +996,14 @@ body .btn-cta {
   padding: 10px 30px;
   text-transform: uppercase;
 }
+body .btn-cta.gray {
+  background: #f5f5f5;
+  color: #49494e;
+}
+body .btn-cta.gray:hover {
+  background: #1ba39c;
+  color: #FFF;
+}
 body .btn-cta.blue {
   background: #1ba39c;
 }
@@ -2125,7 +2133,7 @@ body.single-readings header#navbar {
   display: block;
   float: right;
   text-transform: uppercase;
-  color: #FFF;
+  color: #4d4461;
   margin: 0 0 10px 0;
 }
 .lesson-header .lesson-title {
@@ -2140,7 +2148,7 @@ body.single-readings header#navbar {
   padding: 15px 20px 15px 160px;
   background: #bfbfd1;
   margin: 0 0 30px;
-  color: #FFF;
+  color: #4d4461;
   max-width: 760px;
   line-height: 1.4;
   font-family: 'Open Sans', sans-serif;
@@ -2157,7 +2165,7 @@ body.single-readings header#navbar {
 }
 .lesson-karma {
   float: left;
-  margin: 25px 0 0 0;
+  margin: 25px 20px 0 0;
 }
 .lesson-karma .karma-point {
   width: 22px;
@@ -2480,14 +2488,32 @@ body.single-phrases_lessons .lesson-image-container {
   margin-bottom: 20px;
 }
 /**
+*	Lesson Styles: Chants;
+*/
+body.single-chants_lessons .lesson-feedback .pronunciation-container {
+  float: right;
+  margin-top: -4px;
+}
+body.single-chants_lessons .lesson-karma {
+  margin: 25px 20px 0 0;
+}
+body.single-chants_lessons .lesson-image-container {
+  max-width: 300px;
+  max-height: 300px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+/**
  *	Lesson Styles: Three choice assessments ( phrases, songs, proverbs )
  */
 body.single-phrases_lessons .lesson-card,
-body.single-song_lessons .lesson-card {
+body.single-song_lessons .lesson-card,
+body.single-chants_lessons .lesson-card {
   max-width: none;
 }
 body.single-phrases_lessons .lesson-card-assessment-option,
-body.single-song_lessons .lesson-card-assessment-option {
+body.single-song_lessons .lesson-card-assessment-option,
+body.single-chants_lessons .lesson-card-assessment-option {
   margin: 0 15px 0 0;
 }
 /**
