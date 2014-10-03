@@ -80,8 +80,8 @@ $lessonCardCount = $phrases->post_count;
 			?>
 		</div>
 
+		<!-- Lesson Content -->
 		<?php
-
 		// Grab all IDs associated with this game
 		$gameObjectIDs = array();
 		$lessonCardCounter = 0;
@@ -134,9 +134,9 @@ $lessonCardCount = $phrases->post_count;
 			echo '<!-- You spent more cheating then you did learning. -->';
 				foreach ( $lessonAssessmentOptions as $lessonAssessmentOption ) {
 					if ( $lessonAssessmentOption === $correctAnswer ) :
-						echo '<a class="btn btn-cta blue lesson-card-assessment-option correct-option" data-correct-option-audio="'.get_field('phrases_pronunciation').'">'.$lessonAssessmentOption.'</a>';
+						echo '<a class="btn btn-cta gray lesson-card-assessment-option correct-option" data-correct-option-audio="'.get_field('phrases_pronunciation').'" data-correct-option-audio-mp3="'.get_field('phrases_pronunciation_mp3').'">'.$lessonAssessmentOption.'</a>';
 					else :
-						echo '<a class="btn btn-cta blue lesson-card-assessment-option">'.$lessonAssessmentOption.'</a>';
+						echo '<a class="btn btn-cta gray lesson-card-assessment-option">'.$lessonAssessmentOption.'</a>';
 					endif;
 				}
 			echo '</div>';
