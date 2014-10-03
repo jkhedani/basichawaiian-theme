@@ -15,15 +15,15 @@
 
 @colorUser: rgb(148,61,80);
 @colorKukui: rgb(243,178,88);
-@colorAuntyAloha: rgb(113,195,197);
+@colorAuntyAloha: rgb(27, 163, 156);
 
-@colorBrightPurple: rgb(211, 211, 229);
+@colorBrightPurple: rgb(191, 191, 209);
 @colorDeepPurple: rgb(77, 68, 97);
 @colorDarkPurple: rgb(55, 52, 63);
 @colorDeepRed: rgb(209, 111, 88);
 @colorBrightGray: rgb(248, 247, 246);
 
-@colorLightBlue: rgb(103, 183, 185);
+@colorLightBlue: rgb(27, 163, 156);
 @colorOrange: rgb(255,134,31);
 @colorLightOrange: rgb(239,178,69);
 @colorYellow: rgb(242,212,0);
@@ -32,6 +32,7 @@
 
 @colorDarkBrown: rgb( 58, 45, 45 );
 @colorLightBrown: rgb( 82, 66, 65 );
+@colorYouTubeRed: rgb( 206, 19, 18 );
 
 @fontDisplay: 'Raleway', sans-serif;
 @fontSans: 'Open Sans', sans-serif;
@@ -216,6 +217,9 @@ body {
 		color: #FFF;
 		padding: 10px 30px;
 		text-transform: uppercase;
+		&.gray { background: #f5f5f5; color: rgb( 73, 73, 78 );
+			&:hover { background: @colorLightBlue; color: #FFF; }
+		}
 		&.blue { background: @colorLightBlue; }
 		&.red { background: @colorDeepRed }
 		&:hover { color: #FFF; }
@@ -487,22 +491,26 @@ body.not-logged-in.home {
 
 			// Testimonials
 			.testimonials {
-				background-color: #FFF;
+				color: @colorDarkPurple;
+				background: fadeout(@colorBrown, 90%);
 				border-bottom: 1px solid #EEE;
 				.clearfix();
 				.image-container {
 					float: left;
-					max-width: 80px;
-					width: 80px;
-					height: 80px;
+					max-width: 105px;
+					width: 105px;
+					height: 105px;
 					overflow: hidden;
 					img { height: 100%; width: auto; max-width: none; }
 				}
 				.content-container {
 					float: left;
-					margin-left: 80px;
+					line-height: 1.3;
+					padding: 0 40px;
+					width: 755px;
+					max-width: 755px;
 					h3, h4 { text-align: center; }
-					h3 { font-weight: 500; font-size: 18px; font-style: italic; margin-bottom: 0px; margin-top: 8px; }
+					h3 { font-weight: 500; font-size: 17px; font-style: italic; margin-bottom: 0px; margin-top: 8px; line-height: 1.6; }
 					h4 { font-weight: 300; font-size: 15px; margin-top: -5px;  }
 				}
 				.testimonial { font-family: @fontSans; font-size: 18px; font-style: italic; }
@@ -758,10 +766,15 @@ body.logged-in {
 		}
 	}
 	footer#colophon {
-		opacity: 0.6;
-		&:hover { opacity: 1.0; }
-		.footer-content { margin: 0 auto; width: 499px; }
-		span.copyright { float: left; margin-left: 15px; }
+		.footer-content {
+			width: 600px;
+			padding-top: 20px;
+			margin: 65px auto 0;
+			color: #FFF;
+			border-top: 1px solid rgba(255,255,255,0.1);
+			text-align: center;
+		}
+		span.copyright { float: none; margin-left: 15px; }
 	}
 }
 
@@ -776,7 +789,7 @@ body.home.logged-in {
 		left: 320px;
 		z-index: 9;
 	}
-	#primary { min-height: 720px; }
+	// #primary { min-height: 720px; }
 
 	#content {
 		header { background-color: fadeout(@colorBrightPurple, 5%); }
@@ -953,7 +966,7 @@ body[class*="lessons"],body.single-readings { header#navbar { display: none; } }
 .lesson-header {
 	margin-top: 100px;
 	.clearfix();
-	.lesson-quit { display: block; float: right; text-transform: uppercase; color: #FFF; margin: 0 0 10px 0; }
+	.lesson-quit { display: block; float: right; text-transform: uppercase; color: @colorDeepPurple; margin: 0 0 10px 0; }
 	.lesson-title {
 		margin: 32px 0 28px !important;
 		float: left;
@@ -966,7 +979,7 @@ body[class*="lessons"],body.single-readings { header#navbar { display: none; } }
 		padding: 15px 20px 15px 160px;
 		background: @colorBrightPurple;
 		margin: 0 0 30px;
-		color: #FFF;
+		color: @colorDeepPurple;
 		max-width: 760px;
 		// height: 64px;
 		line-height: 1.4;
@@ -979,12 +992,12 @@ body[class*="lessons"],body.single-readings { header#navbar { display: none; } }
 }
 // Lesson Progress
 .lesson-progress {
-	float: right;
+	float: left;
 	margin: 25px 15px 0 15px;
 }
 
 // Lesson Karma
-.lesson-karma { float: right; margin: 25px 0 0 0;
+.lesson-karma { float: left; margin: 25px 20px 0 0;
 	.karma-point {
 		width: 22px;
 		height: 30px;
@@ -1165,6 +1178,11 @@ body.single-video_lessons {
 		.video-player-metadata {
 			width: 40%;
 			float: right;
+			h3 { margin-top: 0px; font-size: 18px; line-height: 1.5; }
+			a, p { font-size: 14px; }
+			a { color: #A9A9A9;
+				i { font-size: 18px; color: @colorYouTubeRed; margin-right: 10px; }
+			}
 		}
 	}
 }
@@ -1208,7 +1226,50 @@ body.single-phrases_lessons {
 	.lesson-feedback {
 		.pronunciation-container {
 			float: right;
-			margin-top: -22px;
+			margin-top: -4px;
+		}
+	}
+	.lesson-karma {
+		margin: 25px 20px 0 0;
+	}
+	.lesson-image-container {
+		max-width: 300px;
+		max-height: 300px;
+		overflow: hidden;
+		margin-bottom: 20px
+	}
+}
+
+/**
+*	Lesson Styles: Chants;
+*/
+body.single-chants_lessons {
+	.lesson-feedback {
+		.pronunciation-container {
+			float: right;
+			margin-top: -4px;
+		}
+	}
+	.lesson-karma {
+		margin: 25px 20px 0 0;
+	}
+	.lesson-image-container {
+		max-width: 300px;
+		max-height: 300px;
+		overflow: hidden;
+		margin-bottom: 20px
+	}
+}
+
+
+/**
+*	Lesson Styles: Songs;
+*/
+body.single-song_lessons {
+	.lesson-feedback {
+		.pronunciation-container {
+			float: right;
+			margin-top: -4px;
 		}
 	}
 	.lesson-karma {
@@ -1226,7 +1287,7 @@ body.single-phrases_lessons {
 /**
  *	Lesson Styles: Three choice assessments ( phrases, songs, proverbs )
  */
-body.single-phrases_lessons, body.single-song_lessons {
+body.single-phrases_lessons, body.single-song_lessons, body.single-chants_lessons {
 	.lesson-card { max-width: none; }
 	.lesson-card-assessment-option {
 		margin: 0 15px 0 0;

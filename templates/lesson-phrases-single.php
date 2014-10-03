@@ -69,22 +69,6 @@ $lessonCardCount = $phrases->post_count;
 			</div>
 		</div>
 
-
-		<!-- Lesson Progress -->
-		<div class="lesson-progress span5">
-			<?php
-				for ( $i = 0; $i < $totalLessonCards; $i++ ) {
-					if ( $i == 0 ) :
-						echo '<div class="lei-counter viewed current"></div>';
-					elseif ( $i == $totalLessonCards - 1 ):
-						echo '<div class="lei-counter last"></div>';
-					else :
-						echo '<div class="lei-counter"></div>';
-					endif;
-				}
-			?>
-		</div>
-
 		<!-- Lesson Karma -->
 		<div class="lesson-karma pull-right">
 			<?php
@@ -96,8 +80,8 @@ $lessonCardCount = $phrases->post_count;
 			?>
 		</div>
 
+		<!-- Lesson Content -->
 		<?php
-
 		// Grab all IDs associated with this game
 		$gameObjectIDs = array();
 		$lessonCardCounter = 0;
@@ -150,9 +134,9 @@ $lessonCardCount = $phrases->post_count;
 			echo '<!-- You spent more cheating then you did learning. -->';
 				foreach ( $lessonAssessmentOptions as $lessonAssessmentOption ) {
 					if ( $lessonAssessmentOption === $correctAnswer ) :
-						echo '<a class="btn btn-cta blue lesson-card-assessment-option correct-option" data-correct-option-audio="'.get_field('phrases_pronunciation').'">'.$lessonAssessmentOption.'</a>';
+						echo '<a class="btn btn-cta gray lesson-card-assessment-option correct-option" data-correct-option-audio="'.get_field('phrases_pronunciation').'" data-correct-option-audio-mp3="'.get_field('phrases_pronunciation_mp3').'">'.$lessonAssessmentOption.'</a>';
 					else :
-						echo '<a class="btn btn-cta blue lesson-card-assessment-option">'.$lessonAssessmentOption.'</a>';
+						echo '<a class="btn btn-cta gray lesson-card-assessment-option">'.$lessonAssessmentOption.'</a>';
 					endif;
 				}
 			echo '</div>';
@@ -167,6 +151,23 @@ $lessonCardCount = $phrases->post_count;
 	</div><!-- .entry-content -->
 
 	<footer class="lesson-footer">
+
+		<!-- Lesson Progress -->
+		<div class="lesson-progress span5">
+			<?php
+				for ( $i = 0; $i < $lessonCardCount; $i++ ) {
+					if ( $i == 0 ) :
+						echo '<div class="lei-counter viewed current"></div>';
+					elseif ( $i == $lessonCardCount - 1 ):
+						echo '<div class="lei-counter last"></div>';
+					else :
+						echo '<div class="lei-counter"></div>';
+					endif;
+				}
+			?>
+		</div>
+
+		<!-- Lesson Controls -->
 		<div class="lesson-controls">
 			<a class="btn btn-primary advance-lesson" href="javascript:void(0);">Next</a>
 			<a class="btn check-lesson" href="javascript:void(0);">Check</a>
