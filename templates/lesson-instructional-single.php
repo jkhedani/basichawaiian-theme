@@ -76,12 +76,10 @@ if ( get_field('instructional_slide') ) {
 							echo 	'<div class="infromation-slide-audio audio-player">';
 							echo 		'<button class="play-audio">Play Audio</button>';
 							echo 		'<button class="pause-audio">Pause Audio</button>';
-							// http://stackoverflow.com/questions/4053262/how-can-i-add-multiple-sources-to-an-html5-audio-tag-programmatically
-							if ( audio.canPlayType('audio/mpeg;') ) {
-							echo 		'<audio class="pronunciation" src="'.$instructionalSlide['instructional_slide_audio_mp3'].'"></audio>';
-							} else {
-							echo 		'<audio class="pronunciation" src="'.$instructionalSlide['instructional_slide_audio_ogg'].'"></audio>';
-							}
+							echo 		'<audio class="pronunciation">';
+							echo  		'<source src="'.$instructionalSlide['instructional_slide_audio'].'" type="audio/ogg">';
+							echo  		'<source src="'.$instructionalSlide['instructional_slide_audio_mp3'].'" type="audio/mpeg">';
+							echo 		'</audio>';
 							echo 	'</div>';
 						}
 						$slideTranslation = $instructionalSlide['instructional_slide_translation'];
