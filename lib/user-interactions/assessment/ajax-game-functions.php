@@ -8,14 +8,14 @@ function reset_scores() {
 	// Nonce check
 	$nonce = $_REQUEST['nonce'];
 	if (!wp_verify_nonce($nonce, 'ajax_scripts_nonce')) die(__('Busted.'));
-	
+
 	$html = "";
 	$success = false;
-	
+
 	if(is_user_logged_in()) {
 	 	$current_user = wp_get_current_user();
 	 	$user_ID = $current_user->ID;
-	 	
+
 	 	$wpdb->query($wpdb->prepare("
 	 		DELETE FROM wp_user_interactions
 	 		WHERE user_id = %d
@@ -29,7 +29,7 @@ function reset_scores() {
 		'success' => $success,
 		'html' => $html
 	));
-	
+
 	// Construct and send the response
 	header("content-type: application/json");
 	echo $response;
@@ -63,14 +63,14 @@ function get_wallet_balance( $postID ) {
 function updateWallet( $currencyTypeID ) {
 	$current_user = wp_get_current_user();
  	$user_id = $current_user->ID;
-	
+
 	// AUNTY ALOHA
 	if ( $currencyTypeID == 204 ) {
 		$currentBalance = get_user_meta( $user_id, 'bh_currency_flowers', true);
 		if ( !$currentBalance ) :
 			add_user_meta( $user_id, 'bh_currency_flowers', 1 );
 		else :
-			$updatedBalance = intval($currentBalance) + 1; 
+			$updatedBalance = intval($currentBalance) + 1;
 			update_user_meta( $user_id, 'bh_currency_flowers', $updatedBalance );
 		endif;
 	}
@@ -82,10 +82,14 @@ function updateWallet( $currencyTypeID ) {
 function finish_lesson() {
 	global $wpdb;
 
+	error_log('asdf');
+
 	// Nonce check
 	$nonce = $_REQUEST['nonce'];
 	if (!wp_verify_nonce($nonce, 'ajax_scripts_nonce')) die(__('Busted.'));
-	
+
+	error_log('sure');
+
 	$html = "";
 	$success = false;
 	$lessonID = $_REQUEST['lessonID'];
@@ -123,7 +127,7 @@ function finish_lesson() {
 			}
 		}
 	}
-	
+
 	// Determine user gender
 	$user = wp_get_current_user();
 	$user_id = $user->ID;
@@ -178,7 +182,7 @@ function finish_lesson() {
 		'success' => $success,
 		'html' => $html
 	));
-	
+
 	// Construct and send the response
 	header("content-type: application/json");
 	echo $response;

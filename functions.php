@@ -463,7 +463,7 @@ function BASICHWN_post_types() {
     array(
     'menu_position' => 11,
     'public' => true,
-    'supports' => array( 'title' ),
+    'supports' => array( 'title', 'page-attributes'),
     'labels' => $labels,
     'rewrite' => array('slug' => 'instruction-lessons'),
     )
@@ -484,7 +484,7 @@ function BASICHWN_post_types() {
     array(
     'menu_position' => 11,
     'public' => true,
-    'supports' => array( 'title' ),
+    'supports' => array( 'title', 'page-attributes' ),
     'labels' => $labels,
     'rewrite' => array('slug' => 'video-lessons'),
     )

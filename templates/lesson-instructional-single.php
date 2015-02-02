@@ -77,7 +77,7 @@ if ( get_field('instructional_slide') ) {
 							echo 		'<button class="play-audio">Play Audio</button>';
 							echo 		'<button class="pause-audio">Pause Audio</button>';
 							echo 		'<audio class="pronunciation">';
-							echo  		'<source src="'.$instructionalSlide['instructional_slide_audio'].'" type="audio/ogg">';
+							echo  		'<source src="'.$instructionalSlide['instructional_slide_audio_ogg'].'" type="audio/ogg">';
 							echo  		'<source src="'.$instructionalSlide['instructional_slide_audio_mp3'].'" type="audio/mpeg">';
 							echo 		'</audio>';
 							echo 	'</div>';

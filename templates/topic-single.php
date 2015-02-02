@@ -28,7 +28,7 @@ $grandparentUnitID = get_connected_object_ID( $post->ID, 'topics_to_modules', 'm
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">
-		
+
 		<ul class="lessons row">
 
 		<?php

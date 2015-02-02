@@ -1555,12 +1555,12 @@ body.not-logged-in.home #main #content .home-page-slides .home-page-slide.text-l
 body.not-logged-in.home #main #content .home-page-slides .home-page-slide.text-left .home-page-slide-content-container {
   float: left;
 }
-body.not-logged-in.home #main #content .home-page-slides .home-page-slide#practice-traditions .home-page-featured-image-container {
+body.not-logged-in.home #main #content .home-page-slides .home-page-slide#practice-cultu .home-page-featured-image-container {
   width: 300px;
   overflow: hidden;
   float: left;
 }
-body.not-logged-in.home #main #content .home-page-slides .home-page-slide#practice-traditions .home-page-featured-image-container img {
+body.not-logged-in.home #main #content .home-page-slides .home-page-slide#practice-cultu .home-page-featured-image-container img {
   max-width: none;
   height: 100%;
   width: auto;
@@ -1568,12 +1568,12 @@ body.not-logged-in.home #main #content .home-page-slides .home-page-slide#practi
   margin-top: -40px;
   margin-bottom: 20px;
 }
-body.not-logged-in.home #main #content .home-page-slides .home-page-slide#learn-family .home-page-featured-image-container {
+body.not-logged-in.home #main #content .home-page-slides .home-page-slide#learn-with-fam .home-page-featured-image-container {
   width: 308px;
   overflow: hidden;
   float: right;
 }
-body.not-logged-in.home #main #content .home-page-slides .home-page-slide#learn-family .home-page-featured-image-container img {
+body.not-logged-in.home #main #content .home-page-slides .home-page-slide#learn-with-fam .home-page-featured-image-container img {
   max-width: none;
   height: 100%;
   width: auto;
