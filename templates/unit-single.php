@@ -73,21 +73,22 @@ $sceneID = check_scene_progress( $post->ID );
 			/*
 			 * Display all modules and their associated lesson types here...
 			 */
-			$carouselID = 'module-list'; ?>
+			$carouselID = 'module-list';
+			?>
 
 			<div id="<?php echo $carouselID; ?>" class="carousel slide">
 				<ol class="carousel-indicators">
-					<li><a class="carousel-indicator-control left" href="#<?php echo $carouselID ?>" data-slide="prev">&lsaquo;</a></li>
+					<li><a class="carousel-indicator-control left" href="javascript:void(0);">&lsaquo;</a></li>
 					<?php for ( $i = 0; $i < $moduleCount; $i++ ) { ?>
 						<?php if ( $i == 0 ) { ?>
-						<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="first active"><?php echo $i + 1; ?></li>
+						<li data-target="#<?php echo $carouselID; ?>" data-slide-to="<?php echo $i; ?>" class="first active"><?php echo $i + 1; ?></li>
 	    			<?php } elseif ( $i == $moduleCount - 1 ) { ?>
-	    			<li data-target="#<?php echo $carouselID; ?>" data-slide-to="0" class="last"><?php echo $i + 1; ?></li>
+	    			<li data-target="#<?php echo $carouselID; ?>" data-slide-to="<?php echo $i; ?>" class="last"><?php echo $i + 1; ?></li>
 	    			<?php } else { ?>
-	    			<li data-target="#<?php echo $carouselID; ?>" data-slide-to="1"><?php echo $i + 1; ?></li>
+	    			<li data-target="#<?php echo $carouselID; ?>" data-slide-to="<?php echo $i; ?>"><?php echo $i + 1; ?></li>
 	    			<?php } ?>
 	    		<?php } ?>
-	    		<li><a class="carousel-indicator-control right" href="#<?php echo $carouselID ?>" data-slide="next">&rsaquo;</a></li>
+	    		<li><a class="carousel-indicator-control right" href="javascript:void(0);">&rsaquo;</a></li>
 	    	</ol>
 
 				<!-- MODULES -->
@@ -101,7 +102,7 @@ $sceneID = check_scene_progress( $post->ID );
 				?>
 
 					<!-- MODULE -->
-					<li class="module item <?php if ( $indexCount == 0 ) echo 'active'; ?>" data-complete="<?php echo is_object_complete( $moduleID ) ? "1" : "0"; ?>" data-module-number="<?php echo $indexCount + 1; ?>">
+					<li class="module item <?php if ( $indexCount == 0 ) echo 'active'; ?>" data-slide-postion="<?php echo $indexCount; ?>" data-complete="<?php echo is_object_complete( $moduleID ) ? "1" : "0"; ?>">
 						<h2 class="module-title"><?php //the_title(); ?></h2>
 
 						<?php
@@ -211,7 +212,7 @@ $sceneID = check_scene_progress( $post->ID );
 											<?php } else { ?>
 												<div class="lesson-point unearned"></div>
 											<?php } ?>
-											<a class="prompt-lesson-start start btn btn-cta blue" href="#lesson-start-modal" data-lesson-title="<?php echo get_the_title(); ?>" data-lesson-url="<?php echo get_permalink($post->ID); ?>">Start</a>
+											<a class="prompt-lesson-start start btn btn-cta blue" href="#lesson-start-modal" data-lesson-title="<?php echo get_the_title(); ?>" data-lesson-url="<?php echo get_permalink($post->ID); ?>" data-module-number="<?php echo $indexCount; ?>" data-post-id="<?php echo $post->ID; ?>">Start</a>
 										</a>
 									</li>
 
@@ -226,7 +227,7 @@ $sceneID = check_scene_progress( $post->ID );
 											<?php } else { ?>
 												<div class="lesson-point unearned"></div>
 											<?php } ?>
-											<a class="prompt-lesson-start start btn btn-cta blue" href="#lesson-start-modal" data-lesson-title="<?php echo get_the_title(); ?>" data-lesson-url="<?php echo get_permalink($post->ID); ?>">Start</a>
+											<a class="prompt-lesson-start start btn btn-cta blue" href="#lesson-start-modal" data-lesson-title="<?php echo get_the_title(); ?>" data-lesson-url="<?php echo get_permalink($post->ID); ?>" data-module-number="<?php echo $indexCount; ?>" data-post-id="<?php echo $post->ID; ?>">Start</a>
 										</a>
 									</li>
 

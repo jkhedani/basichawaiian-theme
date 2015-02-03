@@ -81,7 +81,7 @@ increment_object_value ( $post->ID, 'times_viewed' );
 						<?php $index = 0; ?>
 						<?php while ( have_rows('home_info_panels') ) : the_row(); ?>
 							<?php $row_id = str_replace(' ', '-', strtolower( get_sub_field('home_info_panel_title') ) ); ?>
-							<div id="<?php echo substr( $row_id, 0, 14);  ?>" class="home-page-slide <?php if ( $index%2 === 0 ) { echo "text-left"; } else { echo "text-right"; } ?> padded">
+							<div id="<?php echo substr( $row_id, 0, 9);  ?>" class="home-page-slide <?php if ( $index%2 === 0 ) { echo "text-left"; } else { echo "text-right"; } ?> padded">
 								<div class="home-page-featured-image-container">
 									<img src="<?php the_sub_field('home_info_panel_image'); ?>" class="home-page-featured-image" />
 								</div>

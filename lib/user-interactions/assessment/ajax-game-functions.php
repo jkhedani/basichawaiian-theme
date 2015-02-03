@@ -82,13 +82,9 @@ function updateWallet( $currencyTypeID ) {
 function finish_lesson() {
 	global $wpdb;
 
-	error_log('asdf');
-
 	// Nonce check
 	$nonce = $_REQUEST['nonce'];
 	if (!wp_verify_nonce($nonce, 'ajax_scripts_nonce')) die(__('Busted.'));
-
-	error_log('sure');
 
 	$html = "";
 	$success = false;
@@ -155,7 +151,7 @@ function finish_lesson() {
 		$html .= '<p class="lesson-results-score">You got '.$lessonCardCorrectCount.' out of '.$lessonCardCount.' correct!</p>';
 		$html .= '<div class="lesson-results-control">';
 		$html .= '<a href="'. get_permalink( $lessonID ) .'" class="replay-lesson btn"><i class="fa fa-refresh"></i></a>';
-		$html .= '<a href="'. get_permalink( $landingID ) .'" class="btn btn-primary">Continue</a>';
+		$html .= '<a href="'. get_permalink( $landingID ) .'?lesson='.$lessonID.'" class="btn btn-primary">Continue</a>';
 		$html .= '</div>';
 		$html .= '</div>';
 
@@ -170,7 +166,7 @@ function finish_lesson() {
 		$html .= '<p>Take a break and try again!</p>';
 		$html .= '<div class="lesson-results-control">';
 		$html .= '<a href="'. get_permalink( $lessonID ) .'" class="replay-lesson btn btn-primary">Replay Lesson</a>';
-		$html .= '<a href="'. get_permalink( $landingID ) .'" class="btn btn-primary">Continue</a>';
+		$html .= '<a href="'. get_permalink( $landingID ) .'?lesson='.$lessonID.'" class="btn btn-primary">Continue</a>';
 		$html .= '</div>';
 		$html .= '</div>';
 
