@@ -121,6 +121,14 @@ function add_useful_toolbar_menu() {
 			));
 			endif;
 		}
+
+// Options
+		$wp_admin_bar->add_menu( array(
+			'id' => 'options',
+			'title' => 'Options',
+			'meta' => array(),
+			'href' => admin_url('?page=acf-options'),
+		));
 		
 		// Modify "Howdy in Menu Bar"
 		$user_id      = get_current_user_id();
